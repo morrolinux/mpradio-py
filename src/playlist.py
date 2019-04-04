@@ -8,7 +8,7 @@ class Playlist:
         pass
 
     def __iter__(self):
-        self.__queued = ["songs/1.mp3", "songs/3.mp3", "songs/song.m4a", "songs/2.mp3"]
+        self.__queued = ["../songs/1.mp3", "../songs/3.mp3", "../songs/song.m4a", "../songs/2.mp3"]
         self.__queued.reverse()
         self.__played = []
         return self
