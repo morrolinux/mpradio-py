@@ -3,8 +3,6 @@ from abc import ABC, abstractmethod
 
 class MediaControl(ABC):
 
-    Ciao = "ciao"
-
     @abstractmethod
     def run(self):
         pass
@@ -43,9 +41,6 @@ class MediaControl(ABC):
 
 
 class MediaInfo(ABC):
-
-    def __init__(self):
-        super().__init__()
 
     @abstractmethod
     def song_name(self):

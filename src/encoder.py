@@ -8,7 +8,8 @@ class Encoder:
     stream = None
 
     def __init__(self):
-        self.run()
+        pass
+        # TODO: read from settings
 
     def run(self):
         self.stream = subprocess.Popen(["sox", "-t", "raw", "-G", "-b", "16", "-e", "signed",
@@ -18,9 +19,6 @@ class Encoder:
         # set the encoder to non-blocking output:
         flags = fcntl(self.stream.stdout, F_GETFL)  # get current stdout flags
         fcntl(self.stream.stdout, F_SETFL, flags | O_NONBLOCK)
-
-    def start(self):
-        pass
 
     def stop(self):
         pass
