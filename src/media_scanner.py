@@ -9,7 +9,6 @@ class MediaScanner:
     def __init__(self):
         # TODO: read ini configuration here
         self.__songs = []
-        pass
 
     def scan(self, path=None):
         if path is None:

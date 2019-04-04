@@ -6,13 +6,14 @@ class Playlist:
     __queued = None
     __played = None
     __current = None
+    __ms = None
 
     def __init__(self):
         # TODO: read ini settings
         # TODO: load saved playlist from file
         if self.__queued is None:
-            ms = MediaScanner()
-            self.__queued = ms.scan()
+            self.__ms = MediaScanner()
+            self.__queued = self.__ms.scan()
         # self.__queued = ["../songs/1.mp3", "../songs/3.mp3", "../songs/song.m4a", "../songs/2.mp3"]
         self.__queued.reverse()
         self.__played = []
@@ -21,14 +22,15 @@ class Playlist:
         return self
 
     def __next__(self):
-        try:
+        if len(self.__queued) > 1:
             self.__current = self.__queued.pop()
             self.__played.append(self.__current)
-            return self.__current
-        except IndexError:
-            print("playlist ended")
-            self.__iter__()     # maybe rescan media?
-            raise StopIteration
+        else:
+            self.__queued = self.__ms.scan()
+            self.__current = self.__queued.pop()
+            self.__played.append(self.__current)
+
+        return self.__current
 
         # TODO: save the playlist (__queued) to file
 

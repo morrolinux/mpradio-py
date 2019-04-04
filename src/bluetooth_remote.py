@@ -1,7 +1,15 @@
 from media import MediaInfo, MediaControl
 
+# TODO: implement a bluetooth rfcomm remote that can communicate with the Android app
+
 
 class BtRemote(MediaInfo, MediaControl):
+
+    event = None
+
+    def __init__(self, event):
+        super().__init__()
+        self.event = event
 
     def song_name(self):
         pass
@@ -16,6 +24,9 @@ class BtRemote(MediaInfo, MediaControl):
         pass
 
     def run(self):
+        pass
+
+    def resume(self):
         pass
 
     def pause(self):

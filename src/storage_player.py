@@ -21,6 +21,11 @@ class StoragePlayer(Player):
     def playback_position(self):
         pass
 
+    def update_playback_position(self):
+        # TODO: maybe use a timer to be reset at each new song
+        # TODO: write to a file every (5?) seconds to be able to restart
+        pass
+
     def run(self):
         for song in self.__playlist:
             if not self.__terminating:
@@ -29,6 +34,8 @@ class StoragePlayer(Player):
                 print("playlist:", [song["path"] for song in self.__playlist.elements()])
                 print("........................")
                 self.play(song["path"])
+            else:
+                return 
 
     def play(self, song):
         self.__tmp_out = None
@@ -44,7 +51,7 @@ class StoragePlayer(Player):
     def pause(self):
         self.stream.send_signal(signal.SIGSTOP)
         self.__tmp_out = self.stream.stdout
-        self.stream.stdout = subprocess.Popen(["ffmpeg", "-i", "sounds/stop1.wav", "-vn", "-f", "wav", "pipe:1"],
+        self.stream.stdout = subprocess.Popen(["ffmpeg", "-i", "../sounds/stop1.wav", "-vn", "-f", "wav", "pipe:1"],
                                               stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
 
     def resume(self):

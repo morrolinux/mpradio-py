@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# Note: this is not mine but I don't remember where does it come from.
+
 from __future__ import absolute_import, print_function, unicode_literals
 
 import dbus
