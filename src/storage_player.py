@@ -12,6 +12,7 @@ class StoragePlayer(Player):
     __tmp_out = None
     __terminating = False
     __playlist = None
+    __now_playing = None
 
     def __init__(self):
         super().__init__()
@@ -21,10 +22,12 @@ class StoragePlayer(Player):
         pass
 
     def run(self):
-        for song in self.__playlist:      # TODO: create and ITERABLE playlist object for better handling of next and prev...
+        for song in self.__playlist:
             if not self.__terminating:
+                self.__now_playing = song
                 print("playing:", song["path"])
-                print("playlist:", self.__playlist.elements())
+                print("playlist:", [song["path"] for song in self.__playlist.elements()])
+                print("........................")
                 self.play(song["path"])
 
     def play(self, song):
@@ -69,16 +72,15 @@ class StoragePlayer(Player):
     def stop(self):
         self.stream.kill()
         self.__terminating = True
-        print("storage player stopped")
 
     def song_name(self):
-        pass
+        return self.__now_playing["title"]
 
     def song_artist(self):
-        pass
+        return self.__now_playing["artist"]
 
     def song_year(self):
-        pass
+        return self.__now_playing["year"]
 
     def song_album(self):
-        pass
+        return self.__now_playing["album"]

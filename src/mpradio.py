@@ -12,7 +12,7 @@ from fm_output import FmOutput
 from analog_output import AnalogOutput
 from storage_player import StoragePlayer
 from control_pipe import ControlPipe
-from media import MediaControl
+from media import MediaControl, MediaInfo
 
 
 class Mpradio:
@@ -23,6 +23,7 @@ class Mpradio:
     remote_event = None
     remote_msg = None
     media_control_functions = None
+    media_info_functions = None
 
     player = None
     encoder = None
@@ -41,6 +42,8 @@ class Mpradio:
             self.bt_daemon = BluetoothDaemon()
         self.media_control_functions = [f for f in dir(MediaControl)
                                         if not f.startswith('_') and callable(getattr(MediaControl, f))]
+        self.media_info_functions = [f for f in dir(MediaInfo)
+                                        if not f.startswith('_') and callable(getattr(MediaInfo, f))]
 
         # TODO: read settings INSIDE the class? es: player.reload_config()
         self.player = StoragePlayer()
@@ -95,8 +98,11 @@ class Mpradio:
         if self.remote_event.is_set():
             self.remote_event.clear()
             if self.remote_msg["command"][0] in self.media_control_functions:
-                #exec("self.player."+self.remote_msg["command"][0]+"()")
+                # exec("self.player."+self.remote_msg["command"][0]+"()")
                 exec("threading.Thread(target="+"self.player." + self.remote_msg["command"][0] + ").start()")
+            elif self.remote_msg["command"][0] in self.media_info_functions:
+                print(eval("self.player."+self.remote_msg["command"][0]+"()"))
+                # TODO: check the source (remote_msg["source"] and send the reply accordingly
             elif self.remote_msg["command"][0] == "bluetooth":
                 if self.remote_msg["command"][1] == "attach":
                     self.player.stop()
