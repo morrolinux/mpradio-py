@@ -20,7 +20,7 @@ https://gist.github.com/mill1000/74c7473ee3b4a5b13f6325e9994ff84c
 Play/pause bluetooth playback:
 dbus-send --system --type=method_call --dest=org.bluez /org/bluez/hci0/dev_48_2C_A0_32_A0_C1/player0 org.bluez.MediaPlayer1.Pause
 
-overview su come funziona a2dp:
+overview on a2dp:
 https://github.com/belese/a2dp-alsa/blob/master/README
 
 
