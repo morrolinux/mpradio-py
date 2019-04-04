@@ -23,9 +23,9 @@ class StoragePlayer(Player):
     def run(self):
         for song in self.__playlist:      # TODO: create and ITERABLE playlist object for better handling of next and prev...
             if not self.__terminating:
-                print("playing:", song)
+                print("playing:", song["path"])
                 print("playlist:", self.__playlist.elements())
-                self.play(song)
+                self.play(song["path"])
 
     def play(self, song):
         self.__tmp_out = None
