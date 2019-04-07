@@ -43,3 +43,6 @@ class Playlist:
 
     def current(self):
         return self.__current
+
+    def add(self, song):
+        self.__queued.append(song)
