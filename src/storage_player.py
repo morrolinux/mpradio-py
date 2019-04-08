@@ -36,20 +36,24 @@ class StoragePlayer(Player):
         while not self.__terminating:
             if self.__now_playing is not None:
                 self.__now_playing["position"] = self.__timer.get_time()
+            with open(self.__resume_file, "w") as f:
                 j = json.dumps(self.__now_playing)
-                f = open(self.__resume_file, "w")
                 f.write(j)
-                f.close()
             time.sleep(5)
 
     def retrive_last_boot_playback(self):
         if not path.isfile(self.__resume_file):
-            self.__timer = Timer()
+            self.__timer = Timer()  # start the timer from 0
             return
         with open(self.__resume_file) as file:
             song = json.load(file)
-        self.__playlist.add(song)
-        self.__timer = Timer(song["position"])
+        if song is not None:
+            self.__playlist.add(song)
+
+        try:
+            self.__timer = Timer(song["position"])  # resume the timer from previous state
+        except TypeError:
+            self.__timer = Timer()
 
     def run(self):
         self.retrive_last_boot_playback()

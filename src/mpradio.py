@@ -74,6 +74,10 @@ class Mpradio:
 
         threading.Thread(target=self.check_remotes).start()
 
+        # wait for the player to spawn
+        while self.player.stream is None:
+            time.sleep(0.2)
+
         # pre-buffer
         data = self.player.stream.stdout.read(self.player.CHUNK)
 

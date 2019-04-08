@@ -12,7 +12,7 @@ class MediaScanner:
 
     def scan(self, path=None):
         if path is None:
-            path = os.getcwd()+"/../"   # TODO: set scan path from configuration
+            path = os.getcwd()+"/../songs"   # TODO: set scan path from configuration
 
         for root, d_names, f_names in os.walk(path):
             for f in f_names:
