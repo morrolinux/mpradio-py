@@ -9,6 +9,7 @@ from playlist import Playlist
 from rds import RdsUpdater
 import threading
 import json
+import platform
 
 # TODO: reset the timer AFTER each song finishes and the timestamp has been saved, OR at each new song start?
 
@@ -26,7 +27,10 @@ class StoragePlayer(Player):
     def __init__(self):
         super().__init__()
         self.__playlist = Playlist()
-        self.__resume_file = "resume.json"
+        if platform.machine() == "x86_64":
+            self.__resume_file = "resume.json"
+        else:
+            self.__resume_file = "/home/pi/resume.json"
         self.__rds_updater = RdsUpdater()
 
     def playback_position(self):
@@ -96,9 +100,13 @@ class StoragePlayer(Player):
         self.__timer.reset()
 
     def pause(self):
+        if platform.machine() == "x86_64":
+            pause_sound = "../sounds/stop1.wav"
+        else:
+            pause_sound = "/home/pi/mpradio/sounds/stop1.wav"
         self.stream.send_signal(signal.SIGSTOP)
         self.__tmp_out = self.stream.stdout
-        self.stream.stdout = subprocess.Popen(["ffmpeg", "-i", "../sounds/stop1.wav", "-vn", "-f", "wav", "pipe:1"],
+        self.stream.stdout = subprocess.Popen(["ffmpeg", "-i", pause_sound, "-vn", "-f", "wav", "pipe:1"],
                                               stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
         self.__timer.pause()
 

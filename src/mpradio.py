@@ -97,8 +97,8 @@ class Mpradio:
                 time.sleep(0.02)
                 # print("attr. error - data is None")
             # advance the "play head"
-            data = self.player.stream.stdout.read(self.player.CHUNK)    # must be non-blocking
-            # print("advance the play head")
+            if self.player.stream is not None:
+                data = self.player.stream.stdout.read(self.player.CHUNK)    # must be non-blocking
 
     def check_remotes(self):
         while not self.check_remotes_termination.is_set():
@@ -113,6 +113,8 @@ class Mpradio:
                     # TODO: check the source (remote_msg["source"] and send the reply accordingly
                 elif self.remote_msg["command"][0] == "bluetooth":
                     if self.remote_msg["command"][1] == "attach":
+                        self.player.pause()
+                        time.sleep(2)
                         self.player.stop()
                         self.player = BtPlayer(self.remote_msg["command"][2])
                         threading.Thread(target=self.player.run).start()
