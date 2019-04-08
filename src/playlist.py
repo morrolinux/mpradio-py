@@ -1,6 +1,7 @@
 from media_scanner import MediaScanner
 import json
 from os import path
+import platform
 
 
 class Playlist:
@@ -13,7 +14,10 @@ class Playlist:
 
     def __init__(self):
         # TODO: read ini settings
-        self.__playlist_file = "playlist.json"
+        if platform.machine() == "x86_64":
+            self.__playlist_file = "playlist.json"
+        else:
+            self.__playlist_file = "/home/pi/playlist.json"
         self.load_playlist()
         self.__ms = MediaScanner()
         if self.__queued is None:
