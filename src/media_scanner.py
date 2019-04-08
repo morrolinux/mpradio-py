@@ -19,9 +19,9 @@ class MediaScanner:
                 if f.endswith(self.supported_formats):
                     tmp = dict()
                     tmp["path"] = root+"/"+f
-                    tmp["title"] = "title"    # TODO: fill-in id3 tags
-                    tmp["artist"] = "artist"
-                    tmp["album"] = "album"
-                    tmp["year"] = "year"
+                    tmp["title"] = f     # TODO: fill-in id3 tags
+                    tmp["artist"] = "song artist"
+                    tmp["album"] = "song album"
+                    tmp["year"] = "song year"
                     self.__songs.append(tmp)
         return self.__songs

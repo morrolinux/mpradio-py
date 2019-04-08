@@ -6,6 +6,7 @@ import time
 from timer import Timer
 from player import Player
 from playlist import Playlist
+from rds import RdsUpdater
 import threading
 import json
 
@@ -20,11 +21,13 @@ class StoragePlayer(Player):
     __now_playing = None
     __timer = None
     __resume_file = ""
+    __rds_updater = None
 
     def __init__(self):
         super().__init__()
         self.__playlist = Playlist()
         self.__resume_file = "resume.json"
+        self.__rds_updater = RdsUpdater()
 
     def playback_position(self):
         pass
@@ -58,6 +61,7 @@ class StoragePlayer(Player):
     def run(self):
         self.retrive_last_boot_playback()
         self.__timer.start()
+        self.__rds_updater.run()
         threading.Thread(target=self.update_playback_position).start()
         for song in self.__playlist:
             if not self.__terminating:
@@ -72,12 +76,13 @@ class StoragePlayer(Player):
     def play(self, song):
 
         resume_time = song.get("position")
+
         if resume_time is not None:
             res = str(resume_time)
         else:
             res = "0"
 
-        print("resuming from", res, "seconds...")
+        self.__rds_updater.set(song)
 
         self.__tmp_out = None
         self.stream = subprocess.Popen(["ffmpeg", "-i", song["path"], "-ss", res, "-vn", "-f", "wav", "pipe:1"],
@@ -124,6 +129,7 @@ class StoragePlayer(Player):
         self.stream.kill()
         self.__terminating = True
         self.__timer.stop()
+        self.__rds_updater.stop()
 
     def song_name(self):
         return self.__now_playing["title"]
