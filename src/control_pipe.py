@@ -18,7 +18,7 @@ class ControlPipe:
         try:
             os.mkfifo(self.ctl_path)
         except FileExistsError:
-            print("fifo already exists")
+            pass
         self.control = os.open(self.ctl_path, os.O_RDONLY | os.O_NONBLOCK)
 
     def listen(self, msg):
