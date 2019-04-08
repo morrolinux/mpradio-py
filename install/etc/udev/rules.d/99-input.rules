@@ -1,0 +1,1 @@
+SUBSYSTEM=="input", RUN+="/usr/lib/udev/bluetooth"
