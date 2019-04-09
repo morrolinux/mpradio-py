@@ -1,15 +1,16 @@
 from media import MediaInfo, MediaControl
+import threading
 
 # TODO: implement a bluetooth rfcomm remote that can communicate with the Android app
 
 
 class BtRemote(MediaInfo, MediaControl):
 
-    event = None
+    __event = None
 
     def __init__(self, event):
         super().__init__()
-        self.event = event
+        self.__event = event
 
     def song_name(self):
         pass
@@ -24,6 +25,9 @@ class BtRemote(MediaInfo, MediaControl):
         pass
 
     def run(self):
+        threading.Thread(target=self.__run).start()
+
+    def __run(self):
         pass
 
     def resume(self):

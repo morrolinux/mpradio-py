@@ -65,6 +65,9 @@ class StoragePlayer(Player):
             self.__timer = Timer()
 
     def run(self):
+        threading.Thread(target=self.__run).start()
+
+    def __run(self):
         self.__retrive_last_boot_playback()
         self.__timer.start()
         self.__rds_updater.run()

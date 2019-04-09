@@ -1,7 +1,6 @@
 from media_scanner import MediaScanner
 import json
 from os import path
-import platform
 from configuration import Configuration
 
 

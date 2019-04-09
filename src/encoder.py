@@ -21,4 +21,4 @@ class Encoder:
         fcntl(self.stream.stdout, F_SETFL, flags | O_NONBLOCK)
 
     def stop(self):
-        pass
+        self.stream.kill()
