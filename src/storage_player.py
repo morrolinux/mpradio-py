@@ -9,51 +9,58 @@ from playlist import Playlist
 from rds import RdsUpdater
 import threading
 import json
-import platform
+from configuration import Configuration
 
 
 class StoragePlayer(Player):
 
-    __tmp_out = None
+    stream = None
+    __tmp_stream = None
     __terminating = False
     __playlist = None
     __now_playing = None
     __timer = None
-    __resume_file = ""
+    __resume_file = None
     __rds_updater = None
+    __config = None
 
     def __init__(self):
         super().__init__()
         self.__playlist = Playlist()
-        if platform.machine() == "x86_64":
-            self.__resume_file = "resume.json"
-        else:
-            self.__resume_file = "/home/pi/resume.json"
+        self.__config = Configuration()
         self.__rds_updater = RdsUpdater()
+        self.__resume_file = self.__config.get_resume_file()
 
     def playback_position(self):
         return self.__timer.get_time()
 
-    def __update_playback_position(self):
+    def __update_playback_position_thread(self):
         while not self.__terminating:
             if self.__now_playing is not None:
-                self.__now_playing["position"] = self.__timer.get_time()
+                self.__now_playing["position"] = self.playback_position()
             with open(self.__resume_file, "w") as f:
                 j = json.dumps(self.__now_playing)
                 f.write(j)
             time.sleep(5)
 
+    def __update_playback_position(self):
+        threading.Thread(target=self.__update_playback_position_thread).start()
+
     def __retrive_last_boot_playback(self):
         if not path.isfile(self.__resume_file):
-            self.__timer = Timer()  # start the timer from 0
+            # start the timer from 0
+            self.__timer = Timer()
             return
+
         with open(self.__resume_file) as file:
             song = json.load(file)
+
         if song is not None:
             self.__playlist.add(song)
 
+        # resume the timer from previous state
         try:
-            self.__timer = Timer(song["position"])  # resume the timer from previous state
+            self.__timer = Timer(song["position"])
         except TypeError:
             self.__timer = Timer()
 
@@ -61,53 +68,49 @@ class StoragePlayer(Player):
         self.__retrive_last_boot_playback()
         self.__timer.start()
         self.__rds_updater.run()
-        threading.Thread(target=self.__update_playback_position).start()
+        self.__update_playback_position()
+
         for song in self.__playlist:
             if not self.__terminating:
                 self.__now_playing = song
-                print("playing:", song["path"])
-                # print("playlist:", [song["path"] for song in self.__playlist.elements()])
-                print("........................")
-                self.play(song)
+                print("storage_player playing:", song["path"])
+                self.play(song)     # blocking
             else:
                 return 
 
     def play(self, song):
 
         resume_time = song.get("position")
-
         if resume_time is not None:
             res = str(resume_time)
         else:
             res = "0"
 
         self.__rds_updater.set(song)
-
-        self.__tmp_out = None
+        self.__tmp_stream = None
         self.stream = subprocess.Popen(["ffmpeg", "-i", song["path"], "-ss", res, "-vn", "-f", "wav", "pipe:1"],
                                        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
         # set the player to non-blocking output:
         flags = fcntl(self.stream.stdout, F_GETFL)  # get current stdout flags
         fcntl(self.stream.stdout, F_SETFL, flags | O_NONBLOCK)
+
         # Wait until process terminates
         while self.stream.poll() is None:
             time.sleep(0.02)
         self.__timer.reset()
 
     def pause(self):
-        if platform.machine() == "x86_64":
-            pause_sound = "../sounds/stop1.wav"
-        else:
-            pause_sound = "/home/pi/mpradio/sounds/stop1.wav"
+        pause_sound = self.__config.get_sounds_folder()+self.__config.get_stop_sound()
         self.stream.send_signal(signal.SIGSTOP)
-        self.__tmp_out = self.stream.stdout
+        self.__timer.pause()
+        self.__tmp_stream = self.stream.stdout
         self.stream.stdout = subprocess.Popen(["ffmpeg", "-i", pause_sound, "-vn", "-f", "wav", "pipe:1"],
                                               stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
-        self.__timer.pause()
 
     def resume(self):
-        if self.__tmp_out is not None:
-            self.stream.stdout = self.__tmp_out
+        if self.__tmp_stream is not None:
+            self.stream.stdout = self.__tmp_stream
         self.stream.send_signal(signal.SIGCONT)
         self.__timer.resume()
 
@@ -129,9 +132,9 @@ class StoragePlayer(Player):
         self.next()
 
     def stop(self):
-        self.stream.kill()
         self.__terminating = True
         self.__timer.stop()
+        self.stream.kill()
         self.__rds_updater.stop()
 
     def song_name(self):
