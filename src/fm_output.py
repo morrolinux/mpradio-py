@@ -14,6 +14,7 @@ class FmOutput(Output):
         self.__frequency = self.__config["PIRATERADIO"]["frequency"]
 
     def start(self):
+        print("broadcasting on FM", self.__frequency)
         self.stream = subprocess.Popen(["sudo", "pi_fm_adv", "--freq", self.__frequency, "--audio", "-"],
                                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 

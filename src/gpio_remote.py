@@ -1,13 +1,16 @@
 from media import MediaControl
+import threading
 
 # TODO: implement a GPIO remote for the push button (@DavidM42 did something already)
-# TODO: to be launched as a thread
 
 
 class GpioRemote(MediaControl):
 
     def run(self):
         pass
+
+    def __run(self):
+        threading.Thread(target=self.run).start()
 
     def resume(self):
         pass

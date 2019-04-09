@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import signal
-import platform
 import os
 import threading
 import time
@@ -40,9 +39,11 @@ class Mpradio:
         self.check_remotes_termination = threading.Event()
         self.remote_event = threading.Event()       # Event for signaling control thread(s) events to main thread
         self.control_pipe = ControlPipe(self.remote_event)
+
         # Bluetooth setup (only if a2dp is supported)
         if which("bluealsa") is not None:
             self.bt_daemon = BluetoothDaemon()
+
         self.media_control_methods = [f for f in dir(MediaControl)
                                       if not f.startswith('_') and callable(getattr(MediaControl, f))]
         self.media_info_methods = [f for f in dir(MediaInfo)
@@ -69,11 +70,11 @@ class Mpradio:
 
     def run(self):
         # TODO: use some synchronization mechanism to ensure consistency player -> encoder -> output
-        threading.Thread(target=self.player.run).start()
+        self.player.run()
         self.encoder.run()
         self.output.start()
 
-        threading.Thread(target=self.control_pipe.listen, args=(self.remote_msg,)).start()
+        self.control_pipe.listen(self.remote_msg)
         # TODO: start other control threads here (remotes) using the same event for all
 
         threading.Thread(target=self.check_remotes).start()
@@ -99,7 +100,6 @@ class Mpradio:
                     raise AttributeError
             except AttributeError:
                 time.sleep(0.02)
-                # print("attr. error - data is None")
             # advance the "play head"
             if self.player.stream is not None:
                 data = self.player.stream.stdout.read(self.player.CHUNK)    # must be non-blocking
