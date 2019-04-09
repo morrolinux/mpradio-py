@@ -11,8 +11,6 @@ import threading
 import json
 import platform
 
-# TODO: reset the timer AFTER each song finishes and the timestamp has been saved, OR at each new song start?
-
 
 class StoragePlayer(Player):
 
@@ -34,12 +32,9 @@ class StoragePlayer(Player):
         self.__rds_updater = RdsUpdater()
 
     def playback_position(self):
-        pass
+        return self.__timer.get_time()
 
-    # TODO: reset the timer at each new song
-    # TODO: write to a file every (5?) seconds to be able to restart and resume
-    # TODO: pause the timer when the track is paused
-    def update_playback_position(self):
+    def __update_playback_position(self):
         while not self.__terminating:
             if self.__now_playing is not None:
                 self.__now_playing["position"] = self.__timer.get_time()
@@ -48,7 +43,7 @@ class StoragePlayer(Player):
                 f.write(j)
             time.sleep(5)
 
-    def retrive_last_boot_playback(self):
+    def __retrive_last_boot_playback(self):
         if not path.isfile(self.__resume_file):
             self.__timer = Timer()  # start the timer from 0
             return
@@ -63,10 +58,10 @@ class StoragePlayer(Player):
             self.__timer = Timer()
 
     def run(self):
-        self.retrive_last_boot_playback()
+        self.__retrive_last_boot_playback()
         self.__timer.start()
         self.__rds_updater.run()
-        threading.Thread(target=self.update_playback_position).start()
+        threading.Thread(target=self.__update_playback_position).start()
         for song in self.__playlist:
             if not self.__terminating:
                 self.__now_playing = song

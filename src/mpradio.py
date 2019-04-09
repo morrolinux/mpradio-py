@@ -13,6 +13,7 @@ from analog_output import AnalogOutput
 from storage_player import StoragePlayer
 from control_pipe import ControlPipe
 from media import MediaControl, MediaInfo
+from configuration import Configuration
 
 
 class Mpradio:
@@ -29,7 +30,10 @@ class Mpradio:
     encoder = None
     output = None
 
+    configuration = None
+
     def __init__(self):
+        self.configuration = Configuration().get_settings()
         signal.signal(signal.SIGUSR1, self.handler)
         signal.signal(signal.SIGINT, self.termination_handler)
         self.remote_msg = dict()
@@ -45,11 +49,11 @@ class Mpradio:
                                    if not f.startswith('_') and callable(getattr(MediaInfo, f))]
         self.player = StoragePlayer()
         self.encoder = Encoder()
-        # probe which platform are we running on for automatic output detection
-        if platform.machine() == "x86_64":
-            self.output = AnalogOutput()
-        else:
+
+        if self.configuration["PIRATERADIO"]["output"] == "fm":
             self.output = FmOutput()
+        else:
+            self.output = AnalogOutput()
 
     def handler(self, signum, frame):
         print("received signal", signum)
