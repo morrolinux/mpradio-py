@@ -32,7 +32,8 @@ class RdsUpdater:
 
     def write_rds_to_pipe(self, text):
         with open(self.__rds_ctl, "w") as f:
-            f.write(text)
+            f.write("PS "+text)
+            f.write("RT "+text)
 
     def __run(self):
         while not self.__termination.is_set():
