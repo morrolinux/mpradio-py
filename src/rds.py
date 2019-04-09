@@ -1,6 +1,7 @@
 import threading
 import time
 import platform
+from configuration import Configuration
 
 
 class RdsUpdater:
@@ -10,15 +11,19 @@ class RdsUpdater:
     __song = None
     __step = None
     __output = None
+    __config = None
 
-    def __init__(self, interval=1):
-        self.__interval = interval
+    def __init__(self):
         self.__termination = threading.Event()
-        self.__step = 1
+        self.__config = Configuration().get_settings()
+
         if platform.machine() == "x86_64":
             self.__output = print
         else:
             self.__output = self.write_rds_to_pipe
+
+        self.__interval = int(self.__config["RDS"]["updateInterval"])
+        self.__step = int(self.__config["RDS"]["charsJump"])
 
     def set(self, song):
         self.__song = song
