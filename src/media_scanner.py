@@ -1,22 +1,20 @@
 import os
-import platform
+from configuration import Configuration
 
 
 class MediaScanner:
 
     supported_formats = ("mp3", "m4a", "wav", "flac", "ogg")
     __songs = None
+    __config = None
 
     def __init__(self):
-        # TODO: read ini configuration here
         self.__songs = []
+        self.__config = Configuration()
 
     def scan(self, path=None):
         if path is None:
-            if platform.machine() == "x86_64":
-                path = os.getcwd()+"/../songs"
-            else:
-                path = "/home/pi/"      # TODO: set scan path from configuration
+            path = self.__config.get_music_folder()
 
         for root, d_names, f_names in os.walk(path):
             for f in f_names:
