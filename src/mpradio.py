@@ -132,7 +132,7 @@ class Mpradio:
                         threading.Thread(target=self.player.run).start()
                         print("bluetooth detached")
                 else:
-                    print("unknown command received")
+                    print("unknown command received:", self.remote_msg["command"][0])
                 self.remote_msg.clear()    # clean for next usage
 
 
