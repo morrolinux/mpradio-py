@@ -10,9 +10,10 @@ class ControlPipe:
     __event = None
     __termination = None
 
-    def __init__(self, event):
+    def __init__(self, event, message):
         self.__termination = threading.Event()
         self.__event = event
+        self.__msg = message
         self.__ctl_path = config.get_ctl_path()
         self.fifo_setup()
 
@@ -23,17 +24,17 @@ class ControlPipe:
             pass
         self.__control = os.open(self.__ctl_path, os.O_RDONLY | os.O_NONBLOCK)
 
-    def listen(self, msg):
-        threading.Thread(target=self.__listen, args=(msg,)).start()
+    def listen(self):
+        threading.Thread(target=self.__listen).start()
 
-    def __listen(self, msg):
+    def __listen(self):
         while not self.__termination.is_set():
             time.sleep(0.2)
             cmd = os.read(self.__control, 100).decode().strip().lower().split()
 
             if len(cmd) > 0:
-                msg["command"] = cmd
-                msg["source"] = "control_pipe"
+                self.__msg["command"] = cmd
+                self.__msg["source"] = "control_pipe"
                 self.__event.set()
 
     def stop(self):
