@@ -66,4 +66,3 @@ class Configuration:
 
 # This will be executed on first module import only
 config = Configuration()
-print("running config script")
