@@ -3,9 +3,9 @@ import signal
 import os
 import threading
 import time
-from configuration import config
 from shutil import which
 from encoder import Encoder
+from configuration import config    # must be imported before all other modules (dependency)
 from bluetooth_daemon import BluetoothDaemon
 from bluetooth_player import BtPlayer
 from fm_output import FmOutput
