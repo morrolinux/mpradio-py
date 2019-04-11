@@ -2,6 +2,7 @@ from media_scanner import MediaScanner
 import json
 from os import path
 from configuration import config
+from random import randint
 
 
 class Playlist:
@@ -11,6 +12,7 @@ class Playlist:
     __current = None
     __ms = None
     __playlist_file = None
+    __resuming = False
 
     def __init__(self):
         self.__playlist_file = config.get_playlist_file()
@@ -19,7 +21,6 @@ class Playlist:
         if self.__queued is None:
             self.__queued = self.__ms.scan()
             self.save_playlist()
-        self.__queued.reverse()
         self.__played = []
 
     def __iter__(self):
@@ -27,7 +28,13 @@ class Playlist:
 
     def __next__(self):
         if len(self.__queued) > 0:
-            self.__current = self.__queued.pop()
+            idx = len(self.__queued) - 1
+            # pop a random song according to settings.
+            # Unless another song must be resumed from previous boot
+            if config.get_settings()["PLAYLIST"]["shuffle"] == "true" and not self.__resuming:
+                idx = randint(0, len(self.__queued) - 1)
+            self.__resuming = False
+            self.__current = self.__queued.pop(idx)
             self.__played.append(self.__current)
         else:
             self.__queued = self.__ms.scan()
@@ -68,3 +75,6 @@ class Playlist:
 
     def add(self, song):
         self.__queued.append(song)
+
+    def set_resuming(self):
+        self.__resuming = True
