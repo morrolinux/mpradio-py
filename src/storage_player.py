@@ -55,6 +55,7 @@ class StoragePlayer(Player):
 
         if song is not None:
             self.__playlist.add(song)
+            self.__playlist.set_resuming()
 
         # resume the timer from previous state
         try:
@@ -72,12 +73,11 @@ class StoragePlayer(Player):
         self.__update_playback_position()
 
         for song in self.__playlist:
-            if not self.__terminating:
-                self.__now_playing = song
-                print("storage_player playing:", song["path"])
-                self.play(song)     # blocking
-            else:
-                return 
+            self.__now_playing = song
+            print("storage_player playing:", song["path"])
+            self.play(song)     # blocking
+            if self.__terminating:
+                return
 
     def play(self, song):
 

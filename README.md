@@ -17,7 +17,7 @@ If you're testing on your computer, please `cd` to the `mpradio/src` folder and 
 # Features
 Exclusively tested on Minimal Raspbian (ARM)
 - [x] Resume track from its playback status hh:mm:ss across reboots (CD-like expirience)
-- [ ] Shuffle on/off
+- [x] Shuffle on/off
 - [x] Customizable scrolling RDS to overcome 8-chars limitation [TO BE TESTED]
 - [ ] Skip to the next song by pressing a push-button (GPIO-connected on pin 18)
 - [ ] Safely shutdown by holding the push-button (GPIO-connected on pin 18)
