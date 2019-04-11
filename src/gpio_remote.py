@@ -43,7 +43,7 @@ class GpioRemote(MediaControl):
                 time.sleep(1)
 
     def run(self):
-        threading.Thread(target=self.run).start()
+        threading.Thread(target=self.__run).start()
 
     def resume(self):
         pass
