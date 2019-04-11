@@ -13,12 +13,14 @@ from analog_output import AnalogOutput
 from storage_player import StoragePlayer
 from control_pipe import ControlPipe
 from media import MediaControl, MediaInfo
+import platform
 
 
 class Mpradio:
 
     bt_daemon = None
     control_pipe = None
+    gpio_remote = None
     remote_event = None
     remote_msg = None
     media_control_methods = None
@@ -35,8 +37,7 @@ class Mpradio:
         self.remote_msg = dict()
         self.check_remotes_termination = threading.Event()
         self.remote_event = threading.Event()       # Event for signaling control thread(s) events to main thread
-        self.control_pipe = ControlPipe(self.remote_event)
-
+        self.control_pipe = ControlPipe(self.remote_event, self.remote_msg)
         # Bluetooth setup (only if a2dp is supported)
         if which("bluealsa") is not None:
             self.bt_daemon = BluetoothDaemon()
@@ -71,8 +72,12 @@ class Mpradio:
         self.encoder.run()
         self.output.start()
 
-        self.control_pipe.listen(self.remote_msg)
         # TODO: start other control threads here (remotes) using the same event for all
+        self.control_pipe.listen()
+        if platform.machine() != "x86_64":
+            from gpio_remote import GpioRemote
+            self.gpio_remote = GpioRemote(self.remote_event, self.remote_msg)
+            self.gpio_remote.run()
 
         threading.Thread(target=self.check_remotes).start()
 
