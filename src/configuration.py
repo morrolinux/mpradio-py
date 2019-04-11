@@ -62,3 +62,7 @@ class Configuration:
 
     def get_ctl_path(self):
         return self.__ctl_path
+
+
+# This will be executed on first module import only
+config = Configuration()

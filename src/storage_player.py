@@ -9,7 +9,7 @@ from playlist import Playlist
 from rds import RdsUpdater
 import threading
 import json
-from configuration import Configuration
+from configuration import config
 
 
 class StoragePlayer(Player):
@@ -22,14 +22,12 @@ class StoragePlayer(Player):
     __timer = None
     __resume_file = None
     __rds_updater = None
-    __config = None
 
     def __init__(self):
         super().__init__()
         self.__playlist = Playlist()
-        self.__config = Configuration()
         self.__rds_updater = RdsUpdater()
-        self.__resume_file = self.__config.get_resume_file()
+        self.__resume_file = config.get_resume_file()
 
     def playback_position(self):
         return self.__timer.get_time()
@@ -104,7 +102,7 @@ class StoragePlayer(Player):
         self.__timer.reset()
 
     def pause(self):
-        pause_sound = self.__config.get_sounds_folder()+self.__config.get_stop_sound()
+        pause_sound = config.get_sounds_folder()+config.get_stop_sound()
         self.stream.send_signal(signal.SIGSTOP)
         self.__timer.pause()
         self.__tmp_stream = self.stream.stdout

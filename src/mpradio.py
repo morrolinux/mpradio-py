@@ -5,6 +5,7 @@ import threading
 import time
 from shutil import which
 from encoder import Encoder
+from configuration import config    # must be imported before all other modules (dependency)
 from bluetooth_daemon import BluetoothDaemon
 from bluetooth_player import BtPlayer
 from fm_output import FmOutput
@@ -12,7 +13,6 @@ from analog_output import AnalogOutput
 from storage_player import StoragePlayer
 from control_pipe import ControlPipe
 from media import MediaControl, MediaInfo
-from configuration import Configuration
 
 
 class Mpradio:
@@ -29,10 +29,7 @@ class Mpradio:
     encoder = None
     output = None
 
-    configuration = None
-
     def __init__(self):
-        self.configuration = Configuration().get_settings()
         signal.signal(signal.SIGUSR1, self.handler)
         signal.signal(signal.SIGINT, self.termination_handler)
         self.remote_msg = dict()
@@ -51,7 +48,7 @@ class Mpradio:
         self.player = StoragePlayer()
         self.encoder = Encoder()
 
-        if self.configuration["PIRATERADIO"]["output"] == "fm":
+        if config.get_settings()["PIRATERADIO"]["output"] == "fm":
             self.output = FmOutput()
         else:
             self.output = AnalogOutput()
