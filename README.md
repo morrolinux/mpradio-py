@@ -10,6 +10,9 @@ The old implementation deeply relies on external services and it's not very obje
 One important requirement is for the program to be mostly testable on your developement machine instead of having to be copied to a Pi each time for testing. This speeds things up, from developing to testing and debugging. To acheive this, I've put platform checks within the code which should be run differently on a Pi rather than on a PC. If you happen to create logic which is supposed to be tested only on a Pi, please insert a platform check not to produce any execution errors on a PC.
 ## Requirements
 ATM no external library is being used, but this might change soon. extra dependencies must be reported here.
+
+```sudo apt-get -y install python3-rpi.gpio```
+
 ## Path
 If you're testing on your computer, please `cd` to the `mpradio/src` folder and run `./mpradio.py`
 
