@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 import time
 from subprocess import call
 
-# TODO: implement a GPIO remote for the push button (@DavidM42 did something already)
+# TODO: implement a GPIO remote for the push button (@DavidM42 did something already) - this is just a skeleton
 
 
 class GpioRemote(MediaControl):
@@ -38,8 +38,8 @@ class GpioRemote(MediaControl):
 
             if counter == 8:
                 print('shutdown')
-                call(["systemctl", "stop", "mpradio"])
-                call(["poweroff"])
+                call(["sudo", "systemctl", "stop", "mpradio"])
+                call(["sudo", "poweroff"])
                 time.sleep(1)
 
     def run(self):
