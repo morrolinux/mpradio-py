@@ -4,6 +4,7 @@ from fcntl import fcntl, F_GETFL, F_SETFL
 from os import O_NONBLOCK
 import threading
 
+
 class BtPlayer(Player):
 
     __bt_addr = None

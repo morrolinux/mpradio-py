@@ -1,20 +1,18 @@
 import os
-from configuration import Configuration
+from configuration import config
 
 
 class MediaScanner:
 
     supported_formats = ("mp3", "m4a", "wav", "flac", "ogg")
     __songs = None
-    __config = None
 
     def __init__(self):
         self.__songs = []
-        self.__config = Configuration()
 
     def scan(self, path=None):
         if path is None:
-            path = self.__config.get_music_folder()
+            path = config.get_music_folder()
 
         for root, d_names, f_names in os.walk(path):
             for f in f_names:

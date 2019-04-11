@@ -1,7 +1,7 @@
 import os
 import time
 import threading
-from configuration import Configuration
+from configuration import config
 
 
 class ControlPipe:
@@ -9,13 +9,11 @@ class ControlPipe:
     __control = None
     __event = None
     __termination = None
-    __config = None
 
     def __init__(self, event):
         self.__termination = threading.Event()
         self.__event = event
-        self.__config = Configuration()
-        self.__ctl_path = self.__config.get_ctl_path()
+        self.__ctl_path = config.get_ctl_path()
         self.fifo_setup()
 
     def fifo_setup(self):

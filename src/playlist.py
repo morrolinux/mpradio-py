@@ -1,7 +1,7 @@
 from media_scanner import MediaScanner
 import json
 from os import path
-from configuration import Configuration
+from configuration import config
 
 
 class Playlist:
@@ -11,11 +11,9 @@ class Playlist:
     __current = None
     __ms = None
     __playlist_file = None
-    __config = None
 
     def __init__(self):
-        self.__config = Configuration()
-        self.__playlist_file = self.__config.get_playlist_file()
+        self.__playlist_file = config.get_playlist_file()
         self.load_playlist()
         self.__ms = MediaScanner()
         if self.__queued is None:
