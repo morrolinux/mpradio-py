@@ -112,6 +112,7 @@ class Mpradio:
             if self.remote_event.is_set():
                 self.remote_event.clear()
                 if self.remote_msg["command"][0] in self.media_control_methods:
+                    print("command received:", self.remote_msg["command"][0])
                     exec("self.player."+self.remote_msg["command"][0]+"()")
                     # exec("threading.Thread(target="+"self.player." + self.remote_msg["command"][0] + ").start()")
                 elif self.remote_msg["command"][0] in self.media_info_methods:
