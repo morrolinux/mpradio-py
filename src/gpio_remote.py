@@ -53,7 +53,7 @@ class GpioRemote(MediaControl):
 
     def next(self):
         print("push button pressed: next")
-        self.__msg["command"] = "next"
+        self.__msg["command"] = ["next"]
         self.__msg["source"] = "gpio"
         self.__event.set()
 
