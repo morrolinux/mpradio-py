@@ -21,7 +21,7 @@ Exclusively tested on Minimal Raspbian (ARM)
 - [x] Customizable scrolling RDS to overcome 8-chars limitation [TO BE TESTED]
 - [ ] Skip to the next song by pressing a push-button (GPIO-connected on pin 18)
 - [ ] Safely shutdown by holding the push-button (GPIO-connected on pin 18)
-- [ ] Stream audio over FM or 3.5mm Jack (Bluetooth speaker via jack audio output) [NEED TO ADD A SETTING FOR THIS]
+- [x] Stream audio over FM or 3.5mm Jack (Bluetooth speaker via jack audio output)
 - [ ] Send mp3 files or zip/rar albums to the Pi via Bluetooth
 - [ ] Bluetooth OTA file management on the Pi with applications such as "Bluetooth Explorer Lite"
 - [ ] Read metadata from the mp3 files 
