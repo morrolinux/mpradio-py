@@ -21,15 +21,18 @@ class MediaScanner:
                     tmp = dict()
                     tmp["path"] = root+"/"+f
 
-                    tmp["title"] = ""  #TODO sensible default fallback values
-                    tmp["artist"] = ""
-                    tmp["album"] = ""
-                    tmp["year"] = ""
+                    fallback_title = f
+                    for curr_format in self.supported_formats:
+                        fallback_title = fallback_title.replace("."+ curr_format,"")
+                    tmp["title"] = fallback_title
+
+                    tmp["artist"] = None
+                    tmp["album"] = None
+                    tmp["year"] = None
 
                     audio_id3 = EasyID3(tmp["path"])
                     for key in tmp:
                         if key in audio_id3 and len(audio_id3[key]) > 0:
-                            tmp[key] = audio_id3[key][0]
-                    
+                            tmp[key] = audio_id3[key][0]     
                     self.__songs.append(tmp)
         return self.__songs
