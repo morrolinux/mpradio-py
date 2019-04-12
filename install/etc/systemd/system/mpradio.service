@@ -1,0 +1,15 @@
+[Unit]
+Description=Morrolinux Pirate Radio
+After=network.target auditd.service
+
+[Service]
+Type=idle
+User=pi
+Group=pi
+EnvironmentFile=/home/pi/.profile
+ExecStart=/bin/bash -l -c '/home/pi/mpradio.py'
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target

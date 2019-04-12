@@ -1,0 +1,21 @@
+#!/bin/bash
+# at each BT connection/disconnection tell mpradio passing bluetooth address to the pipe
+# env > /tmp/testenv
+
+function log {
+	sudo echo "[$(date)]: $*" > /var/log/bluetooth_dev
+}
+BTMAC=${NAME//\"/}
+
+if [[ $ACTION == "remove" && $BTMAC != "" ]]
+then
+        log "Stop Bluetooth played connection " $BTMAC
+	echo "bluetooth detach" > /tmp/mpradio_bt
+elif [[ $ACTION == "add" && $BTMAC != "" ]]
+then
+	log "Start Bluetooth played connection " $BTMAC
+	echo "bluetooth attach $BTMAC" > /tmp/mpradio_bt
+else
+        log "Other action " $ACTION
+fi
+

@@ -2,6 +2,7 @@ from player import Player
 import subprocess
 from fcntl import fcntl, F_GETFL, F_SETFL
 from os import O_NONBLOCK
+import threading
 
 
 class BtPlayer(Player):
@@ -23,6 +24,9 @@ class BtPlayer(Player):
         subprocess.call(self.__cmd_arr)
 
     def run(self):
+        threading.Thread(target=self.__run).start()
+
+    def __run(self):
         print("playing bluetooth:", self.__bt_addr)
         dev = "bluealsa:HCI=hci0,DEV="+self.__bt_addr
         self.stream = subprocess.Popen(["arecord", "-D", dev, "-f", "cd", "-c", "2"],

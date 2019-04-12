@@ -1,5 +1,5 @@
 import os
-import os.path
+from configuration import config
 
 from mutagen.easyid3 import EasyID3
 
@@ -9,19 +9,17 @@ class MediaScanner:
     __songs = None
 
     def __init__(self):
-        # TODO: read ini configuration here
         self.__songs = []
 
     def scan(self, path=None):
         if path is None:
-            path = os.getcwd()+"/../"   # TODO: set scan path from configuration
+            path = config.get_music_folder()
 
         for root, d_names, f_names in os.walk(path):
             for f in f_names:
                 if f.endswith(self.supported_formats):
                     tmp = dict()
                     tmp["path"] = root+"/"+f
-
                     fallback_title = f
                     for curr_format in self.supported_formats:
                         fallback_title = fallback_title.replace("."+ curr_format,"")
