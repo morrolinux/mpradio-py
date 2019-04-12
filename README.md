@@ -11,7 +11,9 @@ One important requirement is for the program to be mostly testable on your devel
 ## Requirements
 ATM no external library is being used, but this might change soon. extra dependencies must be reported here.
 
-```sudo apt-get -y install python3-rpi.gpio```
+```
+apt-get -y install git libsndfile1-dev libbluetooth-dev bluez pi-bluetooth python-gobject python-gobject-2 bluez-tools sox ffmpeg libsox-fmt-mp3 python-dbus bluealsa obexpushd python3-rpi.gpio 
+```
 
 ## Path
 If you're testing on your computer, please `cd` to the `mpradio/src` folder and run `./mpradio.py`
