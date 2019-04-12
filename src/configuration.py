@@ -19,7 +19,7 @@ class Configuration:
         self.__config = ConfigParser()
 
         if platform.machine() == "x86_64":
-            if len(self.__config.read("../install/"+self.__config_file)) < 1:
+            if len(self.__config.read("../install/pirateradio/"+self.__config_file)) < 1:
                 print("Configuration file missing:", self.__config_file,
                       "make sure you are running mpradio.py from src/ folder")
 
