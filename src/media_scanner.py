@@ -1,4 +1,5 @@
 import os
+import os.path
 
 from mutagen.easyid3 import EasyID3
 
@@ -27,7 +28,7 @@ class MediaScanner:
                     tmp["title"] = fallback_title
 
                     tmp["artist"] = None
-                    tmp["album"] = None
+                    tmp["album"] = os.path.basename(os.path.dirname(path))
                     tmp["year"] = None
 
                     audio_id3 = EasyID3(tmp["path"])
