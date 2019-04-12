@@ -42,6 +42,7 @@ class Mpradio:
         if which("bluealsa") is not None:
             self.bt_daemon = BluetoothDaemon()
 
+        # TODO: maybe refractor into player_methods end always eval()?
         self.media_control_methods = [f for f in dir(MediaControl)
                                       if not f.startswith('_') and callable(getattr(MediaControl, f))]
         self.media_info_methods = [f for f in dir(MediaInfo)
