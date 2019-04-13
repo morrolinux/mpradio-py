@@ -91,14 +91,14 @@ class BtPlayer(Player):
         print("bluetooth player stopped")
 
     def song_name(self):
-        pass
+        return self.__now_playing["title"]
 
     def song_artist(self):
-        pass
+        return self.__now_playing["artist"]
 
     def song_year(self):
-        pass
+        return self.__now_playing["year"]
 
     def song_album(self):
-        pass
+        return self.__now_playing["album"]
 
