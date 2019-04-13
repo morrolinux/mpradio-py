@@ -63,6 +63,7 @@ class BtPlayer(Player):
             self.__now_playing["album"] = probs["Track"]["Album"]
         except dbus.DBusException:
             pass
+        print("BT NOW PLAYING:", self.__now_playing)
 
     def pause(self):
         self.__cmd_arr[len(self.__cmd_arr) - 1] = "org.bluez.MediaPlayer1.Pause"
@@ -88,6 +89,7 @@ class BtPlayer(Player):
 
     def stop(self):
         self.stream.kill()
+        self.__rds_updater.stop()
         print("bluetooth player stopped")
 
     def song_name(self):
