@@ -1,0 +1,15 @@
+[Unit]
+Description=Mpradio bluetooth setup
+After=mpradio.service
+
+[Service]
+User=pi
+Group=pi
+Type=oneshot
+EnvironmentFile=/home/pi/.profile
+ExecStart=/bin/bash -l -c '/usr/local/bin/mpradio-bt-setup.sh'
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
