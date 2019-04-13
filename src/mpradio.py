@@ -14,6 +14,7 @@ from storage_player import StoragePlayer
 from control_pipe import ControlPipe
 from media import MediaControl, MediaInfo
 import platform
+from subprocess import call
 
 
 class Mpradio:
@@ -132,6 +133,11 @@ class Mpradio:
                         self.player = StoragePlayer()
                         threading.Thread(target=self.player.run).start()
                         print("bluetooth detached")
+                elif self.remote_msg["command"][0] == "system":
+                    if self.remote_msg["command"][1] == "poweroff":
+                        call(["sudo", "poweroff"])
+                    elif self.remote_msg["command"][1] == "reboot":
+                        call(["sudo", "reboot"])
                 else:
                     print("unknown command received:", self.remote_msg["command"][0])
                 self.remote_msg.clear()    # clean for next usage

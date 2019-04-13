@@ -37,10 +37,8 @@ class GpioRemote(MediaControl):
                 time.sleep(0.25)
 
             if counter == 8:
-                print('shutdown')
-                call(["sudo", "systemctl", "stop", "mpradio"])
-                call(["sudo", "poweroff"])
-                time.sleep(1)
+                self.poweroff()
+                time.sleep(2)
 
     def run(self):
         threading.Thread(target=self.__run).start()
@@ -71,3 +69,8 @@ class GpioRemote(MediaControl):
 
     def stop(self):
         pass
+
+    def poweroff(self):
+        self.__msg["command"] = ["system", "poweroff"]
+        self.__msg["source"] = "gpio"
+        self.__event.set()

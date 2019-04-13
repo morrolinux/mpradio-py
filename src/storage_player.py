@@ -103,9 +103,10 @@ class StoragePlayer(Player):
 
     def pause(self):
         pause_sound = config.get_sounds_folder()+config.get_stop_sound()
-        self.stream.send_signal(signal.SIGSTOP)
         self.__timer.pause()
         self.__tmp_stream = self.stream.stdout
+        self.stream.stdout = None
+        self.stream.send_signal(signal.SIGSTOP)
         self.stream.stdout = subprocess.Popen(["ffmpeg", "-i", pause_sound, "-vn", "-f", "wav", "pipe:1"],
                                               stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
 
