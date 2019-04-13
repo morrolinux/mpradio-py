@@ -23,13 +23,13 @@ If you're testing on your computer, please `cd` to the `mpradio/src` folder and 
 Exclusively tested on Minimal Raspbian (ARM)
 - [x] Resume track from its playback status hh:mm:ss across reboots (CD-like expirience)
 - [x] Shuffle on/off
-- [x] Customizable scrolling RDS to overcome 8-chars limitation [TO BE TESTED]
-- [ ] Skip to the next song by pressing a push-button (GPIO-connected on pin 18)
-- [ ] Safely shutdown by holding the push-button (GPIO-connected on pin 18)
+- [x] Customizable scrolling RDS to overcome 8-chars limitation
+- [x] Skip to the next song by pressing a push-button (GPIO-connected on pin 18)
+- [x] Safely shutdown by holding the push-button (GPIO-connected on pin 18)
 - [x] Stream audio over FM or 3.5mm Jack (Bluetooth speaker via jack audio output)
 - [ ] Send mp3 files or zip/rar albums to the Pi via Bluetooth
 - [ ] Bluetooth OTA file management on the Pi with applications such as "Bluetooth Explorer Lite"
-- [ ] Read metadata from the mp3 files 
+- [x] Read metadata from the mp3 files 
 - [x] Multiple file format support [mp3/wav/flac]
 - [ ] Read Only mode for saving sdcard from corruption when unplugging AC
 - [x] PiFmAdv (default)(experimental) implementation for better signal purity 
