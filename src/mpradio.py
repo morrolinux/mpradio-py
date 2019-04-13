@@ -123,7 +123,7 @@ class Mpradio:
                 elif self.remote_msg["command"][0] == "bluetooth":
                     if self.remote_msg["command"][1] == "attach":
                         self.player.pause()
-                        time.sleep(2)
+                        time.sleep(4)
                         self.player.stop()
                         self.player = BtPlayer(self.remote_msg["command"][2])
                         threading.Thread(target=self.player.run).start()
