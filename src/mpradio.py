@@ -103,7 +103,7 @@ class Mpradio:
                 else:
                     raise AttributeError
             except AttributeError:
-                time.sleep(0.02)
+                time.sleep(0.01)
             # advance the "play head"
             if self.player.stream is not None:
                 data = self.player.stream.stdout.read(self.player.CHUNK)    # must be non-blocking

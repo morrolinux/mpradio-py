@@ -13,7 +13,7 @@ class BtPlayer(Player):
     def __init__(self, bt_addr):
         super().__init__()
         self.__bt_addr = bt_addr
-        self.__cmd_arr = ["dbus-send", "--system", "--type=method_call", "--dest=org.bluez", "/org/bluez/hci0/dev_"
+        self.__cmd_arr = ["sudo", "dbus-send", "--system", "--type=method_call", "--dest=org.bluez", "/org/bluez/hci0/dev_"
                           + bt_addr.replace(":", "_").upper() + "/player0", "org.bluez.MediaPlayer1.Pause"]
 
     def playback_position(self):

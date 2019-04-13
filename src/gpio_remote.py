@@ -2,7 +2,6 @@ from media import MediaControl
 import threading
 import RPi.GPIO as GPIO
 import time
-from subprocess import call
 
 # TODO: implement a GPIO remote for the push button (@DavidM42 did something already) - this is just a skeleton
 
@@ -24,7 +23,7 @@ class GpioRemote(MediaControl):
 
         while True:
             input_state = GPIO.input(18)
-            if input_state == False:
+            if not input_state:
                 counter += 1
                 print('Button Pressed')
                 time.sleep(0.25)
