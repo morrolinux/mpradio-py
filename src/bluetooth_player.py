@@ -21,6 +21,7 @@ class BtPlayer(Player):
         self.__bt_addr = bt_addr
         self.__cmd_arr = ["sudo", "dbus-send", "--system", "--type=method_call", "--dest=org.bluez", "/org/bluez/hci0/dev_"
                           + bt_addr.replace(":", "_").upper() + "/player0", "org.bluez.MediaPlayer1.Pause"]
+        self.__now_playing = dict()
 
     def playback_position(self):
         pass
@@ -63,6 +64,7 @@ class BtPlayer(Player):
             self.__now_playing["album"] = probs["Track"]["Album"]
         except dbus.DBusException:
             pass
+        print("BT NOW PLAYING:", self.__now_playing)
 
     def pause(self):
         self.__cmd_arr[len(self.__cmd_arr) - 1] = "org.bluez.MediaPlayer1.Pause"
@@ -88,6 +90,7 @@ class BtPlayer(Player):
 
     def stop(self):
         self.stream.kill()
+        self.__rds_updater.stop()
         print("bluetooth player stopped")
 
     def song_name(self):

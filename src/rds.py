@@ -30,6 +30,7 @@ class RdsUpdater:
 
     def write_rds_to_pipe(self, text):
         with open(self.__rds_ctl, "w") as f:
+            text = text.strip() + "\n"
             f.write("PS "+text)
             f.write("RT "+text)
 

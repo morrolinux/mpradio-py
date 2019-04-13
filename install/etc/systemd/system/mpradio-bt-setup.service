@@ -1,0 +1,14 @@
+[Unit]
+Description=Mpradio bluetooth setup
+After=mpradio.service
+
+[Service]
+User=root
+Group=root
+Type=oneshot
+ExecStart=/bin/bash -l -c '/usr/local/bin/mpradio-bt-setup.sh'
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target

@@ -40,8 +40,8 @@ class Mpradio:
         self.remote_event = threading.Event()       # Event for signaling control thread(s) events to main thread
         self.control_pipe = ControlPipe(self.remote_event, self.remote_msg)
         # Bluetooth setup (only if a2dp is supported)
-        if which("bluealsa") is not None:
-            self.bt_daemon = BluetoothDaemon()
+        # if which("bluealsa") is not None:
+        #     self.bt_daemon = BluetoothDaemon()
 
         # TODO: maybe refractor into player_methods end always eval()?
         self.media_control_methods = [f for f in dir(MediaControl)
