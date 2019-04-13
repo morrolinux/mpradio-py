@@ -38,3 +38,19 @@ Exclusively tested on Minimal Raspbian (ARM)
 - [ ] Bluetooth companion app for android (Work in progress...) 
 - [ ] Display Android notifications over RDS?
 - [ ] Automatically partition the sdcard for a dedicated mp3 storage space (instead of using a USB drive)
+
+# Installation
+
+In your `/etc/dbus-1/system.d/bluetooth.conf` add this:
+
+```
+<policy user="pi">
+  <allow own="org.bluez"/>
+  <allow send_destination="org.bluez"/>
+  <allow send_interface="org.bluez.GattCharacteristic1"/>
+  <allow send_interface="org.bluez.GattDescriptor1"/>
+  <allow send_interface="org.freedesktop.DBus.ObjectManager"/>
+  <allow send_interface="org.freedesktop.DBus.Properties"/>
+</policy>
+```
+then, `cd install && sudo bash install.sh`
