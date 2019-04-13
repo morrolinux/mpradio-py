@@ -1,0 +1,13 @@
+[Unit]
+Description=Bluealsa audio server
+After=mpradio-bt-setup.service
+
+[Service]
+User=root
+Group=root
+ExecStart=/bin/bash -l -c '/usr/bin/bluealsa -p a2dp-sink --a2dp-force-audio-cd'
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
