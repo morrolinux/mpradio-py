@@ -1,7 +1,8 @@
 import os
+from mutagen.id3 import ID3NoHeaderError
 from configuration import config
-
 from mutagen.easyid3 import EasyID3
+
 
 class MediaScanner:
 
@@ -22,16 +23,24 @@ class MediaScanner:
                     tmp["path"] = root+"/"+f
                     fallback_title = f
                     for curr_format in self.supported_formats:
-                        fallback_title = fallback_title.replace("."+ curr_format,"")
+                        fallback_title = fallback_title.replace("." + curr_format, "")
                     tmp["title"] = fallback_title
 
-                    tmp["artist"] = None
+                    # Avoid "can only concatenate str (not "NoneType") to str" error everywhere
+                    # default empty string will do just fine.
+                    tmp["artist"] = ""
                     tmp["album"] = os.path.basename(os.path.dirname(path))
-                    tmp["year"] = None
+                    tmp["year"] = ""
 
-                    audio_id3 = EasyID3(tmp["path"])
-                    for key in tmp:
-                        if key in audio_id3 and len(audio_id3[key]) > 0:
-                            tmp[key] = audio_id3[key][0]     
+                    # Otherwise The application will crash if no id3 header is present
+                    try:
+                        audio_id3 = EasyID3(tmp["path"])
+                        for key in tmp:
+                            if key in audio_id3 and len(audio_id3[key]) > 0:
+                                tmp[key] = audio_id3[key][0]
+                    except ID3NoHeaderError:
+                        pass
+
                     self.__songs.append(tmp)
+
         return self.__songs
