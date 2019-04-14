@@ -21,7 +21,6 @@ class BtPlayer(Player):
         self.__bt_addr = bt_addr
         self.__cmd_arr = ["sudo", "dbus-send", "--system", "--type=method_call", "--dest=org.bluez", "/org/bluez/hci0/dev_"
                           + bt_addr.replace(":", "_").upper() + "/player0", "org.bluez.MediaPlayer1.Pause"]
-        self.__now_playing = dict()
 
     def playback_position(self):
         pass
@@ -59,6 +58,7 @@ class BtPlayer(Player):
             BT_Media_probs = dbus.Interface(player, "org.freedesktop.DBus.Properties")
             probs = BT_Media_probs.GetAll("org.bluez.MediaPlayer1")
 
+            self.__now_playing = dict()
             self.__now_playing["title"] = probs["Track"]["Title"]
             self.__now_playing["artist"] = probs["Track"]["Artist"]
             self.__now_playing["album"] = probs["Track"]["Album"]
