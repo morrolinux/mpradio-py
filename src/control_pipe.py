@@ -17,6 +17,7 @@ class ControlPipe:
         self.__ctl_path = config.get_ctl_path()
         self.fifo_setup()
 
+    # TODO: always try to delete, then make fifo (cleanup events before starting)
     def fifo_setup(self):
         try:
             os.mkfifo(self.__ctl_path)

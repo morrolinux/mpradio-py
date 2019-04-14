@@ -64,7 +64,8 @@ class BtPlayer(Player):
             self.__now_playing["album"] = probs["Track"]["Album"]
         except dbus.DBusException:
             pass
-        print("BT NOW PLAYING:", self.__now_playing)
+        except KeyError:
+            self.__now_playing = None
 
     def pause(self):
         self.__cmd_arr[len(self.__cmd_arr) - 1] = "org.bluez.MediaPlayer1.Pause"
