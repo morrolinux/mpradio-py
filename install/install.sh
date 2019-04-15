@@ -48,6 +48,12 @@ fi
 chown -R pi:pi /pirateradio/
 chmod +x /usr/lib/udev/bluetooth
 
+# add dbus rule for user pi
+bluez_pi=$(grep "policy user=\"pi\"" /etc/dbus-1/system.d/bluetooth.conf)
+if [[ $bluez_pi == "" ]]; then
+	sed -i '/<busconfig>/r bluez.txt' /etc/dbus-1/system.d/bluetooth.conf
+fi
+
 # set hostname
 echo PRETTY_HOSTNAME=mpradio > /etc/machine-info
 # avoid recompilation (by need2recompile.service) after first install 
