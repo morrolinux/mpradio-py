@@ -36,10 +36,10 @@ class BtRemote(MediaInfo, MediaControl):
         threading.Thread(target=self.__run).start()
 
     def __run(self):
-        while not self.__termination.is_set():
-            self.__server_socket.bind(("", self.__port))
-            self.__server_socket.listen(1)
+        self.__server_socket.bind(("", self.__port))
+        self.__server_socket.listen(1)
 
+        while not self.__termination.is_set():
             client_sock, address = self.__server_socket.accept()
             cmd = client_sock.recv(1024)
 
@@ -50,7 +50,8 @@ class BtRemote(MediaInfo, MediaControl):
                 self.__event.set()
 
             client_sock.close()
-            self.__server_socket.close()
+
+        self.__server_socket.close()
 
     def resume(self):
         pass
