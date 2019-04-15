@@ -4,9 +4,10 @@ from media import MediaInfo, MediaControl
 
 class Player(MediaControl, MediaInfo):
 
-    CHUNK = 1024
+    CHUNK = 4096
+    SLEEP_TIME = 0.03
     stream = None
-    event = None
+    event = None    # TODO: maybe delete?
 
     @abstractmethod
     def playback_position(self):
