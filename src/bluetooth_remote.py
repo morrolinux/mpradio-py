@@ -36,26 +36,21 @@ class BtRemote(MediaInfo, MediaControl):
         threading.Thread(target=self.__run).start()
 
     def __run(self):
-        self.__server_socket.bind(("", self.__port))
-
         while not self.__termination.is_set():
+            self.__server_socket.bind(("", self.__port))
             self.__server_socket.listen(1)
 
             client_sock, address = self.__server_socket.accept()
-            print("Accepted connection from ", address)
+            cmd = client_sock.recv(1024)
 
-            data = client_sock.recv(1024)
-            print("received [%s]" % data)
-
-            if len(data) > 0:
-                data = data.decode().strip().lower().split()
-                self.__msg["command"] = data
+            if len(cmd) > 0:
+                cmd = cmd.decode().strip().lower().split()
+                self.__msg["command"] = cmd
                 self.__msg["source"] = "bluetooth"
                 self.__event.set()
 
             client_sock.close()
-
-        self.__server_socket.close()
+            self.__server_socket.close()
 
     def resume(self):
         pass
