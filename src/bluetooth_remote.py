@@ -1,4 +1,5 @@
 from media import MediaInfo, MediaControl
+from subprocess import call
 import threading
 import bluetooth
 
@@ -17,6 +18,7 @@ class BtRemote(MediaInfo, MediaControl):
         super().__init__()
         self.__event = event
         self.__msg = message
+        call(["sudo", "sdptool", "add", "SP"])
         self.__server_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
         self.__termination = threading.Event()
 
@@ -36,11 +38,10 @@ class BtRemote(MediaInfo, MediaControl):
         threading.Thread(target=self.__run).start()
 
     def __run(self):
-        self.__server_socket.bind(("", bluetooth.PORT_ANY))
+        self.__server_socket.bind(("", bluetooth.PORT_ANY))     # or simply use self.__port
         self.__server_socket.listen(1)
-        port = self.__server_socket.getsockname()[1]
-        # uuid = "f3c74f47-1d38-49ed-8bbc-0369b3eb277c"
-        uuid = "F9EC7BC4-953C-11D2-984E-525400DC9E09"   # android side
+        port = self.__server_socket.getsockname()[1]            # or simply use self.__port
+        uuid = "00001101-0000-1000-8000-00805f9b34fb"           # android app looks for this
 
         bluetooth.advertise_service(self.__server_socket, "MPRadio",
                                     service_id=uuid,
