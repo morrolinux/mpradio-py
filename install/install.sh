@@ -46,6 +46,7 @@ fi
 
 # usermod -a -G lp pi
 chown -R pi:pi /pirateradio/
+chmod +x /usr/lib/udev/bluetooth
 
 # set hostname
 echo PRETTY_HOSTNAME=mpradio > /etc/machine-info
