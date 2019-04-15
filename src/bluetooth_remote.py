@@ -62,9 +62,13 @@ class BtRemote(MediaInfo, MediaControl):
                 self.__msg["command"] = cmd
                 self.__msg["source"] = "bluetooth"
                 self.__event.set()
+                self.reply(client_sock, "risposta!")
 
         client_sock.close()
         self.__server_socket.close()
+
+    def reply(self, client_socket, message):
+        client_socket.send(bytes(message+"\0", 'UTF-8'))
 
     def resume(self):
         pass
