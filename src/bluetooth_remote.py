@@ -48,9 +48,14 @@ class BtRemote(MediaInfo, MediaControl):
                                     service_classes=[uuid, bluetooth.SERIAL_PORT_CLASS],
                                     profiles=[bluetooth.SERIAL_PORT_PROFILE],)
 
+        client_sock, address = self.__server_socket.accept()
+
         while not self.__termination.is_set():
-            client_sock, address = self.__server_socket.accept()
-            cmd = client_sock.recv(1024)
+            try:
+                cmd = client_sock.recv(1024)
+            except bluetooth.btcommon.BluetoothError:       # if a client disconnects, listen for new ones
+                client_sock, address = self.__server_socket.accept()
+                continue
 
             if len(cmd) > 0:
                 cmd = cmd.decode().strip().lower().split()
@@ -58,8 +63,7 @@ class BtRemote(MediaInfo, MediaControl):
                 self.__msg["source"] = "bluetooth"
                 self.__event.set()
 
-            client_sock.close()
-
+        client_sock.close()
         self.__server_socket.close()
 
     def resume(self):
