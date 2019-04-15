@@ -13,8 +13,8 @@ class Encoder:
 
     def __init__(self):
         # TODO: read from settings
-        self.__sox_cmd.extend(self.__sox_treble)
         self.__sox_cmd.extend(self.__sox_compression)
+        self.__sox_cmd.extend(self.__sox_treble)
 
     def run(self):
         self.stream = subprocess.Popen(self.__sox_cmd, stdout=subprocess.PIPE, stdin=subprocess.PIPE,
