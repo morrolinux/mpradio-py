@@ -48,6 +48,7 @@ class BtRemote(MediaInfo, MediaControl):
             print("received [%s]" % data)
 
             if len(data) > 0:
+                data = data.decode().strip().lower().split()
                 self.__msg["command"] = data
                 self.__msg["source"] = "bluetooth"
                 self.__event.set()
