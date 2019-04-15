@@ -3,7 +3,10 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
-apt-get -y install git libsndfile1-dev libbluetooth-dev bluez pi-bluetooth python-gobject python-gobject-2 bluez-tools sox ffmpeg libsox-fmt-mp3 python-dbus bluealsa obexpushd python3-rpi.gpio python3-mutagen python3-dbus
+apt-get -y install git libsndfile1-dev libbluetooth-dev bluez pi-bluetooth python-gobject python-gobject-2 bluez-tools sox ffmpeg libsox-fmt-mp3 python-dbus bluealsa obexpushd python3-rpi.gpio python3-mutagen python3-dbus python3-pip
+
+# needed for rfcomm bluetooth interface
+pip3 install pybluez
 
 
 # install requirements as a dir. structure
