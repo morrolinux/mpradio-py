@@ -37,7 +37,7 @@ class BtRemote(MediaInfo, MediaControl):
 
     def __run(self):
         self.__server_socket.bind(("", self.__port))
-        
+
         while not self.__termination.is_set():
             self.__server_socket.listen(1)
 
