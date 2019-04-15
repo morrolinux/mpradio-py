@@ -19,3 +19,14 @@ do
 	sudo systemctl enable $(basename $f)
 done
 
+cd /usr/local/src/
+git clone https://github.com/Miegl/PiFmAdv.git
+cd PiFmAdv/src
+make clean
+make -j $(nproc)
+
+cp /usr/local/src/PiFmAdv/src/pi_fm_adv /usr/local/bin/pi_fm_adv
+
+if [[ $(grep "gpu_freq=250" /boot/config.txt) == "" ]]; then 	
+    echo "gpu_freq=250" >> /boot/config.txt	
+fi
