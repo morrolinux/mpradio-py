@@ -36,8 +36,16 @@ class BtRemote(MediaInfo, MediaControl):
         threading.Thread(target=self.__run).start()
 
     def __run(self):
-        self.__server_socket.bind(("", self.__port))
+        self.__server_socket.bind(("", bluetooth.PORT_ANY))
         self.__server_socket.listen(1)
+        port = self.__server_socket.getsockname()[1]
+        # uuid = "f3c74f47-1d38-49ed-8bbc-0369b3eb277c"
+        uuid = "F9EC7BC4-953C-11D2-984E-525400DC9E09"   # android side
+
+        bluetooth.advertise_service(self.__server_socket, "MPRadio",
+                                    service_id=uuid,
+                                    service_classes=[uuid, bluetooth.SERIAL_PORT_CLASS],
+                                    profiles=[bluetooth.SERIAL_PORT_PROFILE],)
 
         while not self.__termination.is_set():
             client_sock, address = self.__server_socket.accept()
