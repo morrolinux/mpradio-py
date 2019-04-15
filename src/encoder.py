@@ -12,8 +12,8 @@ class Encoder:
         # TODO: read from settings
 
     def run(self):
-        self.stream = subprocess.Popen(["sox", "-t", "raw", "-G", "treble", "-6", "-b", "16", "-e", "signed",
-                                        "-c", "2", "-r", "44100", "-", "-t", "wav", "-"],
+        self.stream = subprocess.Popen(["sox", "-t", "raw", "-G", "-b", "16", "-e", "signed",
+                                        "-c", "2", "-r", "44100", "-", "-t", "wav", "-", "treble", "-6"],
                                        stdout=subprocess.PIPE, stdin=subprocess.PIPE,
                                        stderr=subprocess.PIPE, bufsize=0)    # -1
         # set the encoder to non-blocking output:
