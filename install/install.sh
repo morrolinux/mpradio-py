@@ -48,6 +48,8 @@ if [[ $fstabline == "" ]]; then
 fi
 
 # usermod -a -G lp pi
+
+usermod -aG bluetooth pi
 chown -R pi:pi /pirateradio/
 chmod +x /usr/lib/udev/bluetooth
 
