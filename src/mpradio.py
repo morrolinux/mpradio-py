@@ -23,7 +23,6 @@ class Mpradio:
     bt_remote = None
     gpio_remote = None
     remote_event = None
-    reply_event = None
     remote_msg = None
     media_control_methods = None
     media_info_methods = None
@@ -41,7 +40,7 @@ class Mpradio:
         self.remote_event = threading.Event()       # Event for signaling control thread(s) events to main thread
         self.reply_event = threading.Event()
         self.control_pipe = ControlPipe(self.remote_event, self.remote_msg)
-        self.bt_remote = BtRemote(self.remote_event, self.reply_event, self.remote_msg)
+        self.bt_remote = BtRemote(self.remote_event, self.remote_msg)
         # Bluetooth setup (only if a2dp is supported)
         # if which("bluealsa") is not None:
         #     self.bt_daemon = BluetoothDaemon()
@@ -126,9 +125,8 @@ class Mpradio:
                     # exec("threading.Thread(target="+"self.player." + self.remote_msg["command"][0] + ").start()")
                 elif self.remote_msg["command"][0] in self.media_info_methods:
                     result = eval("self.player."+self.remote_msg["command"][0]+"()")
-                    self.remote_msg["reply"] = [result]
-                    self.bt_remote.reply(result)
-                    # self.reply_event.set()
+                    if self.remote_msg["source"] == "bluetooth":
+                        self.bt_remote.reply(result)
                 elif self.remote_msg["command"][0] == "bluetooth":
                     if self.remote_msg["command"][1] == "attach":
                         self.player.pause()

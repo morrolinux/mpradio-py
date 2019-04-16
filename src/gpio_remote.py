@@ -1,4 +1,3 @@
-from media import MediaControl
 import threading
 import RPi.GPIO as GPIO
 import time
@@ -6,7 +5,7 @@ import time
 # TODO: implement a GPIO remote for the push button (@DavidM42 did something already) - this is just a skeleton
 
 
-class GpioRemote(MediaControl):
+class GpioRemote:
 
     __event = None
     __msg = None
@@ -55,18 +54,6 @@ class GpioRemote(MediaControl):
         self.__event.set()
 
     def previous(self):
-        pass
-
-    def repeat(self):
-        pass
-
-    def fast_forward(self):
-        pass
-
-    def rewind(self):
-        pass
-
-    def stop(self):
         pass
 
     def poweroff(self):
