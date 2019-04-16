@@ -27,6 +27,8 @@ do
 	sudo systemctl enable $(basename $f)
 done
 
+systemctl enable bluetooth.service
+
 cd /usr/local/src/
 git clone https://github.com/Miegl/PiFmAdv.git
 cd PiFmAdv/src
