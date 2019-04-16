@@ -3,10 +3,9 @@ import signal
 import os
 import threading
 import time
-from shutil import which
 from encoder import Encoder
 from configuration import config    # must be imported before all other modules (dependency)
-from bluetooth_daemon import BluetoothDaemon
+from bluetooth_remote import BtRemote
 from bluetooth_player import BtPlayer
 from fm_output import FmOutput
 from analog_output import AnalogOutput
@@ -21,6 +20,7 @@ class Mpradio:
 
     bt_daemon = None
     control_pipe = None
+    bt_remote = None
     gpio_remote = None
     remote_event = None
     remote_msg = None
@@ -38,7 +38,9 @@ class Mpradio:
         self.remote_msg = dict()
         self.check_remotes_termination = threading.Event()
         self.remote_event = threading.Event()       # Event for signaling control thread(s) events to main thread
+        self.reply_event = threading.Event()
         self.control_pipe = ControlPipe(self.remote_event, self.remote_msg)
+        self.bt_remote = BtRemote(self.remote_event, self.remote_msg)
         # Bluetooth setup (only if a2dp is supported)
         # if which("bluealsa") is not None:
         #     self.bt_daemon = BluetoothDaemon()
@@ -63,6 +65,7 @@ class Mpradio:
         print("stopping threads and clean termination...")
         self.check_remotes_termination.set()
         self.control_pipe.stop()
+        self.bt_remote.stop()
         self.player.stop()
         self.encoder.stop()
         self.output.stop()
@@ -75,6 +78,7 @@ class Mpradio:
         self.output.start()
 
         # TODO: start other control threads here (remotes) using the same event for all
+        self.bt_remote.run()
         self.control_pipe.listen()
         if platform.machine() != "x86_64":
             from gpio_remote import GpioRemote
@@ -120,8 +124,9 @@ class Mpradio:
                     exec("self.player."+self.remote_msg["command"][0]+"()")
                     # exec("threading.Thread(target="+"self.player." + self.remote_msg["command"][0] + ").start()")
                 elif self.remote_msg["command"][0] in self.media_info_methods:
-                    print(eval("self.player."+self.remote_msg["command"][0]+"()"))
-                    # TODO: check the source (remote_msg["source"] and send the reply accordingly
+                    result = eval("self.player."+self.remote_msg["command"][0]+"()")
+                    if self.remote_msg["source"] == "bluetooth":
+                        self.bt_remote.reply(result)
                 elif self.remote_msg["command"][0] == "bluetooth":
                     if self.remote_msg["command"][1] == "attach":
                         self.player.pause()
