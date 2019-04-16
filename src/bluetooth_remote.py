@@ -38,8 +38,8 @@ class BtRemote(MediaInfo, MediaControl):
         while not self.__termination.is_set():
             if self.__reply_event.is_set():
                 self.__reply_event.clear()
-                print("got reply:", self.__msg["reply"])
-                self.reply(self.__msg["reply"])
+                print("got reply:", self.__msg["reply"][0])
+                self.reply(self.__msg["reply"][0])
             else:
                 time.sleep(0.2)
 

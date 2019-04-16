@@ -126,8 +126,9 @@ class Mpradio:
                     # exec("threading.Thread(target="+"self.player." + self.remote_msg["command"][0] + ").start()")
                 elif self.remote_msg["command"][0] in self.media_info_methods:
                     result = eval("self.player."+self.remote_msg["command"][0]+"()")
-                    self.remote_msg["reply"] = result
-                    self.reply_event.set()
+                    self.remote_msg["reply"] = [result]
+                    self.bt_remote.reply(result)
+                    # self.reply_event.set()
                 elif self.remote_msg["command"][0] == "bluetooth":
                     if self.remote_msg["command"][1] == "attach":
                         self.player.pause()
