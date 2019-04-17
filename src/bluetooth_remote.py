@@ -41,7 +41,7 @@ class BtRemote:
                 continue
 
             if len(cmd) > 0:
-                cmd = cmd.decode().strip().lower().split()
+                cmd = cmd.decode().strip().split()  # .lower()
                 self.__msg["command"] = cmd
                 self.__msg["source"] = "bluetooth"
                 self.__remote_event.set()

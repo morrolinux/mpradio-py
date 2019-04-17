@@ -14,6 +14,7 @@ from control_pipe import ControlPipe
 from media import MediaControl, MediaInfo
 import platform
 from subprocess import call
+import json
 
 
 class Mpradio:
@@ -119,10 +120,10 @@ class Mpradio:
             time.sleep(0.2)
             if self.remote_event.is_set():
                 self.remote_event.clear()
+
                 if self.remote_msg["command"][0] in self.media_control_methods:
                     print("command received:", self.remote_msg["command"][0])
                     exec("self.player."+self.remote_msg["command"][0]+"()")
-                    # exec("threading.Thread(target="+"self.player." + self.remote_msg["command"][0] + ").start()")
                 elif self.remote_msg["command"][0] in self.media_info_methods:
                     result = eval("self.player."+self.remote_msg["command"][0]+"()")
                     if self.remote_msg["source"] == "bluetooth":
@@ -145,6 +146,12 @@ class Mpradio:
                         call(["sudo", "poweroff"])
                     elif self.remote_msg["command"][1] == "reboot":
                         call(["sudo", "reboot"])
+                elif self.remote_msg["command"][0] == "play":
+                    s = ""
+                    s = s.join(self.remote_msg["command"][1:])
+                    print("received play:", s)
+                    what = json.loads(s)
+                    self.player.play(what)
                 else:
                     print("unknown command received:", self.remote_msg["command"][0])
                 self.remote_msg.clear()    # clean for next usage
