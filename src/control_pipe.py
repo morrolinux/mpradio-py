@@ -31,7 +31,8 @@ class ControlPipe:
     def __listen(self):
         while not self.__termination.is_set():
             time.sleep(0.2)
-            cmd = os.read(self.__control, 100).decode().strip().split()  # .lower()
+            # cmd = os.read(self.__control, 100).decode().strip().lower().split()
+            cmd = os.read(self.__control, 500).decode().split()
 
             if len(cmd) > 0:
                 self.__msg["command"] = cmd

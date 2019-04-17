@@ -15,6 +15,8 @@ from media import MediaControl, MediaInfo
 import platform
 from subprocess import call
 import json
+import base64
+import binascii
 
 
 class Mpradio:
@@ -149,6 +151,10 @@ class Mpradio:
                 elif self.remote_msg["command"][0] == "play":
                     s = ""
                     s = s.join(self.remote_msg["command"][1:])
+                    # try:
+                    #     s = base64.b64decode(s)
+                    # except binascii.Error:
+                    #     print("invalid padding for:", s)
                     print("received play:", s)
                     what = json.loads(s)
                     self.player.play(what)
