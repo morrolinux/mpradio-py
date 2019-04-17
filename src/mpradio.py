@@ -157,7 +157,7 @@ class Mpradio:
                     #     print("invalid padding for:", s)
                     print("received play:", s)
                     what = json.loads(s)
-                    self.player.play(what)
+                    threading.Thread(target=self.player.play, args=[what],)
                 else:
                     print("unknown command received:", self.remote_msg["command"][0])
                 self.remote_msg.clear()    # clean for next usage
