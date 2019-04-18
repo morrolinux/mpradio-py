@@ -73,7 +73,6 @@ class StoragePlayer(Player):
         self.__update_playback_position()
 
         for song in self.__playlist:
-            self.__now_playing = song
             print("storage_player playing:", song["path"])
             self.play(song)     # blocking
             if self.__terminating:
@@ -81,6 +80,7 @@ class StoragePlayer(Player):
 
     def play(self, song):
         # print("player received:", song)
+        self.__now_playing = song
 
         resume_time = song.get("position")
         if resume_time is not None:
