@@ -15,8 +15,6 @@ from media import MediaControl, MediaInfo
 import platform
 from subprocess import call
 import json
-import base64
-import binascii
 
 
 class Mpradio:
@@ -150,7 +148,7 @@ class Mpradio:
                         call(["sudo", "reboot"])
                 elif self.remote_msg["command"][0] == "play":
                     what = json.loads(self.remote_msg["data"])
-                    print("received play:", what)
+                    # print("received play:", what)
                     threading.Thread(target=self.player.play, args=(what,)).start()
                 elif self.remote_msg["command"][0] == "playlist":
                     with open("/pirateradio/playlist.json") as file:
