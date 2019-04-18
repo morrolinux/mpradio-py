@@ -46,7 +46,7 @@ fi
 FSTAB="/etc/fstab"
 fstabline=$(grep "pirateradio" $FSTAB -n|cut -d: -f1)
 if [[ $fstabline == "" ]]; then
-	echo "/dev/sda1    /pirateradio    vfat    defaults,rw,nofail 0   0" >> $FSTAB
+	echo "/dev/sda1    /pirateradio    vfat    defaults,rw,uid=pi,gid=pi,nofail 0   0" >> $FSTAB
 fi
 
 # usermod -a -G lp pi
