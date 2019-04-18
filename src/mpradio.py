@@ -155,8 +155,8 @@ class Mpradio:
                     #     s = base64.b64decode(s)
                     # except binascii.Error:
                     #     print("invalid padding for:", s)
-                    print("received play:", s)
                     what = json.loads(s)
+                    print("received play:", what)
                     threading.Thread(target=self.player.play, args=(what,)).start()
                 elif self.remote_msg["command"][0] == "playlist":
                     with open("/pirateradio/playlist.json") as file:

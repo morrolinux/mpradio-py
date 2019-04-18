@@ -44,6 +44,7 @@ class BtRemote:
                 cmd = cmd.decode().strip().split()  # .lower()
                 self.__msg["command"] = cmd
                 self.__msg["source"] = "bluetooth"
+                print("bluetooth_remote received:", cmd)
                 self.__remote_event.set()
 
         self.__client_socket.close()

@@ -80,7 +80,7 @@ class StoragePlayer(Player):
                 return
 
     def play(self, song):
-        print("player received:", song)
+        # print("player received:", song)
 
         resume_time = song.get("position")
         if resume_time is not None:
