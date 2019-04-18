@@ -20,7 +20,8 @@ class MediaScanner:
             for f in f_names:
                 if f.endswith(self.supported_formats):
                     tmp = dict()
-                    tmp["path"] = root+"/"+f
+                    # tmp["path"] = root+"/"+f
+                    tmp["path"] = os.path.join(root, f).replace(" ", "\\ ")
                     fallback_title = f
                     for curr_format in self.supported_formats:
                         fallback_title = fallback_title.replace("." + curr_format, "")
