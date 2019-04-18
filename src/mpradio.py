@@ -149,13 +149,7 @@ class Mpradio:
                     elif self.remote_msg["command"][1] == "reboot":
                         call(["sudo", "reboot"])
                 elif self.remote_msg["command"][0] == "play":
-                    s = ""
-                    s = s.join(self.remote_msg["command"][1:])
-                    # try:
-                    #     s = base64.b64decode(s)
-                    # except binascii.Error:
-                    #     print("invalid padding for:", s)
-                    what = json.loads(s)
+                    what = json.loads(self.remote_msg["data"])
                     print("received play:", what)
                     threading.Thread(target=self.player.play, args=(what,)).start()
                 elif self.remote_msg["command"][0] == "playlist":
