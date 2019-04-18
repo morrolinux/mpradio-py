@@ -41,8 +41,8 @@ class Playlist:
             self.__current = self.__queued.pop()        # TODO: handle the "no songs" scenario
             self.__played.append(self.__current)
 
-        print("\n\nplaylist:", [song["path"] for song in self.__queued], "\n")
-        print("played:", [song["path"] for song in self.__played], "\n\n")
+        # print("\n\nplaylist:", [song["path"] for song in self.__queued], "\n")
+        # print("played:", [song["path"] for song in self.__played], "\n\n")
         self.save_playlist()
 
         return self.__current

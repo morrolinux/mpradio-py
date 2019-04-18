@@ -1,5 +1,6 @@
 import threading
 import bluetooth
+import ast
 
 
 class BtRemote:
@@ -41,16 +42,23 @@ class BtRemote:
                 continue
 
             if len(cmd) > 0:
-                cmd = cmd.decode().strip().lower().split()
-                self.__msg["command"] = cmd
+                # cmd = cmd.decode().strip().split()  # .lower()
+                cmd = ast.literal_eval(cmd.decode())
+                self.__msg["command"] = cmd["command"].split()
+                self.__msg["data"] = cmd["data"]
                 self.__msg["source"] = "bluetooth"
+                print("bluetooth_remote received:", cmd)
                 self.__remote_event.set()
 
         self.__client_socket.close()
         self.__server_socket.close()
+        bluetooth.stop_advertising(self.__server_socket)
 
     def reply(self, message):
-        self.__client_socket.send(bytes(message+"\0", 'UTF-8'))
+        try:
+            self.__client_socket.send(bytes(message+"\0", 'UTF-8'))
+        except bluetooth.btcommon.BluetoothError:
+            pass
 
     def stop(self):
         self.__termination.set()

@@ -80,16 +80,22 @@ class StoragePlayer(Player):
                 return
 
     def play(self, song):
+        # print("player received:", song)
 
         resume_time = song.get("position")
         if resume_time is not None:
             res = str(resume_time)
         else:
             res = "0"
+            self.__timer.reset()
+        # cleanup
+        if self.stream is not None:
+            self.stream.kill()
 
         self.__rds_updater.set(song)
         self.__tmp_stream = None
-        self.stream = subprocess.Popen(["ffmpeg", "-i", song["path"], "-ss", res, "-vn", "-f", "wav", "pipe:1"],
+        song_path = r"" + song["path"].replace("\\", "")
+        self.stream = subprocess.Popen(["ffmpeg", "-i", song_path, "-ss", res, "-vn", "-f", "wav", "pipe:1"],
                                        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         # set the player to non-blocking output:
@@ -99,7 +105,6 @@ class StoragePlayer(Player):
         # Wait until process terminates
         while self.stream.poll() is None:
             time.sleep(0.02)
-        self.__timer.reset()
 
     def pause(self):
         pause_sound = config.get_sounds_folder()+config.get_stop_sound()
