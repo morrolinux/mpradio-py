@@ -94,7 +94,8 @@ class StoragePlayer(Player):
 
         self.__rds_updater.set(song)
         self.__tmp_stream = None
-        self.stream = subprocess.Popen(["ffmpeg", "-i", r""+song["path"], "-ss", res, "-vn", "-f", "wav", "pipe:1"],
+        song_path = r"" + song["path"].replace("\\", "")
+        self.stream = subprocess.Popen(["ffmpeg", "-i", song_path, "-ss", res, "-vn", "-f", "wav", "pipe:1"],
                                        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         # set the player to non-blocking output:
