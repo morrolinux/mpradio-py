@@ -1,5 +1,6 @@
 import threading
 import bluetooth
+import ast
 
 
 class BtRemote:
@@ -41,8 +42,10 @@ class BtRemote:
                 continue
 
             if len(cmd) > 0:
-                cmd = cmd.decode().strip().split()  # .lower()
-                self.__msg["command"] = cmd
+                # cmd = cmd.decode().strip().split()  # .lower()
+                cmd = ast.literal_eval(cmd.decode())
+                self.__msg["command"] = cmd["command"].split()
+                self.__msg["data"] = cmd["data"]
                 self.__msg["source"] = "bluetooth"
                 print("bluetooth_remote received:", cmd)
                 self.__remote_event.set()
