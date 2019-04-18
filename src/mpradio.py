@@ -160,8 +160,8 @@ class Mpradio:
                     threading.Thread(target=self.player.play, args=(what,)).start()
                 elif self.remote_msg["command"][0] == "playlist":
                     with open("/pirateradio/playlist.json") as file:
-                        lib = json.load(file)
-                    print("library:", lib)
+                        lib = str(json.load(file))
+                        print("library:", lib)
                     self.bt_remote.reply(lib)
                 else:
                     print("unknown command received:", self.remote_msg["command"][0])
