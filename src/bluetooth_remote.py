@@ -48,6 +48,7 @@ class BtRemote:
 
         self.__client_socket.close()
         self.__server_socket.close()
+        bluetooth.stop_advertising(self.__server_socket)
 
     def reply(self, message):
         self.__client_socket.send(bytes(message+"\0", 'UTF-8'))
