@@ -34,7 +34,7 @@ class MediaScanner:
 
                     # Otherwise The application will crash if no id3 header is present
                     try:
-                        audio_id3 = EasyID3(tmp["path"])
+                        audio_id3 = EasyID3(r""+tmp["path"].replace("\\", ""))
                         for key in tmp:
                             if key in audio_id3 and len(audio_id3[key]) > 0:
                                 tmp[key] = audio_id3[key][0]
