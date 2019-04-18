@@ -51,7 +51,10 @@ class BtRemote:
         bluetooth.stop_advertising(self.__server_socket)
 
     def reply(self, message):
-        self.__client_socket.send(bytes(message+"\0", 'UTF-8'))
+        try:
+            self.__client_socket.send(bytes(message+"\0", 'UTF-8'))
+        except bluetooth.btcommon.BluetoothError:
+            pass
 
     def stop(self):
         self.__termination.set()
