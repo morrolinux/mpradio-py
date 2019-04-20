@@ -92,7 +92,7 @@ class StoragePlayer(Player):
             self.stream.kill()
 
         self.__rds_updater.set(song)
-        self.__tmp_stream = None
+        self._tmp_stream = None
         song_path = r"" + song["path"].replace("\\", "")
         self.stream = subprocess.Popen(["ffmpeg", "-i", song_path, "-ss", res, "-vn", "-f", "wav", "pipe:1"],
                                        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -111,8 +111,8 @@ class StoragePlayer(Player):
         self.silence()
 
     def resume(self):
-        if self.__tmp_stream is not None:
-            self.stream.stdout = self.__tmp_stream
+        if self._tmp_stream is not None:
+            self.stream.stdout = self._tmp_stream
         self.stream.send_signal(signal.SIGCONT)
         self.__timer.resume()
 
