@@ -15,7 +15,6 @@ from configuration import config
 class StoragePlayer(Player):
 
     stream = None
-    __tmp_stream = None
     __terminating = False
     __playlist = None
     __now_playing = None
@@ -107,14 +106,9 @@ class StoragePlayer(Player):
             time.sleep(0.02)
 
     def pause(self):
-        silence_time = 0.7
         self.__timer.pause()
-        self.__tmp_stream = self.stream.stdout
-        self.stream.stdout = subprocess.Popen(["sox", "-n", "-r", "48000", "-b", "16", "-c", "1", "-t", "wav", "-",
-                                               "trim", "0", str(silence_time)],
-                                              stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
         self.stream.send_signal(signal.SIGSTOP)
-        time.sleep(silence_time)
+        self.silence()
 
     def resume(self):
         if self.__tmp_stream is not None:
