@@ -50,7 +50,7 @@ class GpioRemote:
                     self.next()             # TODO: read what to do from ini settings
                 elif action == "01010":  # double click
                     fired = True
-                    self.pause()
+                    self.play_pause()
                 self.reset_s()
             elif up > 8:  # reset status and prepare for next click
                 self.reset_s()
