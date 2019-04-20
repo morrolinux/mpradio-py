@@ -43,16 +43,17 @@ class GpioRemote:
                 self.poweroff()
 
             # single and double click
-            if up in range(3, 8) and len(self.__s) > 2 and not fired:
+            if up in range(4, 8) and len(self.__s) > 2 and not fired:
                 action = "".join([str(b) for b in self.__s])
                 if action == "010":  # single click
                     fired = True
+                    self.reset_s()
                     self.next()             # TODO: read what to do from ini settings
                 elif action == "01010":  # double click
                     fired = True
+                    self.reset_s()
                     self.play_pause()
-                self.reset_s()
-            elif up > 8:  # reset status and prepare for next click
+            elif up > 10:  # reset status and prepare for next click
                 self.reset_s()
                 fired = False
 
