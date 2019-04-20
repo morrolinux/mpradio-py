@@ -1,6 +1,7 @@
 from output import Output
 import subprocess
 from configuration import config
+from subprocess import call
 import os
 
 
@@ -25,4 +26,4 @@ class FmOutput(Output):
                                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     def stop(self):
-        self.stream.kill()
+        call(["sudo", "killall", "pi_fm_adv"])

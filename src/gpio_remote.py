@@ -12,6 +12,7 @@ class GpioRemote:
     def __init__(self, event, msg):
         self.__event = event
         self.__msg = msg
+        self.__s = []
         self.reset_s()
 
     def __run(self):
@@ -71,7 +72,6 @@ class GpioRemote:
         pass
 
     def next(self):
-        print("push button pressed: next")
         self.__msg["command"] = ["next"]
         self.__msg["source"] = "gpio"
         self.__event.set()
