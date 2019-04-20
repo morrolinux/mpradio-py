@@ -8,6 +8,7 @@ class GpioRemote:
     __event = None
     __msg = None
     __s = None
+    __paused = False
 
     def __init__(self, event, msg):
         self.__event = event
@@ -65,11 +66,23 @@ class GpioRemote:
     def run(self):
         threading.Thread(target=self.__run).start()
 
+    def play_pause(self):
+        if self.__paused:
+            self.resume()
+        else:
+            self.pause()
+
     def resume(self):
-        pass
+        self.__paused = False
+        self.__msg["command"] = ["resume"]
+        self.__msg["source"] = "gpio"
+        self.__event.set()
 
     def pause(self):
-        pass
+        self.__paused = True
+        self.__msg["command"] = ["pause"]
+        self.__msg["source"] = "gpio"
+        self.__event.set()
 
     def next(self):
         self.__msg["command"] = ["next"]
@@ -77,7 +90,9 @@ class GpioRemote:
         self.__event.set()
 
     def previous(self):
-        pass
+        self.__msg["command"] = ["previous"]
+        self.__msg["source"] = "gpio"
+        self.__event.set()
 
     def poweroff(self):
         self.__msg["command"] = ["system", "poweroff"]
