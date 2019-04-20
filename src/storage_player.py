@@ -107,11 +107,10 @@ class StoragePlayer(Player):
             time.sleep(0.02)
 
     def pause(self):
-        pause_sound = config.get_sounds_folder()+config.get_stop_sound()
         self.__timer.pause()
         self.__tmp_stream = self.stream.stdout
-        self.stream.stdout = subprocess.Popen(["ffmpeg", "-i", pause_sound, "-vn", "-f", "wav", "pipe:1"],
-                                              stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
+        self.stream.stdout = subprocess.Popen(["sox", "-n", "-r", "48000", "-b", "16", "-c", "1", "-t", "wav", "-",
+                                               "trim", "0", "1"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
         self.stream.send_signal(signal.SIGSTOP)
 
     def resume(self):
@@ -121,6 +120,7 @@ class StoragePlayer(Player):
         self.__timer.resume()
 
     def next(self):
+        self.pause()
         self.stream.kill()
 
     def previous(self):
@@ -128,6 +128,7 @@ class StoragePlayer(Player):
         self.next()
 
     def repeat(self):
+        self.pause()
         self.__playlist.back()
 
     def fast_forward(self):
@@ -140,6 +141,7 @@ class StoragePlayer(Player):
     def stop(self):
         self.__terminating = True
         self.__timer.stop()
+        self.pause()
         self.stream.kill()
         self.__rds_updater.stop()
 
