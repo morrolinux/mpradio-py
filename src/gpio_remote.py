@@ -9,10 +9,12 @@ class GpioRemote:
     __msg = None
     __s = None
     __paused = False
+    __termination = None
 
     def __init__(self, event, msg):
         self.__event = event
         self.__msg = msg
+        self.__termination = threading.Event()
         self.__s = []
         self.reset_s()
 
@@ -23,7 +25,7 @@ class GpioRemote:
         up = 0
         fired = False
 
-        while True:
+        while not self.__termination.is_set():
             input_state = GPIO.input(18)
 
             if not input_state:  # button down
@@ -103,3 +105,6 @@ class GpioRemote:
     def reset_s(self):
         self.__s.clear()
         self.__s.append(0)
+
+    def stop(self):
+        self.__termination.set()

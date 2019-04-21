@@ -26,4 +26,4 @@ class FmOutput(Output):
                                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     def stop(self):
-        call(["sudo", "killall", "pi_fm_adv"])
+        call(["sudo", "kill", str(self.stream.pid)])

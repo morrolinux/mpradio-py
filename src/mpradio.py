@@ -27,7 +27,7 @@ class Mpradio:
     remote_msg = None
     media_control_methods = None
     media_info_methods = None
-    check_remotes_termination = None
+    remotes_termination = None
 
     player = None
     encoder = None
@@ -37,7 +37,7 @@ class Mpradio:
         signal.signal(signal.SIGUSR1, self.handler)
         signal.signal(signal.SIGINT, self.termination_handler)
         self.remote_msg = dict()
-        self.check_remotes_termination = threading.Event()
+        self.remotes_termination = threading.Event()
         self.remote_event = threading.Event()       # Event for signaling control thread(s) events to main thread
         self.reply_event = threading.Event()
         self.control_pipe = ControlPipe(self.remote_event, self.remote_msg)
@@ -64,9 +64,7 @@ class Mpradio:
 
     def termination_handler(self, signum, frame):
         print("stopping threads and clean termination...")
-        self.check_remotes_termination.set()
-        self.control_pipe.stop()
-        self.bt_remote.stop()
+        self.remotes_termination.set()
         self.player.stop()
         self.encoder.stop()
         self.output.stop()
@@ -116,7 +114,7 @@ class Mpradio:
                 data = self.player.stream.stdout.read(self.player.CHUNK)    # must be non-blocking
 
     def check_remotes(self):
-        while not self.check_remotes_termination.is_set():
+        while not self.remotes_termination.is_set():
             time.sleep(0.2)
             if self.remote_event.is_set():
                 self.remote_event.clear()
@@ -157,6 +155,12 @@ class Mpradio:
                 else:
                     print("unknown command received:", self.remote_msg["command"][0])
                 self.remote_msg.clear()    # clean for next usage
+
+        # Termination
+        self.control_pipe.stop()
+        self.bt_remote.stop()
+        if self.gpio_remote is not None:
+            self.gpio_remote.stop()
 
 
 if __name__ == "__main__":
