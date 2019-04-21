@@ -10,6 +10,7 @@ from rds import RdsUpdater
 import threading
 import json
 from configuration import config
+import ffmpeg
 
 
 class StoragePlayer(Player):
@@ -94,12 +95,18 @@ class StoragePlayer(Player):
         self.__rds_updater.set(song)
         self._tmp_stream = None
         song_path = r"" + song["path"].replace("\\", "")
-        self.stream = subprocess.Popen(["ffmpeg", "-i", song_path, "-ss", res, "-vn", "-f", "wav", "pipe:1"],
-                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
+        # self.stream = subprocess.Popen(["ffmpeg", "-i", song_path, "-ss", res, "-vn", "-f", "wav", "pipe:1"],
+        #                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         # set the player to non-blocking output:
-        flags = fcntl(self.stream.stdout, F_GETFL)  # get current stdout flags
-        fcntl(self.stream.stdout, F_SETFL, flags | O_NONBLOCK)
+        # flags = fcntl(self.stream.stdout, F_GETFL)  # get current stdout flags
+        # fcntl(self.stream.stdout, F_SETFL, flags | O_NONBLOCK)
+
+        # self.stream = ffmpeg.input(song_path).output('pipe:', format='wav')\
+        #     .run_async(pipe_stdout=True, pipe_stderr=True)
+
+        res = int(res)
+        self.stream = ffmpeg.input(song_path).output('pipe:', format='wav', ss=res)\
+            .run_async(pipe_stdout=True, pipe_stderr=True)
 
         # Wait until process terminates
         while self.stream.poll() is None:
@@ -117,7 +124,8 @@ class StoragePlayer(Player):
         self.__timer.resume()
 
     def next(self):
-        self.pause()
+        # self.pause()
+        self.silence()
         self.stream.kill()
 
     def previous(self):
