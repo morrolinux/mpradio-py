@@ -96,7 +96,7 @@ class StoragePlayer(Player):
         self._tmp_stream = None
         song_path = r"" + song["path"].replace("\\", "")
         res = int(res)
-        
+
         self.stream = ffmpeg.input(song_path).output('pipe:', format='wav', ss=res)\
             .run_async(pipe_stdout=True, pipe_stderr=True)
 
@@ -116,7 +116,6 @@ class StoragePlayer(Player):
         self.__timer.resume()
 
     def next(self):
-        # self.pause()
         self.silence()
         self.stream.kill()
 
