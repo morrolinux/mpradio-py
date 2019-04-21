@@ -47,7 +47,7 @@ class BtPlayer(Player):
         while self.stream.poll() is None:
             self.get_now_playing()
             self.__rds_updater.set(self.__now_playing)
-            time.sleep(5)
+            time.sleep(3)
 
     def get_now_playing(self):
         try:
