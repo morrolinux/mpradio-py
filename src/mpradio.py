@@ -118,45 +118,43 @@ class Mpradio:
             time.sleep(0.2)
             if self.remote_event.is_set():
                 self.remote_event.clear()
+                cmd = self.remote_msg["command"][0]
 
-                if self.remote_msg["command"][0] in self.media_control_methods:
-                    print("command received:", self.remote_msg["command"][0])
-                    exec("self.player."+self.remote_msg["command"][0]+"()")
-                elif self.remote_msg["command"][0] in self.media_info_methods:
-                    result = eval("self.player."+self.remote_msg["command"][0]+"()")
+                if cmd in self.media_control_methods:
+                    exec("self.player."+cmd+"()")
+                elif cmd in self.media_info_methods:
+                    result = eval("self.player."+cmd+"()")
                     if self.remote_msg["source"] == "bluetooth":
                         self.bt_remote.reply(result)
-                elif self.remote_msg["command"][0] == "bluetooth":
+                elif cmd == "bluetooth":
                     if self.remote_msg["command"][1] == "attach":
-                        self.player.pause()
                         self.player.stop()
                         self.player = BtPlayer(self.remote_msg["command"][2])
-                        threading.Thread(target=self.player.run).start()
+                        self.player.run()
                         print("bluetooth attached")
                     elif self.remote_msg["command"][1] == "detach":
                         self.player.stop()
                         self.player = StoragePlayer()
-                        threading.Thread(target=self.player.run).start()
+                        self.player.run()
                         print("bluetooth detached")
-                elif self.remote_msg["command"][0] == "system":
+                elif cmd == "system":
                     if self.remote_msg["command"][1] == "poweroff":
                         call(["sudo", "poweroff"])
                     elif self.remote_msg["command"][1] == "reboot":
                         call(["sudo", "reboot"])
-                elif self.remote_msg["command"][0] == "play":
+                elif cmd == "play":         # TODO: check weather it is a problem or not to call this method from here
                     what = json.loads(self.remote_msg["data"])
-                    # print("received play:", what)
-                    threading.Thread(target=self.player.play, args=(what,)).start()
-                elif self.remote_msg["command"][0] == "playlist":
-                    with open("/pirateradio/playlist.json") as file:
+                    threading.Thread(target=self.player.play, args=(what,)).start()     # TODO: remove thread here
+                elif cmd == "playlist":
+                    with open("/pirateradio/playlist.json") as file:        # TODO: implement in player
                         lib = str(json.load(file))
                         print("library:", lib)
                     self.bt_remote.reply(lib)
                 else:
-                    print("unknown command received:", self.remote_msg["command"][0])
+                    print("unknown command received:", cmd)
                 self.remote_msg.clear()    # clean for next usage
 
-        # Termination
+        # Remote checker termination
         self.control_pipe.stop()
         self.bt_remote.stop()
         if self.gpio_remote is not None:
