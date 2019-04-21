@@ -12,6 +12,7 @@ class RdsUpdater:
     __step = None
     __output = None
     __rds_ctl = None
+    __updated = False
 
     def __init__(self):
         self.__termination = threading.Event()
@@ -26,7 +27,9 @@ class RdsUpdater:
         self.__step = int(config.get_settings()["RDS"]["charsJump"])
 
     def set(self, song):
-        self.__song = song
+        if song != self.__song:
+            self.__song = song
+            self.__updated = True
 
     def write_rds_to_pipe(self, text):
         with open(self.__rds_ctl, "w") as f:
@@ -43,9 +46,12 @@ class RdsUpdater:
 
             for qg in self.q_gram(self.__song["title"]+" - "+self.__song["artist"]):
                 self.__output(qg)
-                time.sleep(self.__interval)
                 if self.__termination.is_set():
                     return
+                if self.__updated:
+                    self.__updated = False
+                    break
+                time.sleep(self.__interval)
 
     # print q-grams of the given title
     def q_gram(self, text):
