@@ -1,7 +1,5 @@
-import subprocess
 import signal
-from fcntl import fcntl, F_GETFL, F_SETFL
-from os import O_NONBLOCK, path
+from os import path
 import time
 from timer import Timer
 from player import Player
