@@ -6,8 +6,8 @@ import time
 
 class Player(MediaControl, MediaInfo):
 
-    CHUNK = 4096
-    SLEEP_TIME = 0.03
+    CHUNK = 2048
+    SLEEP_TIME = 0.05
     stream = None
     event = None    # TODO: maybe delete?
     _tmp_stream = None
