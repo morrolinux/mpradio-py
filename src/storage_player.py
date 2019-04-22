@@ -133,6 +133,7 @@ class StoragePlayer(Player):
 
     def stop(self):
         self.__terminating = True
+        self.silence()
         self.__timer.stop()
         self.stream.kill()
         self.__rds_updater.stop()
