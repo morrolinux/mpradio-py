@@ -118,7 +118,10 @@ class Mpradio:
             time.sleep(0.2)
             if self.remote_event.is_set():
                 self.remote_event.clear()
-                cmd = self.remote_msg["command"][0]
+                try:
+                    cmd = self.remote_msg["command"][0]
+                except KeyError:
+                    continue
 
                 if cmd in self.media_control_methods:
                     exec("self.player."+cmd+"()")
@@ -128,11 +131,15 @@ class Mpradio:
                         self.bt_remote.reply(result)
                 elif cmd == "bluetooth":
                     if self.remote_msg["command"][1] == "attach":
+                        if self.player.__class__.__name__ == "BtPlayer":
+                            continue
                         self.player.stop()
                         self.player = BtPlayer(self.remote_msg["command"][2])
                         self.player.run()
                         print("bluetooth attached")
                     elif self.remote_msg["command"][1] == "detach":
+                        if self.player.__class__.__name__ != "BtPlayer":
+                            continue
                         self.player.stop()
                         self.player = StoragePlayer()
                         self.player.run()
