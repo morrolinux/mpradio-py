@@ -36,3 +36,6 @@ class Timer:
 
     def get_time(self):
         return self.__time
+
+    def is_paused(self):
+        return self.__paused
