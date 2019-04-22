@@ -96,7 +96,7 @@ class StoragePlayer(Player):
         res = int(res)
 
         self.stream = ffmpeg.input(song_path).output('pipe:', format='wav', ss=res)\
-            .run(pipe_stdout=True, pipe_stderr=True)
+            .run_async(pipe_stdout=True, pipe_stderr=True)
 
         # Wait until process terminates
         while self.stream.poll() is None:
