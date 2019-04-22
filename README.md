@@ -35,4 +35,5 @@ Exclusively tested on Minimal Raspbian (ARM)
 
 # Installation
 `git clone https://github.com/morrolinux/mpradio-py.git mpradio`
+
 `cd mpradio/install && sudo bash install.sh`
