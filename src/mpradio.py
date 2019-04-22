@@ -128,11 +128,15 @@ class Mpradio:
                         self.bt_remote.reply(result)
                 elif cmd == "bluetooth":
                     if self.remote_msg["command"][1] == "attach":
+                        if self.player.__class__.__name__ == "BtPlayer":
+                            continue
                         self.player.stop()
                         self.player = BtPlayer(self.remote_msg["command"][2])
                         self.player.run()
                         print("bluetooth attached")
                     elif self.remote_msg["command"][1] == "detach":
+                        if self.player.__class__.__name__ != "BtPlayer":
+                            continue
                         self.player.stop()
                         self.player = StoragePlayer()
                         self.player.run()

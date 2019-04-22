@@ -7,13 +7,20 @@ function log {
 }
 BTMAC=${NAME//\"/}
 
-if [[ $ACTION == "remove" && $BTMAC != "" ]]
+if [[ $ACTION == "remove" ]]
 then
         log "Stop Bluetooth played connection " $BTMAC
 	echo "bluetooth detach" > /tmp/mpradio_bt
-elif [[ $ACTION == "add" && $BTMAC != "" ]]
+elif [[ $ACTION == "add" ]]
 then
-	log "Start Bluetooth played connection " $BTMAC
+	if [[ $BTMAC != "" ]]
+	then
+		log "Start Bluetooth played connection " $BTMAC
+	else
+		log "Start Bluetooth played connection " $BTMAC "via python script"
+		BTMAC=$(a2dp_connected.py)
+	fi
+
 	echo "bluetooth attach $BTMAC" > /tmp/mpradio_bt
 else
         log "Other action " $ACTION

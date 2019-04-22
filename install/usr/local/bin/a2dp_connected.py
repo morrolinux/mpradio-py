@@ -43,39 +43,15 @@ for path, interfaces in objects.items():
     if "org.bluez.Adapter1" not in interfaces.keys():
         continue
 
-    print("[ " + path + " ]")
-
-    properties = interfaces["org.bluez.Adapter1"]
-    for key in properties.keys():
-        value = properties[key]
-        if (key == "UUIDs"):
-            list = extract_uuids(value)
-            print("    %s = %s" % (key, list))
-        else:
-            print("    %s = %s" % (key, value))
-
     device_list = [d for d in all_devices if d.startswith(path + "/")]
 
     for dev_path in device_list:
-        print("    [ " + dev_path + " ]")
 
         dev = objects[dev_path]
         properties = dev["org.bluez.Device1"]
 
         for key in properties.keys():
             value = properties[key]
-            if (key == "UUIDs"):
-                list = extract_uuids(value)
-                print("        %s = %s" % (key, list))
-            elif (key == "Class"):
-                print("        %s = 0x%06x" % (key, value))
-            elif (key == "Vendor"):
-                print("        %s = 0x%04x" % (key, value))
-            elif (key == "Product"):
-                print("        %s = 0x%04x" % (key, value))
-            elif (key == "Version"):
-                print("        %s = 0x%04x" % (key, value))
-            else:
-                print("        %s = %s" % (key, value))
-
-    print("")
+            if key == "Connected":
+                if value == 1:
+                    print(properties["Address"])
