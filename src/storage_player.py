@@ -103,6 +103,8 @@ class StoragePlayer(Player):
             time.sleep(0.02)
 
     def pause(self):
+        if self.__timer.is_paused():
+            return
         self.__timer.pause()
         self.stream.send_signal(signal.SIGSTOP)
         self.silence()
