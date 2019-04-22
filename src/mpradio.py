@@ -118,7 +118,10 @@ class Mpradio:
             time.sleep(0.2)
             if self.remote_event.is_set():
                 self.remote_event.clear()
-                cmd = self.remote_msg["command"][0]
+                try:
+                    cmd = self.remote_msg["command"][0]
+                except KeyError:
+                    continue
 
                 if cmd in self.media_control_methods:
                     exec("self.player."+cmd+"()")
