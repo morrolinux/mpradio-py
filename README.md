@@ -34,5 +34,5 @@ Exclusively tested on Minimal Raspbian (ARM)
 - [ ] Automatically partition the sdcard for a dedicated mp3 storage space (instead of using a USB drive)
 
 # Installation
-
-`cd install && sudo bash install.sh`
+`git clone https://github.com/morrolinux/mpradio-py.git mpradio`
+`cd mpradio/install && sudo bash install.sh`
