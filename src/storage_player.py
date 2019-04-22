@@ -9,6 +9,9 @@ import threading
 import json
 from configuration import config
 import ffmpeg
+import av
+from av.container import OutputContainer
+import io
 
 
 class StoragePlayer(Player):
@@ -97,6 +100,47 @@ class StoragePlayer(Player):
 
         self.stream = ffmpeg.input(song_path).output('pipe:', format='wav', ss=res)\
             .run_async(pipe_stdout=True, pipe_stderr=True)
+        self.stream.send_signal(signal.SIGSTOP)
+
+        # input
+        container = av.open(song_path)
+        audio_stream = None
+        for i, stream in enumerate(container.streams):
+            if stream.type == 'audio':
+                audio_stream = stream
+                break
+        if not audio_stream:
+            exit()
+
+        print("past input file")
+
+        # file container for output:
+        out_container = av.open('/home/morro/Scrivania/a.aac', 'w') # TODO: pipe: sarà corretto?? # /home/morro/Scrivania/a.aac funziona
+
+        # audio_buffer = io.BytesIO()
+        # out_container = av.open(audio_buffer, 'w', 'mp3')
+        out_stream = out_container.add_stream(codec_name='aac', rate=44100)
+        for i, packet in enumerate(container.demux(audio_stream)):
+            for frame in packet.decode():
+                # print(float(frame.pts) / frame.time_base['den'])
+                out_pack = out_stream.encode(frame)
+                print(out_pack)
+                if out_pack:
+                    # print(out_pack.pts)
+                    out_container.mux(out_pack)
+            # exit and flushing
+            if i > 500:
+                while True:
+                    out_pack = out_stream.encode(None)
+                    if out_pack:
+                        # print(out_pack.pts)
+                        out_container.mux(out_pack)
+                    else:
+                        break
+                break
+        out_container.close()
+
+        print("finished.")
 
         # Wait until process terminates
         while self.stream.poll() is None:
