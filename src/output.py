@@ -6,7 +6,7 @@ class Output(ABC):
     stream = None
 
     @abstractmethod
-    def start(self):
+    def run(self):
         pass
 
     @abstractmethod

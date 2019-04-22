@@ -19,7 +19,7 @@ class FmOutput(Output):
         except FileExistsError:
             pass
 
-    def start(self):
+    def run(self):
         print("broadcasting on FM", self.__frequency)
         self.stream = subprocess.Popen(["sudo", "pi_fm_adv", "--freq", self.__frequency,
                                         "--ctl", self.__rds_ctl, "--audio", "-"],

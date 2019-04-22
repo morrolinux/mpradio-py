@@ -19,7 +19,6 @@ import json
 
 class Mpradio:
 
-    bt_daemon = None
     control_pipe = None
     bt_remote = None
     gpio_remote = None
@@ -42,11 +41,8 @@ class Mpradio:
         self.reply_event = threading.Event()
         self.control_pipe = ControlPipe(self.remote_event, self.remote_msg)
         self.bt_remote = BtRemote(self.remote_event, self.remote_msg)
-        # Bluetooth setup (only if a2dp is supported)
-        # if which("bluealsa") is not None:
-        #     self.bt_daemon = BluetoothDaemon()
 
-        # TODO: maybe refractor into player_methods end always eval()?
+        # TODO: maybe refractor into player_methods and always eval()?
         self.media_control_methods = [f for f in dir(MediaControl)
                                       if not f.startswith('_') and callable(getattr(MediaControl, f))]
         self.media_info_methods = [f for f in dir(MediaInfo)
@@ -71,12 +67,9 @@ class Mpradio:
         quit(0)
 
     def run(self):
-        # TODO: use some synchronization mechanism to ensure consistency player -> encoder -> output
         self.player.run()
         self.encoder.run()
-        self.output.start()
-
-        # TODO: start other control threads here (remotes) using the same event for all
+        self.output.run()
         self.bt_remote.run()
         self.control_pipe.listen()
         if platform.machine() != "x86_64":
@@ -155,8 +148,7 @@ class Mpradio:
                 elif cmd == "playlist":
                     with open("/pirateradio/playlist.json") as file:        # TODO: implement in player
                         lib = str(json.load(file))
-                        print("library:", lib)
-                    self.bt_remote.reply(lib)
+                        self.bt_remote.reply(lib)
                 else:
                     print("unknown command received:", cmd)
                 self.remote_msg.clear()    # clean for next usage
