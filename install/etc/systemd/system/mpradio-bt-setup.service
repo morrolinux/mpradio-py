@@ -1,6 +1,6 @@
 [Unit]
 Description=Mpradio bluetooth setup
-After=network.target
+After=bluetooth.target
 
 [Service]
 User=root
