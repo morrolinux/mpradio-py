@@ -113,11 +113,11 @@ class StoragePlayer(Player):
             exit()
 
         # file container for output:
-        # out_container = av.open('/home/morro/Scrivania/a.aac', 'w') # TODO: pipe: sarà corretto?? # /home/morro/Scrivania/a.aac funziona
+        out_container = av.open('/home/morro/Scrivania/a.wav', 'w') # TODO: pipe: sarà corretto?? # /home/morro/Scrivania/a.aac funziona
 
-        audio_buffer = io.BytesIO()
-        out_container = av.open(audio_buffer, 'w', 'wav')
-        out_stream = out_container.add_stream(codec_name='aac', rate=44100)
+        # audio_buffer = io.BytesIO()
+        # out_container = av.open(audio_buffer, 'w', 'wav')
+        out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
         for i, packet in enumerate(container.demux(audio_stream)):
             for frame in packet.decode():
                 # print(float(frame.pts) / frame.time_base['den'])
