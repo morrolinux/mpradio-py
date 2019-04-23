@@ -1,6 +1,6 @@
 [Unit]
 Description=Bluealsa audio server
-After=mpradio-bt-setup.service
+After=bluetooth.target, mpradio-bt-setup.service
 
 [Service]
 User=root
