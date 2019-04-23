@@ -60,6 +60,8 @@ class StoragePlayer(Player):
             self.__timer = Timer(song["position"])
         except TypeError:
             self.__timer = Timer()
+        except KeyError:
+            self.__timer = Timer()
 
     def run(self):
         threading.Thread(target=self.__run).start()
