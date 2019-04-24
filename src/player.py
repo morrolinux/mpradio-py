@@ -9,7 +9,6 @@ class Player(MediaControl, MediaInfo):
     CHUNK = 2048
     SLEEP_TIME = 0.035
     out = None
-    event = None    # TODO: maybe delete?
     _tmp_stream = None
 
     @abstractmethod

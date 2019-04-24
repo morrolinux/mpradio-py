@@ -1,4 +1,3 @@
-import signal
 from os import path
 import time
 from timer import Timer
@@ -15,7 +14,6 @@ from mp_io import MpradioIO
 
 class StoragePlayer(Player):
 
-    stream = None
     __terminating = False
     __playlist = None
     __now_playing = None
@@ -23,6 +21,7 @@ class StoragePlayer(Player):
     __resume_file = None
     __rds_updater = None
     __ready = False
+    __skip = False
     out = None
 
     def __init__(self):
@@ -114,13 +113,16 @@ class StoragePlayer(Player):
                 if out_pack:
                     out_container.mux(out_pack)
 
+            # set the player to ready after a short buffer is ready
+            if i == 10:
+                self.__ready = True
+
             # avoid CPU saturation on single-core systems
             if psutil.cpu_percent() > 90:
                 time.sleep(0.02)
 
-            # set the player to ready after a short buffer is ready
-            if i == 10:
-                self.__ready = True
+            if self.__skip:
+                break
 
             # exit and flushing
             # if i > 500:
@@ -138,6 +140,9 @@ class StoragePlayer(Player):
 
         # Wait until playback (buffer read) terminates
         while not self.out.is_read_completed():
+            if self.__skip:
+                self.__skip = False
+                return
             time.sleep(0.2)
 
     def pause(self):
@@ -152,8 +157,8 @@ class StoragePlayer(Player):
         self.__timer.resume()
 
     def next(self):
-        self.silence()
-        self.stream.kill()
+        self.__skip = True
+        # self.silence()
 
     def previous(self):
         self.__playlist.back(n=1)
@@ -173,7 +178,6 @@ class StoragePlayer(Player):
         self.__terminating = True
         self.silence()
         self.__timer.stop()
-        self.stream.kill()
         self.__rds_updater.stop()
 
     def song_name(self):
