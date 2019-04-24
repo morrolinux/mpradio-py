@@ -20,14 +20,18 @@ class StoragePlayer(Player):
     __timer = None
     __resume_file = None
     __rds_updater = None
-    __skip = False
+    __skip = None
+    __play_lock = None
     out = None
+    __out = None
 
     def __init__(self):
         super().__init__()
         self.__playlist = Playlist()
         self.__rds_updater = RdsUpdater()
         self.__resume_file = config.get_resume_file()
+        self.__skip = threading.Event()
+        self.__play_lock = threading.Lock()
 
     def playback_position(self):
         return self.__timer.get_time()
@@ -79,38 +83,47 @@ class StoragePlayer(Player):
                 return
 
     def play(self, song):
-        # print("player received:", song)
-        self.__now_playing = song
+        # tell other storage player thread to terminate; acquire lock; cleanup
+        self.__skip.set()
+        self.__play_lock.acquire()
+        self.__skip.clear()
+        self._tmp_stream = None
 
+        # get/set/resume song timer
         resume_time = song.get("position")
         if resume_time is None:
             resume_time = 0
             self.__timer.reset()
+        self.__timer.resume()
 
+        # update song name
+        self.__now_playing = song
         self.__rds_updater.set(song)
-        self._tmp_stream = None             # TODO: remove unneeded?
         song_path = r"" + song["path"].replace("\\", "")
 
-        # input file
+        # open input file
         try:
             container = av.open(song_path)
+            audio_stream = None
+            for i, stream in enumerate(container.streams):
+                if stream.type == 'audio':
+                    audio_stream = stream
+                    break
+            if not audio_stream:
+                self.__player_clean_termination()
+                return
         except av.AVError:
-            print("can't open file:", song_path, "skipping...")
+            print("Can't open file:", song_path, "skipping...")
+            self.__player_clean_termination()
             return
 
-        audio_stream = None
-        for i, stream in enumerate(container.streams):
-            if stream.type == 'audio':
-                audio_stream = stream
-                break
-        if not audio_stream:
-            return
-
-        # output stream
-        self.out = MpradioIO()   # TODO: replace with something more generic like "output"
-        out_container = av.open(self.out, 'w', 'wav')
+        # open output stream
+        self.__out = MpradioIO()
+        self.out = self.__out       # link for external access
+        out_container = av.open(self.__out, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
 
+        # transcode input to wav
         for i, packet in enumerate(container.demux(audio_stream)):
             try:
                 for frame in packet.decode():
@@ -119,11 +132,13 @@ class StoragePlayer(Player):
                     if out_pack:
                         out_container.mux(out_pack)
             except av.AVError:
-                print("error during playback for:", song_path)
+                print("Error during playback for:", song_path)
+                self.__player_clean_termination()
                 return
 
-            if self.__terminating:
-                return 
+            # stop transcoding if we receive skip or termination signal
+            if self.__terminating or self.__skip.is_set():
+                break
 
             # set the player to ready after a short buffer is ready
             if i == 10:
@@ -133,10 +148,7 @@ class StoragePlayer(Player):
             if psutil.cpu_percent() > 90:
                 time.sleep(0.02)
 
-            if self.__skip:
-                break
-
-        # exit and flushing
+        # transcoding terminated. Flush output stream
         while True:
             out_pack = out_stream.encode(None)
             if out_pack:
@@ -144,16 +156,26 @@ class StoragePlayer(Player):
             else:
                 break
 
+        # close output container and tell the buffer no more data is coming
         out_container.close()
-        self.out.set_write_completed()
-        print("transcode finished.")
+        self.__out.set_write_completed()
+        print("transcoding finished.")
 
-        # Wait until playback (buffer read) terminates
-        while not self.out.is_read_completed():
-            if self.__skip:
-                self.__skip = False
-                return
+        # wait until playback (buffer read) terminates; catch signals meanwhile
+        while not self.__out.is_read_completed():
+            if self.__skip.is_set():
+                self.__skip.clear()
+                break
+            if self.__terminating:
+                break
             time.sleep(0.2)
+
+        # clear flags and release locks
+        self.__player_clean_termination()
+
+    def __player_clean_termination(self):
+        self.__skip.clear()
+        self.__play_lock.release()
 
     def pause(self):
         if self.__timer.is_paused():
@@ -167,7 +189,7 @@ class StoragePlayer(Player):
         self.__timer.resume()
 
     def next(self):
-        self.__skip = True
+        self.__skip.set()
 
     def previous(self):
         self.__playlist.back(n=1)
