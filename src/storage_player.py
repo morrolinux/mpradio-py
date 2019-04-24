@@ -20,7 +20,6 @@ class StoragePlayer(Player):
     __timer = None
     __resume_file = None
     __rds_updater = None
-    __ready = False
     __skip = False
     out = None
 
@@ -111,7 +110,7 @@ class StoragePlayer(Player):
         self.out = MpradioIO()   # TODO: replace with something more generic like "output"
         out_container = av.open(self.out, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
-        
+
         for i, packet in enumerate(container.demux(audio_stream)):
             try:
                 for frame in packet.decode():
@@ -125,7 +124,7 @@ class StoragePlayer(Player):
 
             # set the player to ready after a short buffer is ready
             if i == 10:
-                self.__ready = True
+                self._ready = True
 
             # avoid CPU saturation on single-core systems
             if psutil.cpu_percent() > 90:
@@ -134,16 +133,14 @@ class StoragePlayer(Player):
             if self.__skip:
                 break
 
-            # exit and flushing
-            # if i > 500:
-            #     while True:
-            #         out_pack = out_stream.encode(None)
-            #         if out_pack:
-            #             # print(out_pack.pts)
-            #             out_container.mux(out_pack)
-            #         else:
-            #             break
-            #     break
+        # exit and flushing
+        while True:
+            out_pack = out_stream.encode(None)
+            if out_pack:
+                out_container.mux(out_pack)
+            else:
+                break
+
         out_container.close()
         self.out.set_write_completed()
         print("transcode finished.")
@@ -200,6 +197,3 @@ class StoragePlayer(Player):
 
     def song_album(self):
         return self.__now_playing["album"]
-
-    def is_ready(self):
-        return self.__ready

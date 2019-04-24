@@ -10,6 +10,7 @@ class Player(MediaControl, MediaInfo):
     SLEEP_TIME = 0.035
     out = None
     _tmp_stream = None
+    _ready = False
 
     @abstractmethod
     def playback_position(self):
@@ -21,3 +22,6 @@ class Player(MediaControl, MediaInfo):
                                                "trim", "0", str(silence_time)],
                                               stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
         time.sleep(silence_time)
+
+    def is_ready(self):
+        return self._ready
