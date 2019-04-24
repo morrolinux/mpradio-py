@@ -150,7 +150,9 @@ class Mpradio:
                         call(["sudo", "reboot"])
                 elif cmd == "play":         # TODO: check weather it is a problem or not to call this method from here
                     what = json.loads(self.remote_msg["data"])
-                    threading.Thread(target=self.player.play, args=(what,)).start()     # TODO: remove thread here
+                    # threading.Thread(target=self.player.play, args=(what,)).start()     # TODO: remove thread here
+                    self.player.play_on_demand(what)
+                    self.player.next()
                 elif cmd == "playlist":
                     with open("/pirateradio/playlist.json") as file:        # TODO: implement in player
                         lib = str(json.load(file))

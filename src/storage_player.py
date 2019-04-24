@@ -58,9 +58,7 @@ class StoragePlayer(Player):
             song = json.load(file)
 
         if song is not None:
-            self.__playlist.add(song)
-            self.__playlist.set_resuming()
-
+            self.play_on_demand(song)
         # resume the timer from previous state
         try:
             self.__timer = Timer(song["position"])
@@ -81,6 +79,10 @@ class StoragePlayer(Player):
             self.play(song)     # blocking
             if self.__terminating:
                 return
+
+    def play_on_demand(self, song):
+        self.__playlist.add(song)
+        self.__playlist.set_resuming()
 
     def play(self, song):
         # tell other storage player thread to terminate; acquire lock; cleanup
