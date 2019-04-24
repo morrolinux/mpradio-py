@@ -122,6 +122,9 @@ class StoragePlayer(Player):
                 print("error during playback for:", song_path)
                 return
 
+            if self.__terminating:
+                return 
+
             # set the player to ready after a short buffer is ready
             if i == 10:
                 self.ready.set()
