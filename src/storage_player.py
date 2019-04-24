@@ -124,7 +124,7 @@ class StoragePlayer(Player):
 
             # set the player to ready after a short buffer is ready
             if i == 10:
-                self._ready = True
+                self.ready.set()
 
             # avoid CPU saturation on single-core systems
             if psutil.cpu_percent() > 90:

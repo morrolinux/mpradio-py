@@ -2,6 +2,7 @@ from abc import abstractmethod
 from media import MediaInfo, MediaControl
 import subprocess
 import time
+import threading
 
 
 class Player(MediaControl, MediaInfo):
@@ -10,7 +11,10 @@ class Player(MediaControl, MediaInfo):
     SLEEP_TIME = 0.035
     out = None
     _tmp_stream = None
-    _ready = False
+    ready = None
+
+    def __init__(self):
+        self.ready = threading.Event()
 
     @abstractmethod
     def playback_position(self):
@@ -22,6 +26,3 @@ class Player(MediaControl, MediaInfo):
                                                "trim", "0", str(silence_time)],
                                               stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
         time.sleep(silence_time)
-
-    def is_ready(self):
-        return self._ready

@@ -37,11 +37,13 @@ class BtPlayer(Player):
         dev = "bluealsa:HCI=hci0,DEV="+self.__bt_addr
         self.stream = subprocess.Popen(["arecord", "-D", dev, "-f", "cd", "-c", "2"],
                                        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        self.out = self.stream.stdout
-        
+
         # set the player to non-blocking output:
-        # flags = fcntl(self.stream.stdout, F_GETFL)  # get current stdout flags
-        # fcntl(self.stream.stdout, F_SETFL, flags | O_NONBLOCK)
+        flags = fcntl(self.stream.stdout, F_GETFL)  # get current stdout flags
+        fcntl(self.stream.stdout, F_SETFL, flags | O_NONBLOCK)
+        self.out = self.stream.stdout
+
+        self.ready.set()
 
         self.__rds_updater.run()
 
