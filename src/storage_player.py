@@ -23,6 +23,8 @@ class StoragePlayer(Player):
     __timer = None
     __resume_file = None
     __rds_updater = None
+    __ready = False
+    out = None
 
     def __init__(self):
         super().__init__()
@@ -98,9 +100,9 @@ class StoragePlayer(Player):
         song_path = r"" + song["path"].replace("\\", "")
         res = int(res)
 
-        self.stream = ffmpeg.input(song_path).output('pipe:', format='wav', ss=res)\
-            .run_async(pipe_stdout=True, pipe_stderr=True)
-        self.stream.send_signal(signal.SIGSTOP)
+        # self.stream = ffmpeg.input(song_path).output('pipe:', format='wav', ss=res)\
+        #     .run_async(pipe_stdout=True, pipe_stderr=True)
+        # self.stream.send_signal(signal.SIGSTOP)
 
         # input
         container = av.open(song_path)
@@ -115,15 +117,19 @@ class StoragePlayer(Player):
         # file container for output:
         # out_container = av.open('/home/morro/Scrivania/a.wav', 'w')
 
-        self.stream.stdout = MpIO()   # TODO: replace with something more generic like "output"
-        out_container = av.open(self.stream.stdout, 'w', 'wav')
+        self.out = MpIO()   # TODO: replace with something more generic like "output"
+        out_container = av.open(self.out, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
         for i, packet in enumerate(container.demux(audio_stream)):
             for frame in packet.decode():
+                frame.pts = None
                 out_pack = out_stream.encode(frame)
                 if out_pack:
                     # print(out_pack.pts)
                     out_container.mux(out_pack)
+            if i == 10:
+                self.__ready = True
+
             # exit and flushing
             # if i > 500:
             #     while True:
@@ -141,8 +147,7 @@ class StoragePlayer(Player):
         # print("buffer:", self.stream.stdout.read())
 
         # Wait until process terminates
-        while self.stream.poll() is None:
-            time.sleep(0.02)
+        time.sleep(30)   # SLEEP 30 seconds
 
     def pause(self):
         if self.__timer.is_paused():
@@ -193,3 +198,6 @@ class StoragePlayer(Player):
 
     def song_album(self):
         return self.__now_playing["album"]
+
+    def is_ready(self):
+        return self.__ready

@@ -80,11 +80,12 @@ class Mpradio:
         threading.Thread(target=self.check_remotes).start()
 
         # wait for the player to spawn
-        while self.player.stream is None:
+        while not self.player.is_ready():
             time.sleep(0.2)
 
         # pre-buffer
-        data = self.player.stream.stdout.read(self.player.CHUNK)
+        data = self.player.out.read(self.player.CHUNK)
+        print("player is ready")
 
         # play stream
         while True:
@@ -103,8 +104,8 @@ class Mpradio:
             except AttributeError:
                 time.sleep(self.player.SLEEP_TIME)
             # advance the "play head"
-            if self.player.stream is not None:
-                data = self.player.stream.stdout.read(self.player.CHUNK)    # must be non-blocking
+            data = self.player.out.read(self.player.CHUNK)    # must be non-blocking
+            # print("advancing playhead...")
 
     def check_remotes(self):
         while not self.remotes_termination.is_set():
