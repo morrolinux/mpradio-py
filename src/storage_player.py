@@ -10,7 +10,7 @@ import json
 from configuration import config
 import ffmpeg
 import av
-from av.container import OutputContainer
+from mp_io import MpIO
 import io
 
 
@@ -115,7 +115,7 @@ class StoragePlayer(Player):
         # file container for output:
         # out_container = av.open('/home/morro/Scrivania/a.wav', 'w')
 
-        self.stream.stdout = io.BytesIO()   # TODO: replace with something more generic like "output"
+        self.stream.stdout = MpIO()   # TODO: replace with something more generic like "output"
         out_container = av.open(self.stream.stdout, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
         for i, packet in enumerate(container.demux(audio_stream)):
@@ -125,19 +125,19 @@ class StoragePlayer(Player):
                     # print(out_pack.pts)
                     out_container.mux(out_pack)
             # exit and flushing
-            if i > 500:
-                while True:
-                    out_pack = out_stream.encode(None)
-                    if out_pack:
-                        # print(out_pack.pts)
-                        out_container.mux(out_pack)
-                    else:
-                        break
-                break
+            # if i > 500:
+            #     while True:
+            #         out_pack = out_stream.encode(None)
+            #         if out_pack:
+            #             # print(out_pack.pts)
+            #             out_container.mux(out_pack)
+            #         else:
+            #             break
+            #     break
         out_container.close()
 
         print("finished.")
-        self.stream.stdout.seek(0)  # IMPORTANT: position the playhead at data start
+        # self.stream.stdout.seek(0)  # IMPORTANT: position the playhead at data start
         # print("buffer:", self.stream.stdout.read())
 
         # Wait until process terminates
