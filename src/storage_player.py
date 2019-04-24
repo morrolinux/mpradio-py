@@ -93,7 +93,12 @@ class StoragePlayer(Player):
         song_path = r"" + song["path"].replace("\\", "")
 
         # input file
-        container = av.open(song_path)
+        try:
+            container = av.open(song_path)
+        except av.AVError:
+            print("can't open file:", song_path, "skipping...")
+            return
+        
         audio_stream = None
         for i, stream in enumerate(container.streams):
             if stream.type == 'audio':
@@ -158,7 +163,6 @@ class StoragePlayer(Player):
 
     def next(self):
         self.__skip = True
-        # self.silence()
 
     def previous(self):
         self.__playlist.back(n=1)
