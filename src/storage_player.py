@@ -22,6 +22,7 @@ class StoragePlayer(Player):
     __rds_updater = None
     __skip = None
     __play_lock = None
+    __play_on_demand = None
     out = None
     __out = None
 
@@ -32,6 +33,7 @@ class StoragePlayer(Player):
         self.__resume_file = config.get_resume_file()
         self.__skip = threading.Event()
         self.__play_lock = threading.Lock()
+        self.__player_free = threading.Event()
 
     def playback_position(self):
         return self.__timer.get_time()
@@ -77,7 +79,7 @@ class StoragePlayer(Player):
         self.__update_playback_position()
 
         for song in self.__playlist:
-            print("storage_player playing:", song["path"])
+            self.__player_free.wait()
             self.play(song)     # blocking
             if self.__terminating:
                 return
@@ -87,6 +89,7 @@ class StoragePlayer(Player):
         self.__skip.set()
         self.__play_lock.acquire()
         self.__skip.clear()
+        self.__player_free.clear()
         self._tmp_stream = None
 
         # get/set/resume song timer
@@ -99,7 +102,8 @@ class StoragePlayer(Player):
         # update song name
         self.__now_playing = song
         self.__rds_updater.set(song)
-        song_path = r"" + song["path"].replace("\\", "")
+        song_path = r"" + song["path"].replace("\\\\", "").replace("\\", "")
+        print("storage_player playing:", song_path)
 
         # open input file
         try:
@@ -176,6 +180,7 @@ class StoragePlayer(Player):
     def __player_clean_termination(self):
         self.__skip.clear()
         self.__play_lock.release()
+        self.__player_free.set()
 
     def pause(self):
         if self.__timer.is_paused():
