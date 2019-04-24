@@ -98,7 +98,7 @@ class StoragePlayer(Player):
         except av.AVError:
             print("can't open file:", song_path, "skipping...")
             return
-        
+
         audio_stream = None
         for i, stream in enumerate(container.streams):
             if stream.type == 'audio':
@@ -111,12 +111,17 @@ class StoragePlayer(Player):
         self.out = MpradioIO()   # TODO: replace with something more generic like "output"
         out_container = av.open(self.out, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
+        
         for i, packet in enumerate(container.demux(audio_stream)):
-            for frame in packet.decode():
-                frame.pts = None
-                out_pack = out_stream.encode(frame)
-                if out_pack:
-                    out_container.mux(out_pack)
+            try:
+                for frame in packet.decode():
+                    frame.pts = None
+                    out_pack = out_stream.encode(frame)
+                    if out_pack:
+                        out_container.mux(out_pack)
+            except av.AVError:
+                print("error during playback for:", song_path)
+                return
 
             # set the player to ready after a short buffer is ready
             if i == 10:
