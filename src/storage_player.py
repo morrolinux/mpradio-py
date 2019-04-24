@@ -8,10 +8,9 @@ from rds import RdsUpdater
 import threading
 import json
 from configuration import config
-import ffmpeg
+import psutil
 import av
-from mp_io import MpIO
-import io
+from mp_io import MpradioIO
 
 
 class StoragePlayer(Player):
@@ -86,25 +85,15 @@ class StoragePlayer(Player):
         self.__now_playing = song
 
         resume_time = song.get("position")
-        if resume_time is not None:
-            res = str(resume_time)
-        else:
-            res = "0"
+        if resume_time is None:
+            resume_time = 0
             self.__timer.reset()
-        # cleanup
-        if self.stream is not None:
-            self.stream.kill()
 
         self.__rds_updater.set(song)
-        self._tmp_stream = None
+        self._tmp_stream = None             # TODO: remove unneeded?
         song_path = r"" + song["path"].replace("\\", "")
-        res = int(res)
 
-        # self.stream = ffmpeg.input(song_path).output('pipe:', format='wav', ss=res)\
-        #     .run_async(pipe_stdout=True, pipe_stderr=True)
-        # self.stream.send_signal(signal.SIGSTOP)
-
-        # input
+        # input file
         container = av.open(song_path)
         audio_stream = None
         for i, stream in enumerate(container.streams):
@@ -112,12 +101,10 @@ class StoragePlayer(Player):
                 audio_stream = stream
                 break
         if not audio_stream:
-            exit()
+            return
 
-        # file container for output:
-        # out_container = av.open('/home/morro/Scrivania/a.wav', 'w')
-
-        self.out = MpIO()   # TODO: replace with something more generic like "output"
+        # output stream
+        self.out = MpradioIO()   # TODO: replace with something more generic like "output"
         out_container = av.open(self.out, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
         for i, packet in enumerate(container.demux(audio_stream)):
@@ -125,8 +112,13 @@ class StoragePlayer(Player):
                 frame.pts = None
                 out_pack = out_stream.encode(frame)
                 if out_pack:
-                    # print(out_pack.pts)
                     out_container.mux(out_pack)
+
+            # avoid CPU saturation on single-core systems
+            if psutil.cpu_percent() > 90:
+                time.sleep(0.02)
+
+            # set the player to ready after a short buffer is ready
             if i == 10:
                 self.__ready = True
 
@@ -141,25 +133,22 @@ class StoragePlayer(Player):
             #             break
             #     break
         out_container.close()
+        self.out.set_write_completed()
+        print("transcode finished.")
 
-        print("finished.")
-        # self.stream.stdout.seek(0)  # IMPORTANT: position the playhead at data start
-        # print("buffer:", self.stream.stdout.read())
-
-        # Wait until process terminates
-        time.sleep(30)   # SLEEP 30 seconds
+        # Wait until playback (buffer read) terminates
+        while not self.out.is_read_completed():
+            time.sleep(0.2)
 
     def pause(self):
         if self.__timer.is_paused():
             return
         self.__timer.pause()
-        self.stream.send_signal(signal.SIGSTOP)
         self.silence()
 
     def resume(self):
         if self._tmp_stream is not None:
-            self.stream.stdout = self._tmp_stream
-        self.stream.send_signal(signal.SIGCONT)
+            self.out = self._tmp_stream
         self.__timer.resume()
 
     def next(self):
