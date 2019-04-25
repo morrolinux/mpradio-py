@@ -80,8 +80,12 @@ class StoragePlayer(Player):
                 return
 
     def play_on_demand(self, song):
+        self.enqueue(song)
+        self.next()
+
+    def enqueue(self, song):
         self.__playlist.add(song)
-        self.__playlist.set_resuming()
+        self.__playlist.set_noshuffle()
 
     def play(self, song):
         # tell other storage player thread to terminate; acquire lock; cleanup

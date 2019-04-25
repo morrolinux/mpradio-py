@@ -132,7 +132,6 @@ class Mpradio:
                         tmp.ready.wait()
                         self.player.stop()
                         self.player = tmp
-                        # self.player.run()
                         print("bluetooth attached")
                     elif self.remote_msg["command"][1] == "detach":
                         if self.player.__class__.__name__ != "BtPlayer":
@@ -148,11 +147,11 @@ class Mpradio:
                         call(["sudo", "poweroff"])
                     elif self.remote_msg["command"][1] == "reboot":
                         call(["sudo", "reboot"])
-                elif cmd == "play":         # TODO: check weather it is a problem or not to call this method from here
+                elif cmd == "play":
+                    if self.player.__class__.__name__ != "StoragePlayer":
+                        continue
                     what = json.loads(self.remote_msg["data"])
-                    # threading.Thread(target=self.player.play, args=(what,)).start()     # TODO: remove thread here
                     self.player.play_on_demand(what)
-                    self.player.next()
                 elif cmd == "playlist":
                     with open("/pirateradio/playlist.json") as file:        # TODO: implement in player
                         lib = str(json.load(file))
