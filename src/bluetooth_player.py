@@ -41,7 +41,7 @@ class BtPlayer(Player):
         # set the player to non-blocking output:
         flags = fcntl(self.stream.stdout, F_GETFL)  # get current stdout flags
         fcntl(self.stream.stdout, F_SETFL, flags | O_NONBLOCK)
-        self.out = self.stream.stdout
+        self.output_stream = self.stream.stdout
 
         self.ready.set()
 

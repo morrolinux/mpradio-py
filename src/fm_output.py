@@ -24,6 +24,8 @@ class FmOutput(Output):
         self.stream = subprocess.Popen(["sudo", "pi_fm_adv", "--freq", self.__frequency,
                                         "--ctl", self.__rds_ctl, "--audio", "-"],
                                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        self.input_stream = self.stream.stdin
+        self.output_stream = self.stream.stdout
 
     def stop(self):
         call(["sudo", "kill", str(self.stream.pid)])

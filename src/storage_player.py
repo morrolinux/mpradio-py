@@ -22,7 +22,6 @@ class StoragePlayer(Player):
     __rds_updater = None
     __skip = None
     __play_lock = None
-    out = None
     __out = None
 
     def __init__(self):
@@ -121,7 +120,7 @@ class StoragePlayer(Player):
 
         # open output stream
         self.__out = MpradioIO()
-        self.out = self.__out       # link for external access
+        self.output_stream = self.__out       # link for external access
         out_container = av.open(self.__out, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
 
@@ -187,7 +186,7 @@ class StoragePlayer(Player):
 
     def resume(self):
         if self._tmp_stream is not None:
-            self.out = self._tmp_stream
+            self.output_stream = self._tmp_stream
         self.__timer.resume()
 
     def next(self):

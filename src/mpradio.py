@@ -84,27 +84,27 @@ class Mpradio:
         self.player.ready.wait()
 
         # pre-buffer
-        data = self.player.out.read(self.player.CHUNK)
+        data = self.player.output_stream.read(self.player.CHUNK)
         print("player is ready")
 
         # play stream
         while True:
             try:
                 if data is not None:
-                    self.encoder.stream.stdin.write(data)
+                    self.encoder.input_stream.write(data)           # TODO: synchronization lock/barrier needed?
                 else:                                               # avoid 100% CPU when player is paused
                     # print("waiting for player data")
                     raise AttributeError
-                encoded = self.encoder.stream.stdout.read(self.player.CHUNK)    # must be non-blocking
+                encoded = self.encoder.output_stream.read(self.player.CHUNK)    # must be non-blocking
                 if encoded is not None:                             # send the encoded data to output, if any
-                    self.output.stream.stdin.write(encoded)
+                    self.output.input_stream.write(encoded)
                 else:
                     # print("waiting for encoder data")
                     raise AttributeError
             except AttributeError:
                 time.sleep(self.player.SLEEP_TIME)
             # advance the "play head"
-            data = self.player.out.read(self.player.CHUNK)    # must be non-blocking
+            data = self.player.output_stream.read(self.player.CHUNK)    # must be non-blocking
             # print("advancing playhead...")
 
     def check_remotes(self):
