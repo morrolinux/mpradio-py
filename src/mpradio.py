@@ -33,6 +33,7 @@ class Mpradio:
     output = None
 
     def __init__(self):
+        super().__init__()
         signal.signal(signal.SIGUSR1, self.handler)
         signal.signal(signal.SIGINT, self.termination_handler)
         self.remote_msg = dict()
@@ -80,31 +81,31 @@ class Mpradio:
         threading.Thread(target=self.check_remotes).start()
 
         # wait for the player to spawn
-        while self.player.stream is None:
-            time.sleep(0.2)
+        self.player.ready.wait()
 
         # pre-buffer
-        data = self.player.stream.stdout.read(self.player.CHUNK)
+        data = self.player.output_stream.read(self.player.CHUNK)
+        print("player is ready")
 
         # play stream
         while True:
             try:
                 if data is not None:
-                    self.encoder.stream.stdin.write(data)
+                    self.encoder.input_stream.write(data)           # TODO: synchronization lock/barrier needed?
                 else:                                               # avoid 100% CPU when player is paused
                     # print("waiting for player data")
                     raise AttributeError
-                encoded = self.encoder.stream.stdout.read(self.player.CHUNK)    # must be non-blocking
+                encoded = self.encoder.output_stream.read(self.player.CHUNK)    # must be non-blocking
                 if encoded is not None:                             # send the encoded data to output, if any
-                    self.output.stream.stdin.write(encoded)
+                    self.output.input_stream.write(encoded)
                 else:
                     # print("waiting for encoder data")
                     raise AttributeError
             except AttributeError:
                 time.sleep(self.player.SLEEP_TIME)
             # advance the "play head"
-            if self.player.stream is not None:
-                data = self.player.stream.stdout.read(self.player.CHUNK)    # must be non-blocking
+            data = self.player.output_stream.read(self.player.CHUNK)    # must be non-blocking
+            # print("advancing playhead...")
 
     def check_remotes(self):
         while not self.remotes_termination.is_set():
@@ -126,25 +127,31 @@ class Mpradio:
                     if self.remote_msg["command"][1] == "attach":
                         if self.player.__class__.__name__ == "BtPlayer":
                             continue
+                        tmp = BtPlayer(self.remote_msg["command"][2])
+                        tmp.run()
+                        tmp.ready.wait()
                         self.player.stop()
-                        self.player = BtPlayer(self.remote_msg["command"][2])
-                        self.player.run()
+                        self.player = tmp
                         print("bluetooth attached")
                     elif self.remote_msg["command"][1] == "detach":
                         if self.player.__class__.__name__ != "BtPlayer":
                             continue
+                        tmp = StoragePlayer()
+                        tmp.run()
+                        tmp.ready.wait()
                         self.player.stop()
-                        self.player = StoragePlayer()
-                        self.player.run()
+                        self.player = tmp
                         print("bluetooth detached")
                 elif cmd == "system":
                     if self.remote_msg["command"][1] == "poweroff":
                         call(["sudo", "poweroff"])
                     elif self.remote_msg["command"][1] == "reboot":
                         call(["sudo", "reboot"])
-                elif cmd == "play":         # TODO: check weather it is a problem or not to call this method from here
+                elif cmd == "play":
+                    if self.player.__class__.__name__ != "StoragePlayer":
+                        continue
                     what = json.loads(self.remote_msg["data"])
-                    threading.Thread(target=self.player.play, args=(what,)).start()     # TODO: remove thread here
+                    self.player.play_on_demand(what)
                 elif cmd == "playlist":
                     with open("/pirateradio/playlist.json") as file:        # TODO: implement in player
                         lib = str(json.load(file))

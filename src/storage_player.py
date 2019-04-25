@@ -1,4 +1,3 @@
-import signal
 from os import path
 import time
 from timer import Timer
@@ -8,24 +7,28 @@ from rds import RdsUpdater
 import threading
 import json
 from configuration import config
-import ffmpeg
+import psutil
+import av
+from mp_io import MpradioIO
 
 
 class StoragePlayer(Player):
 
-    stream = None
     __terminating = False
     __playlist = None
     __now_playing = None
     __timer = None
     __resume_file = None
     __rds_updater = None
+    __skip = None
+    __out = None
 
     def __init__(self):
         super().__init__()
         self.__playlist = Playlist()
         self.__rds_updater = RdsUpdater()
         self.__resume_file = config.get_resume_file()
+        self.__skip = threading.Event()
 
     def playback_position(self):
         return self.__timer.get_time()
@@ -52,13 +55,13 @@ class StoragePlayer(Player):
             song = json.load(file)
 
         if song is not None:
-            self.__playlist.add(song)
-            self.__playlist.set_resuming()
-
-        # resume the timer from previous state
-        try:
-            self.__timer = Timer(song["position"])
-        except TypeError:
+            # resume the timer from previous state
+            try:
+                self.__timer = Timer(song["position"])
+                self.enqueue(song)
+            except TypeError:
+                self.__timer = Timer()
+        else:
             self.__timer = Timer()
         except KeyError:
             self.__timer = Timer()
@@ -78,48 +81,123 @@ class StoragePlayer(Player):
             if self.__terminating:
                 return
 
+    def play_on_demand(self, song):
+        self.enqueue(song)
+        self.next()
+
+    def enqueue(self, song):
+        self.__playlist.add(song)
+        self.__playlist.set_noshuffle()
+
     def play(self, song):
-        # print("player received:", song)
-        self.__now_playing = song
-
-        resume_time = song.get("position")
-        if resume_time is not None:
-            res = str(resume_time)
-        else:
-            res = "0"
-            self.__timer.reset()
-        # cleanup
-        if self.stream is not None:
-            self.stream.kill()
-
-        self.__rds_updater.set(song)
         self._tmp_stream = None
+
+        # get/set/resume song timer
+        resume_time = song.get("position")
+        if resume_time is None:
+            resume_time = 0
+            self.__timer.reset()
+        self.__timer.resume()
+
+        # update song name
+        self.__now_playing = song
+        self.__rds_updater.set(song)
         song_path = r"" + song["path"].replace("\\", "")
-        res = int(res)
 
-        self.stream = ffmpeg.input(song_path).output('pipe:', format='wav', ss=res)\
-            .run_async(pipe_stdout=True, pipe_stderr=True)
+        # open input file
+        try:
+            input_container = av.open(song_path)
+            audio_stream = None
+            for i, stream in enumerate(input_container.streams):
+                if stream.type == 'audio':
+                    audio_stream = stream
+                    break
+            if not audio_stream:
+                return
+        except av.AVError:
+            print("Can't open file:", song_path, "skipping...")
+            return
 
-        # Wait until process terminates
-        while self.stream.poll() is None:
-            time.sleep(0.02)
+        # open output stream
+        self.__out = MpradioIO()
+        self.output_stream = self.__out       # link for external access
+        out_container = av.open(self.__out, 'w', 'wav')
+        out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
+
+        # calculate initial seek
+        time_unit = input_container.size/int(input_container.duration/1000000)
+        seek_point = time_unit * resume_time
+
+        # transcode input to wav
+        for i, packet in enumerate(input_container.demux(audio_stream)):
+            # seek to the point
+            try:
+                if packet.pos < seek_point:
+                    continue
+            except TypeError:
+                pass
+
+            try:
+                for frame in packet.decode():
+                    frame.pts = None
+                    out_pack = out_stream.encode(frame)
+                    if out_pack:
+                        out_container.mux(out_pack)
+            except av.AVError:
+                print("Error during playback for:", song_path)
+                return
+
+            # stop transcoding if we receive skip or termination signal
+            if self.__terminating or self.__skip.is_set():
+                break
+
+            # set the player to ready after a short buffer is ready
+            if not self.ready.is_set():
+                try:
+                    if packet.pos > resume_time + time_unit*2:
+                        self.ready.set()
+                except TypeError:
+                    pass
+
+            # avoid CPU saturation on single-core systems
+            if psutil.cpu_percent() > 90:
+                time.sleep(0.02)
+
+        # transcoding terminated. Flush output stream
+        while True:
+            out_pack = out_stream.encode(None)
+            if out_pack:
+                out_container.mux(out_pack)
+            else:
+                break
+
+        # close output container and tell the buffer no more data is coming
+        out_container.close()
+        self.__out.set_write_completed()
+        print("transcoding finished.")
+
+        # wait until playback (buffer read) terminates; catch signals meanwhile
+        while not self.__out.is_read_completed():
+            if self.__skip.is_set():
+                self.__skip.clear()
+                break
+            if self.__terminating:
+                break
+            time.sleep(0.2)
 
     def pause(self):
         if self.__timer.is_paused():
             return
         self.__timer.pause()
-        self.stream.send_signal(signal.SIGSTOP)
         self.silence()
 
     def resume(self):
         if self._tmp_stream is not None:
-            self.stream.stdout = self._tmp_stream
-        self.stream.send_signal(signal.SIGCONT)
+            self.output_stream = self._tmp_stream
         self.__timer.resume()
 
     def next(self):
-        self.silence()
-        self.stream.kill()
+        self.__skip.set()
 
     def previous(self):
         self.__playlist.back(n=1)
@@ -139,7 +217,6 @@ class StoragePlayer(Player):
         self.__terminating = True
         self.silence()
         self.__timer.stop()
-        self.stream.kill()
         self.__rds_updater.stop()
 
     def song_name(self):

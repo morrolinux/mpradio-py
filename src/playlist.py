@@ -12,7 +12,7 @@ class Playlist:
     __current = None
     __ms = None
     __playlist_file = None
-    __resuming = False
+    __noshuffle = False
 
     def __init__(self):
         self.__playlist_file = config.get_playlist_file()
@@ -31,9 +31,9 @@ class Playlist:
             idx = len(self.__queued) - 1
             # pop a random song according to settings.
             # Unless another song must be resumed from previous boot
-            if config.get_settings()["PLAYLIST"]["shuffle"] == "true" and not self.__resuming:
+            if config.get_settings()["PLAYLIST"]["shuffle"] == "true" and not self.__noshuffle:
                 idx = randint(0, len(self.__queued) - 1)
-            self.__resuming = False
+            self.__noshuffle = False
             self.__current = self.__queued.pop(idx)
             self.__played.append(self.__current)
         else:
@@ -76,5 +76,5 @@ class Playlist:
     def add(self, song):
         self.__queued.append(song)
 
-    def set_resuming(self):
-        self.__resuming = True
+    def set_noshuffle(self):
+        self.__noshuffle = True
