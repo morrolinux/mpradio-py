@@ -61,9 +61,9 @@ class StoragePlayer(Player):
                 self.enqueue(song)
             except TypeError:
                 self.__timer = Timer()
+            except KeyError:
+                self.__timer = Timer()
         else:
-            self.__timer = Timer()
-        except KeyError:
             self.__timer = Timer()
 
     def run(self):
