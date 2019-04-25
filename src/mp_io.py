@@ -30,7 +30,7 @@ class MpradioIO(io.BytesIO):
         self.__write_completed = True
 
     def is_read_completed(self):
-        if self.__size == self.__last_r and self.__write_completed:
+        if self.__size > 0 and self.__size == self.__last_r and self.__write_completed:
             return True
         else:
             return False

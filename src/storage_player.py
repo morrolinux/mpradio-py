@@ -58,9 +58,9 @@ class StoragePlayer(Player):
             # resume the timer from previous state
             try:
                 self.__timer = Timer(song["position"])
+                self.enqueue(song)
             except TypeError:
                 self.__timer = Timer()
-            self.play_on_demand(song)
         else:
             self.__timer = Timer()
 
