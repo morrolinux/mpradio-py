@@ -21,7 +21,6 @@ class StoragePlayer(Player):
     __resume_file = None
     __rds_updater = None
     __skip = None
-    __play_lock = None
     __out = None
 
     def __init__(self):
@@ -30,7 +29,6 @@ class StoragePlayer(Player):
         self.__rds_updater = RdsUpdater()
         self.__resume_file = config.get_resume_file()
         self.__skip = threading.Event()
-        self.__play_lock = threading.Lock()
 
     def playback_position(self):
         return self.__timer.get_time()
@@ -88,10 +86,6 @@ class StoragePlayer(Player):
         self.__playlist.set_noshuffle()
 
     def play(self, song):
-        # tell other storage player thread to terminate; acquire lock; cleanup
-        self.__skip.set()
-        self.__play_lock.acquire()
-        self.__skip.clear()
         self._tmp_stream = None
 
         # get/set/resume song timer
@@ -115,11 +109,9 @@ class StoragePlayer(Player):
                     audio_stream = stream
                     break
             if not audio_stream:
-                self.__player_clean_termination()
                 return
         except av.AVError:
             print("Can't open file:", song_path, "skipping...")
-            self.__player_clean_termination()
             return
 
         # open output stream
@@ -149,7 +141,6 @@ class StoragePlayer(Player):
                         out_container.mux(out_pack)
             except av.AVError:
                 print("Error during playback for:", song_path)
-                self.__player_clean_termination()
                 return
 
             # stop transcoding if we receive skip or termination signal
@@ -189,13 +180,6 @@ class StoragePlayer(Player):
             if self.__terminating:
                 break
             time.sleep(0.2)
-
-        # clear flags and release locks
-        self.__player_clean_termination()
-
-    def __player_clean_termination(self):
-        self.__skip.clear()
-        self.__play_lock.release()
 
     def pause(self):
         if self.__timer.is_paused():
