@@ -104,9 +104,9 @@ class StoragePlayer(Player):
 
         # open input file
         try:
-            container = av.open(song_path)
+            input_container = av.open(song_path)
             audio_stream = None
-            for i, stream in enumerate(container.streams):
+            for i, stream in enumerate(input_container.streams):
                 if stream.type == 'audio':
                     audio_stream = stream
                     break
@@ -124,8 +124,19 @@ class StoragePlayer(Player):
         out_container = av.open(self.__out, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
 
+        # calculate initial seek
+        time_unit = input_container.size/int(input_container.duration/1000000)
+        seek_point = time_unit * resume_time
+
         # transcode input to wav
-        for i, packet in enumerate(container.demux(audio_stream)):
+        for i, packet in enumerate(input_container.demux(audio_stream)):
+            # seek to the point
+            try:
+                if packet.pos < seek_point:
+                    continue
+            except TypeError:
+                pass
+
             try:
                 for frame in packet.decode():
                     frame.pts = None
@@ -142,8 +153,12 @@ class StoragePlayer(Player):
                 break
 
             # set the player to ready after a short buffer is ready
-            if i == 10:
-                self.ready.set()
+            if not self.ready.is_set():
+                try:
+                    if packet.pos > resume_time + time_unit*2:
+                        self.ready.set()
+                except TypeError:
+                    pass
 
             # avoid CPU saturation on single-core systems
             if psutil.cpu_percent() > 90:
