@@ -55,11 +55,13 @@ class StoragePlayer(Player):
             song = json.load(file)
 
         if song is not None:
+            # resume the timer from previous state
+            try:
+                self.__timer = Timer(song["position"])
+            except TypeError:
+                self.__timer = Timer()
             self.play_on_demand(song)
-        # resume the timer from previous state
-        try:
-            self.__timer = Timer(song["position"])
-        except TypeError:
+        else:
             self.__timer = Timer()
 
     def run(self):
