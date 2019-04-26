@@ -51,8 +51,12 @@ class StoragePlayer(Player):
             self.__timer = Timer()
             return
 
-        with open(self.__resume_file) as file:
-            song = json.load(file)
+        try:
+            with open(self.__resume_file) as file:
+                song = json.load(file)
+        except json.decoder.JSONDecodeError:
+            self.__timer = Timer()
+            return
 
         if song is not None:
             # resume the timer from previous state
