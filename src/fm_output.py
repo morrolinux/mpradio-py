@@ -29,3 +29,8 @@ class FmOutput(Output):
 
     def stop(self):
         call(["sudo", "kill", str(self.stream.pid)])
+
+    def reload(self):
+        self.stop()
+        self.__init__()
+        self.run()
