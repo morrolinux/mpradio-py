@@ -15,3 +15,6 @@ class AnalogOutput(Output):
 
     def stop(self):
         self.stream.kill()
+
+    def check_reload(self):
+        pass

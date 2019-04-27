@@ -19,6 +19,7 @@ class Configuration:
 
     def __init__(self):
         self.__config = ConfigParser()
+        self.__config.optionxform = str
 
         if platform.machine() == "x86_64":
             self.__config_file_path = "../install/pirateradio/" + self.__config_file_name

@@ -34,3 +34,7 @@ class FmOutput(Output):
         self.stop()
         self.__init__()
         self.run()
+
+    def check_reload(self):
+        if self.__frequency != config.get_settings()["PIRATERADIO"]["frequency"]:
+            self.reload()

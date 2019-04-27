@@ -162,6 +162,7 @@ class Mpradio:
                     elif cmd[1] == "set":
                         cfg = self.remote_msg["data"]
                         config.load_json(cfg)
+                        self.output.check_reload()  # configuration reload TEST
                 else:
                     print("unknown command received:", cmd)
                 self.remote_msg.clear()    # clean for next usage
