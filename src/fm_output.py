@@ -17,7 +17,8 @@ class FmOutput(Output):
         try:
             os.mkfifo(self.__rds_ctl)
         except FileExistsError:
-            pass
+            os.remove(self.__rds_ctl)
+            os.mkfifo(self.__rds_ctl)
 
     def run(self):
         print("broadcasting on FM", self.__frequency)
@@ -32,6 +33,7 @@ class FmOutput(Output):
         call(["sudo", "kill", str(self.stream.pid)])
 
     def reload(self):
+        self.ready.clear()
         self.stop()
         self.__init__()
         self.run()
