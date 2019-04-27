@@ -97,6 +97,7 @@ class Mpradio:
                     raise AttributeError
                 encoded = self.encoder.output_stream.read(self.player.CHUNK)    # must be non-blocking
                 if encoded is not None:                             # send the encoded data to output, if any
+                    self.output.ready.wait()
                     self.output.input_stream.write(encoded)
                 else:
                     # print("waiting for encoder data")

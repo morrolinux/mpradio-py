@@ -12,6 +12,7 @@ class AnalogOutput(Output):
                                        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.input_stream = self.stream.stdin
         self.output_stream = self.stream.stdout
+        self.ready.set()
 
     def stop(self):
         self.stream.kill()
