@@ -29,11 +29,15 @@ class FmOutput(Output):
                                         "--ctl", self.__rds_ctl, "--audio", "-"],
                                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.input_stream = self.stream.stdin
-        self.output_stream = self.stream.stdout
         self.ready.set()
 
     def stop(self):
-        call(["sudo", "kill", str(self.stream.pid)])
+        call(["sudo", "pkill", "-P", str(self.stream.pid)])
+        try:
+            self.stream.stdin.close()
+        except BrokenPipeError:
+            pass
+        self.stream.wait()
 
     def reload(self):
         self.ready.clear()
