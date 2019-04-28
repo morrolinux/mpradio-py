@@ -33,10 +33,6 @@ class FmOutput(Output):
 
     def stop(self):
         call(["sudo", "pkill", "-P", str(self.stream.pid)])
-        try:
-            self.stream.stdin.close()
-        except BrokenPipeError:
-            pass
         self.stream.wait()
 
     def reload(self):
