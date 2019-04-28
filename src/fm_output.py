@@ -12,6 +12,9 @@ class FmOutput(Output):
 
     def __init__(self):
         super().__init__()
+        self.__load_settings()
+
+    def __load_settings(self):
         self.__frequency = config.get_settings()["PIRATERADIO"]["frequency"]
         self.__rds_ctl = config.get_rds_ctl()
         try:
@@ -35,7 +38,7 @@ class FmOutput(Output):
     def reload(self):
         self.ready.clear()
         self.stop()
-        self.__init__()
+        self.__load_settings()
         self.run()
 
     def check_reload(self):
