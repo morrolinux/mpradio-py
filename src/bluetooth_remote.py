@@ -10,12 +10,14 @@ class BtRemote:
     __server_socket = None  # bluetooth server socket
     __client_socket = None  # bluetooth client socket
     __termination = None
+    __SOCKET_TIMEOUT = 5      # socket timeout in seconds
 
     def __init__(self, remote_event, message):
         super().__init__()
         self.__remote_event = remote_event
         self.__msg = message
         self.__server_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+        self.__server_socket.settimeout(self.__SOCKET_TIMEOUT)
         self.__termination = threading.Event()
 
     def run(self):
@@ -32,14 +34,17 @@ class BtRemote:
                                     service_classes=[uuid, bluetooth.SERIAL_PORT_CLASS],
                                     profiles=[bluetooth.SERIAL_PORT_PROFILE],)
 
-        self.__client_socket, address = self.__server_socket.accept()
+        self.__accept_connection()
 
         while not self.__termination.is_set():
             try:
                 cmd = self.__client_socket.recv(1024)
-            except bluetooth.btcommon.BluetoothError:       # if a client disconnects, listen for new ones
-                self.__client_socket, address = self.__server_socket.accept()
-                continue
+            except bluetooth.btcommon.BluetoothError as e:       # if a client disconnects, listen for new ones
+                if "timed out" in str(e).lower():
+                    continue
+                else:
+                    self.__accept_connection()
+                    continue
 
             if len(cmd) > 0:
                 # cmd = cmd.decode().strip().split()  # .lower()
@@ -50,9 +55,23 @@ class BtRemote:
                 print("bluetooth_remote received:", cmd)
                 self.__remote_event.set()
 
-        self.__client_socket.close()
-        self.__server_socket.close()
-        bluetooth.stop_advertising(self.__server_socket)
+        print("bluetooth remote stopped")
+
+    def __accept_connection(self):
+        self.__client_socket = None
+        while self.__client_socket is None:
+            try:
+                self.__client_socket, address = self.__server_socket.accept()
+            except bluetooth.BluetoothError as e:
+                # print("ERROR while accept_connection:", str(e))
+                if "timed out" in str(e).lower():
+                    # self.__client_socket = None   # should be default
+                    continue
+                else:
+                    # print("bluetooth socket closed")
+                    return
+        print("Acceppted one bluetooth connection!")
+        self.__client_socket.settimeout(self.__SOCKET_TIMEOUT)
 
     def reply(self, message):
         try:
@@ -61,4 +80,9 @@ class BtRemote:
             pass
 
     def stop(self):
+        print("stopping bluetooth remote...")
         self.__termination.set()
+        if self.__client_socket is not None:
+            self.__client_socket.close()
+        if self.__server_socket is not None:
+            self.__server_socket.close()
