@@ -154,7 +154,7 @@ class Mpradio:
                     what = json.loads(self.remote_msg["data"])
                     self.player.play_on_demand(what)
                 elif cmd[0] == "playlist":
-                    with open("/pirateradio/playlist.json") as file:        # TODO: implement in player
+                    with open(config.get_playlist_file()) as file:        # TODO: implement in player
                         lib = str(json.load(file))
                         self.bt_remote.reply(lib)
                 elif cmd[0] == "config":
@@ -163,7 +163,6 @@ class Mpradio:
                     elif cmd[1] == "set":
                         cfg = self.remote_msg["data"]
                         config.load_json(cfg)
-                        self.output.check_reload()  # configuration reload TEST
                 else:
                     print("unknown command received:", cmd)
                 self.remote_msg.clear()    # clean for next usage
