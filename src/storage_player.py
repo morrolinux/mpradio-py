@@ -168,12 +168,16 @@ class StoragePlayer(Player):
                 time.sleep(0.02)
 
         # transcoding terminated. Flush output stream
-        while True:
-            out_pack = out_stream.encode(None)
-            if out_pack:
-                out_container.mux(out_pack)
-            else:
-                break
+        try:
+            while True:
+                out_pack = out_stream.encode(None)
+                if out_pack:
+                    out_container.mux(out_pack)
+                else:
+                    break
+        except ValueError:
+            print("skipping flush...")
+            return
 
         # close output container and tell the buffer no more data is coming
         out_container.close()

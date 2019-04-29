@@ -97,6 +97,7 @@ class Mpradio:
                     raise AttributeError
                 encoded = self.encoder.output_stream.read(self.player.CHUNK)    # must be non-blocking
                 if encoded is not None:                             # send the encoded data to output, if any
+                    self.output.ready.wait()
                     self.output.input_stream.write(encoded)
                 else:
                     # print("waiting for encoder data")
@@ -113,27 +114,27 @@ class Mpradio:
             if self.remote_event.is_set():
                 self.remote_event.clear()
                 try:
-                    cmd = self.remote_msg["command"][0]
+                    cmd = self.remote_msg["command"]
                 except KeyError:
                     continue
 
-                if cmd in self.media_control_methods:
-                    exec("self.player."+cmd+"()")
-                elif cmd in self.media_info_methods:
-                    result = eval("self.player."+cmd+"()")
+                if cmd[0] in self.media_control_methods:
+                    exec("self.player."+cmd[0]+"()")
+                elif cmd[0] in self.media_info_methods:
+                    result = eval("self.player."+cmd[0]+"()")
                     if self.remote_msg["source"] == "bluetooth":
                         self.bt_remote.reply(result)
-                elif cmd == "bluetooth":
-                    if self.remote_msg["command"][1] == "attach":
+                elif cmd[0] == "bluetooth":
+                    if cmd[1] == "attach":
                         if self.player.__class__.__name__ == "BtPlayer":
                             continue
-                        tmp = BtPlayer(self.remote_msg["command"][2])
+                        tmp = BtPlayer(cmd[2])
                         tmp.run()
                         tmp.ready.wait()
                         self.player.stop()
                         self.player = tmp
                         print("bluetooth attached")
-                    elif self.remote_msg["command"][1] == "detach":
+                    elif cmd[1] == "detach":
                         if self.player.__class__.__name__ != "BtPlayer":
                             continue
                         tmp = StoragePlayer()
@@ -142,20 +143,26 @@ class Mpradio:
                         self.player.stop()
                         self.player = tmp
                         print("bluetooth detached")
-                elif cmd == "system":
-                    if self.remote_msg["command"][1] == "poweroff":
+                elif cmd[0] == "system":
+                    if cmd[1] == "poweroff":
                         call(["sudo", "poweroff"])
-                    elif self.remote_msg["command"][1] == "reboot":
+                    elif cmd[1] == "reboot":
                         call(["sudo", "reboot"])
-                elif cmd == "play":
+                elif cmd[0] == "play":
                     if self.player.__class__.__name__ != "StoragePlayer":
                         continue
                     what = json.loads(self.remote_msg["data"])
                     self.player.play_on_demand(what)
-                elif cmd == "playlist":
-                    with open("/pirateradio/playlist.json") as file:        # TODO: implement in player
+                elif cmd[0] == "playlist":
+                    with open(config.get_playlist_file()) as file:        # TODO: implement in player
                         lib = str(json.load(file))
                         self.bt_remote.reply(lib)
+                elif cmd[0] == "config":
+                    if cmd[1] == "get":
+                        self.bt_remote.reply(config.to_json())
+                    elif cmd[1] == "set":
+                        cfg = self.remote_msg["data"]
+                        config.load_json(cfg)
                 else:
                     print("unknown command received:", cmd)
                 self.remote_msg.clear()    # clean for next usage
