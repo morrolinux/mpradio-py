@@ -20,7 +20,7 @@ class Player(MediaControl, MediaInfo):
     def playback_position(self):
         pass
 
-    def silence(self, silence_time=0.8):
+    def silence(self, silence_time=1.2):
         self._tmp_stream = self.output_stream
         self.output_stream = subprocess.Popen(["sox", "-n", "-r", "48000", "-b", "16", "-c", "1", "-t", "wav", "-",
                                                "trim", "0", str(silence_time)],
