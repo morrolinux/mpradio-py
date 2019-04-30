@@ -13,6 +13,7 @@ class Configuration:
     __config_file_path = ""
     __resume_file = "resume.json"
     __playlist_file = "playlist.json"
+    __library_file = "library.json"
     __stop_sound = "stop1.wav"
     __rds_ctl = "/tmp/rds_ctl"
     __ctl_path = "/tmp/mpradio_bt"
@@ -45,6 +46,7 @@ class Configuration:
 
             self.__resume_file = self.__pirateradio_root + self.__resume_file
             self.__playlist_file = self.__pirateradio_root + self.__playlist_file
+            self.__library_file = self.__pirateradio_root + self.__library_file
             self.__music_folder = self.__pirateradio_root
 
     def save(self):
@@ -82,6 +84,9 @@ class Configuration:
 
     def get_playlist_file(self):
         return self.__playlist_file
+
+    def get_library_file(self):
+        return self.__library_file
 
     def get_music_folder(self):
         return self.__music_folder

@@ -1,7 +1,8 @@
 import os
 from mutagen.id3 import ID3NoHeaderError
-from configuration import config
 from mutagen.easyid3 import EasyID3
+from configuration import config
+import json
 
 
 class MediaScanner:
@@ -19,6 +20,10 @@ class MediaScanner:
         for root, d_names, f_names in os.walk(path):
             for f in f_names:
                 if f.endswith(self.supported_formats):
+                    # skip cache and unwanted files
+                    if root.startswith('.') or f.startswith('.'):
+                        continue
+
                     tmp = dict()
                     tmp["path"] = os.path.join(root, f).replace(" ", "\\ ")
                     fallback_title = f
@@ -43,4 +48,10 @@ class MediaScanner:
 
                     self.__songs.append(tmp)
 
+        self.save_library()
         return self.__songs
+
+    def save_library(self):
+        with open(config.get_library_file(), "w") as f:
+            j = json.dumps(self.__songs)
+            f.write(j)
