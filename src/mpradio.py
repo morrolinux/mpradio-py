@@ -146,6 +146,7 @@ class Mpradio:
                         print("bluetooth detached")
                 elif cmd[0] == "system":
                     if cmd[1] == "poweroff":
+                        self.player.pause()
                         call(["sudo", "poweroff"])
                     elif cmd[1] == "reboot":
                         call(["sudo", "reboot"])
