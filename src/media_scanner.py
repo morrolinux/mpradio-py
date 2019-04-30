@@ -20,6 +20,10 @@ class MediaScanner:
         for root, d_names, f_names in os.walk(path):
             for f in f_names:
                 if f.endswith(self.supported_formats):
+                    # skip cache and unwanted files
+                    if root.startswith('.') or f.startswith('.'):
+                        continue
+
                     tmp = dict()
                     tmp["path"] = os.path.join(root, f).replace(" ", "\\ ")
                     fallback_title = f
