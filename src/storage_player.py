@@ -80,6 +80,8 @@ class StoragePlayer(Player):
         self.__update_playback_position()
 
         for song in self.__playlist:
+            if song is None:
+                return
             print("storage_player playing:", song["path"])
             self.play(song)     # blocking
             if self.__terminating:

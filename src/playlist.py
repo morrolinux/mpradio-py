@@ -38,7 +38,11 @@ class Playlist:
             self.__played.append(self.__current)
         else:
             self.__queued = self.__ms.scan()
-            self.__current = self.__queued.pop()        # TODO: handle the "no songs" scenario
+            try:
+                self.__current = self.__queued.pop()        # TODO: handle the "no songs" scenario
+            except IndexError:
+                print("ERR: No songs to play")
+                return None
             self.__played.append(self.__current)
 
         # print("\n\nplaylist:", [song["path"] for song in self.__queued], "\n")

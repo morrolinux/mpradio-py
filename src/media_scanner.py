@@ -17,11 +17,16 @@ class MediaScanner:
         if path is None:
             path = config.get_music_folder()
 
+        print("Media scanner scanning folder:", path)
+
         for root, d_names, f_names in os.walk(path):
             for f in f_names:
                 if f.endswith(self.supported_formats):
                     # skip cache and unwanted files
-                    if root.startswith('.') or f.startswith('.'):
+                    if root.startswith('.'):
+                        if not root.startswith('..'):
+                            continue
+                    if f.startswith('.'):
                         continue
 
                     tmp = dict()
