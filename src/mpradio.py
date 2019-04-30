@@ -157,6 +157,10 @@ class Mpradio:
                     self.player.play_on_demand(what)
                 elif cmd[0] == "playlist":
                     with open(config.get_playlist_file()) as file:        # TODO: implement in player
+                        pl = str(json.load(file))
+                        self.bt_remote.reply(pl)
+                elif cmd[0] == "library":
+                    with open(config.get_library_file()) as file:
                         lib = str(json.load(file))
                         self.bt_remote.reply(lib)
                 elif cmd[0] == "config":
