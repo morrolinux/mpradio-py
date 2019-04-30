@@ -80,10 +80,8 @@ class Mpradio:
 
         threading.Thread(target=self.check_remotes).start()
 
-        # wait for the player to spawn
+        # wait for the player to be ready and pre-buffer
         self.player.ready.wait()
-
-        # pre-buffer
         data = self.player.output_stream.read(self.player.CHUNK)
         print("player is ready")
 
@@ -107,6 +105,7 @@ class Mpradio:
             except AttributeError:
                 time.sleep(self.player.SLEEP_TIME)
             # advance the "play head"
+            self.player.ready.wait()
             data = self.player.output_stream.read(self.player.CHUNK)    # must be non-blocking
             # print("advancing playhead...")
 

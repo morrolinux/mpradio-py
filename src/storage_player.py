@@ -131,6 +131,7 @@ class StoragePlayer(Player):
         # calculate initial seek
         time_unit = input_container.size/int(input_container.duration/1000000)
         seek_point = time_unit * resume_time
+        buffer_ready = False
 
         # transcode input to wav
         for i, packet in enumerate(input_container.demux(audio_stream)):
@@ -156,10 +157,11 @@ class StoragePlayer(Player):
                 break
 
             # set the player to ready after a short buffer is ready
-            if not self.ready.is_set():
+            if not buffer_ready:
                 try:
                     if packet.pos > resume_time + time_unit*2:
                         self.ready.set()
+                        buffer_ready = True
                 except TypeError:
                     pass
 
@@ -198,11 +200,11 @@ class StoragePlayer(Player):
             return
         self.__timer.pause()
         self.silence()
+        self.ready.clear()
 
     def resume(self):
-        if self._tmp_stream is not None:
-            self.output_stream = self._tmp_stream
         self.__timer.resume()
+        self.ready.set()
 
     def next(self):
         self.__skip.set()
@@ -224,6 +226,7 @@ class StoragePlayer(Player):
     def stop(self):
         self.__terminating = True
         self.silence()
+        self.ready.clear()
         self.__timer.stop()
         self.__rds_updater.stop()
 
