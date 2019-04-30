@@ -181,8 +181,10 @@ class Mpradio:
         self.reload_configuration()
 
     def reload_configuration(self):
+        self.player.pause()
         self.encoder.reload()
         self.output.reload()
+        self.player.resume()
 
 
 if __name__ == "__main__":
