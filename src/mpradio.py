@@ -181,9 +181,9 @@ class Mpradio:
         self.reload_configuration()
 
     def reload_configuration(self):
-        self.player.pause()
-        self.encoder.reload()
-        self.output.reload()
+        self.player.pause()         # player must be paused/silenced to avoid audio feed loop on fm transmission
+        self.encoder.reload()       # encoded must be reloaded to avoid broken pipe
+        self.output.check_reload()  # don't restart output if not needed
         self.player.resume()
 
 
