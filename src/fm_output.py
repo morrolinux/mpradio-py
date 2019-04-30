@@ -18,10 +18,13 @@ class FmOutput(Output):
         self.__frequency = config.get_settings()["PIRATERADIO"]["frequency"]
         self.__rds_ctl = config.get_rds_ctl()
         try:
+            os.remove(self.__rds_ctl)
+        except FileNotFoundError:
+            pass
+        try:
             os.mkfifo(self.__rds_ctl)
         except FileExistsError:
-            os.remove(self.__rds_ctl)
-            os.mkfifo(self.__rds_ctl)
+            pass
 
     def run(self):
         print("broadcasting on FM", self.__frequency)

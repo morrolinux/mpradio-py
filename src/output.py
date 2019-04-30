@@ -19,3 +19,9 @@ class Output(ABC):
     @abstractmethod
     def stop(self):
         pass
+
+    def reload(self):
+        pass
+
+    def check_reload(self):
+        pass

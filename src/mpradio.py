@@ -80,10 +80,8 @@ class Mpradio:
 
         threading.Thread(target=self.check_remotes).start()
 
-        # wait for the player to spawn
+        # wait for the player to be ready and pre-buffer
         self.player.ready.wait()
-
-        # pre-buffer
         data = self.player.output_stream.read(self.player.CHUNK)
         print("player is ready")
 
@@ -91,11 +89,13 @@ class Mpradio:
         while True:
             try:
                 if data is not None:
-                    self.encoder.input_stream.write(data)           # TODO: synchronization lock/barrier needed?
-                else:                                               # avoid 100% CPU when player is paused
+                    self.encoder.ready.wait()
+                    self.encoder.input_stream.write(data)
+                else:
                     # print("waiting for player data")
                     raise AttributeError
-                encoded = self.encoder.output_stream.read(self.player.CHUNK)    # must be non-blocking
+                self.encoder.ready.wait()
+                encoded = self.encoder.output_stream.read(self.player.CHUNK)
                 if encoded is not None:                             # send the encoded data to output, if any
                     self.output.ready.wait()
                     self.output.input_stream.write(encoded)
@@ -103,9 +103,10 @@ class Mpradio:
                     # print("waiting for encoder data")
                     raise AttributeError
             except AttributeError:
-                time.sleep(self.player.SLEEP_TIME)
+                time.sleep(self.player.SLEEP_TIME)                  # avoid 100% CPU when player is paused
             # advance the "play head"
-            data = self.player.output_stream.read(self.player.CHUNK)    # must be non-blocking
+            self.player.ready.wait()
+            data = self.player.output_stream.read(self.player.CHUNK)
             # print("advancing playhead...")
 
     def check_remotes(self):
@@ -162,7 +163,9 @@ class Mpradio:
                         self.bt_remote.reply(config.to_json())
                     elif cmd[1] == "set":
                         cfg = self.remote_msg["data"]
-                        config.load_json(cfg)
+                        self.apply_configuration(cfg)
+                    elif cmd[1] == "reload":        # TODO: remove. this is for testing purposes only
+                        self.reload_configuration()
                 else:
                     print("unknown command received:", cmd)
                 self.remote_msg.clear()    # clean for next usage
@@ -172,6 +175,16 @@ class Mpradio:
         self.bt_remote.stop()
         if self.gpio_remote is not None:
             self.gpio_remote.stop()
+
+    def apply_configuration(self, cfg):
+        config.load_json(cfg)
+        self.reload_configuration()
+
+    def reload_configuration(self):
+        self.player.pause()         # player must be paused/silenced to avoid audio feed loop on fm transmission
+        self.encoder.reload()       # encoded must be reloaded to avoid broken pipe
+        self.output.check_reload()  # don't restart output if not needed
+        self.player.resume()
 
 
 if __name__ == "__main__":

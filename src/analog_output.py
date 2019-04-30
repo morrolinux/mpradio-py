@@ -19,3 +19,6 @@ class AnalogOutput(Output):
 
     def check_reload(self):
         pass
+
+    def reload(self):
+        pass

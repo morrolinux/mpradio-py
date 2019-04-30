@@ -26,3 +26,4 @@ class Player(MediaControl, MediaInfo):
                                                "trim", "0", str(silence_time)],
                                               stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
         time.sleep(silence_time)
+        self.output_stream = self._tmp_stream
