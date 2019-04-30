@@ -21,7 +21,10 @@ class FmOutput(Output):
             os.remove(self.__rds_ctl)
         except FileNotFoundError:
             pass
-        os.mkfifo(self.__rds_ctl)
+        try:
+            os.mkfifo(self.__rds_ctl)
+        except FileExistsError:
+            pass
 
     def run(self):
         print("broadcasting on FM", self.__frequency)
