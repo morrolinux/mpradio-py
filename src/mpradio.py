@@ -162,7 +162,7 @@ class Mpradio:
                         self.bt_remote.reply(config.to_json())
                     elif cmd[1] == "set":
                         cfg = self.remote_msg["data"]
-                        config.load_json(cfg)
+                        self.apply_configuration(cfg)
                 else:
                     print("unknown command received:", cmd)
                 self.remote_msg.clear()    # clean for next usage
@@ -172,6 +172,15 @@ class Mpradio:
         self.bt_remote.stop()
         if self.gpio_remote is not None:
             self.gpio_remote.stop()
+
+    def apply_configuration(self, cfg):
+        config.load_json(cfg)
+        self.player.stop()
+        self.encoder.stop()
+        self.output.stop()
+        self.player.run()
+        self.encoder.run()
+        self.output.run()
 
 
 if __name__ == "__main__":
