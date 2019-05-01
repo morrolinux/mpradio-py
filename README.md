@@ -17,21 +17,19 @@ If you're testing on your computer, please `cd` to the `mpradio/src` folder and 
 Exclusively tested on Minimal Raspbian (ARM)
 - [x] Resume track from its playback status hh:mm:ss across reboots (CD-like expirience)
 - [x] Shuffle on/off
-- [x] Customizable scrolling RDS to overcome 8-chars limitation
-- [x] Skip to the next song by pressing a push-button (GPIO-connected on pin 18)
-- [x] Safely shutdown by holding the push-button (GPIO-connected on pin 18)
-- [x] Stream audio over FM or 3.5mm Jack (Bluetooth speaker via jack audio output)
+- [x] Display track info over RDS (for both bluetooth playback and music on local storage)
+- [x] Skip song by pressing a push-button (GPIO-connected on pin 5 [BCM 3]) even when playing bluetooth audio
+- [x] Safely power on/off by holding the push-button
+- [x] Stream audio over FM or 3.5mm Jack (As a Bluetooth speaker via jack audio output)
 - [ ] Send mp3 files or zip/rar albums to the Pi via Bluetooth
 - [ ] Bluetooth OTA file management on the Pi with applications such as "Bluetooth Explorer Lite"
-- [x] Read metadata from the mp3 files 
-- [x] Multiple file format support [mp3/wav/flac]
+- [x] Read metadata from mp3 files
+- [x] Play local music in multiple formats [ogg/m4a/mp3/wav/flac]
 - [ ] Read Only mode for saving sdcard from corruption when unplugging AC
 - [x] PiFmAdv (default)(experimental) implementation for better signal purity 
-- [x] Control pipe commands during playback (explained below)
+- [x] Multiple remotes available (GPIO pushbutton / Bluetooth Android App / Control Pipe via shell)
 - [ ] Update just mpradio by sending mpradio-master.zip via Bluetooth (Update via App will be soon available)
 - [ ] Bluetooth companion app for android (Work in progress...) 
-- [ ] Display Android notifications over RDS?
-- [ ] Automatically partition the sdcard for a dedicated mp3 storage space (instead of using a USB drive)
 
 # Installation
 `git clone https://github.com/morrolinux/mpradio-py.git mpradio`
