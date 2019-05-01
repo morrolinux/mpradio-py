@@ -19,14 +19,15 @@ class GpioRemote:
         self.reset_s()
 
     def __run(self):
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(5, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.add_event_detect(5, GPIO.RISING)
         down = 0
         up = 0
         fired = False
 
         while not self.__termination.is_set():
-            input_state = GPIO.input(18)
+            input_state = GPIO.event_detected(5)
 
             if not input_state:  # button down
                 up = 0
@@ -45,7 +46,7 @@ class GpioRemote:
                 self.poweroff()
 
             # single and double click
-            if up in range(4, 8) and len(self.__s) > 2 and not fired:
+            if up in range(8, 16) and len(self.__s) > 2 and not fired:
                 action = "".join([str(b) for b in self.__s])
                 if action == "010":  # single click
                     fired = True
@@ -55,16 +56,16 @@ class GpioRemote:
                     fired = True
                     self.reset_s()
                     self.play_pause()
-            elif up > 10:  # reset status and prepare for next click
+            elif up > 16:  # reset status and prepare for next click
                 self.reset_s()
                 fired = False
 
             # cleanup after long time unused
-            if up > 9000:
+            if up > 18000:
                 self.reset_s()
                 up = 0
 
-            time.sleep(0.1)
+            time.sleep(0.05)
 
     def run(self):
         threading.Thread(target=self.__run).start()
