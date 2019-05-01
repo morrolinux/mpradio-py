@@ -131,8 +131,12 @@ class StoragePlayer(Player):
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
 
         # calculate initial seek
-        time_unit = input_container.size/int(input_container.duration/1000000)
+        try:
+            time_unit = input_container.size/int(input_container.duration/1000000)
+        except ZeroDivisionError:
+            time_unit = 0
         seek_point = time_unit * resume_time
+
         buffer_ready = False
 
         # transcode input to wav
