@@ -23,9 +23,8 @@ class MediaScanner:
             for f in f_names:
                 if f.endswith(self.supported_formats):
                     # skip cache and unwanted files
-                    if root.startswith('.'):
-                        if not root.startswith('..'):
-                            continue
+                    if "/." in root:
+                        continue
                     if f.startswith('.'):
                         continue
 
