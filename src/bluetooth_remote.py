@@ -75,7 +75,7 @@ class BtRemote:
 
     def reply(self, message):
         try:
-            self.__client_socket.send(bytes(message+"\0", 'UTF-8'))
+            self.__client_socket.sendall(bytes(message+"\0", 'UTF-8'))
         except bluetooth.btcommon.BluetoothError:
             pass
 
