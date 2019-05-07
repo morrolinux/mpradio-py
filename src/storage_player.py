@@ -125,6 +125,7 @@ class StoragePlayer(Player):
             return
 
         # open output stream
+        # self.ready.clear()  # TODO: I SHOULD really use this as a pre-buffer when skipping song. problem is silence stutters pifmadv
         self.__out = MpradioIO()
         self.output_stream = self.__out       # link for external access
         out_container = av.open(self.__out, 'w', 'wav')
@@ -172,8 +173,8 @@ class StoragePlayer(Player):
                     pass
 
             # avoid CPU saturation on single-core systems
-            if psutil.cpu_percent() > 90:
-                time.sleep(0.02)
+            if psutil.cpu_percent() > 95:
+                time.sleep(0.01)
 
         # transcoding terminated. Flush output stream
         try:

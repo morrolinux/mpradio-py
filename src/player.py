@@ -7,7 +7,7 @@ import threading
 
 class Player(MediaControl, MediaInfo):
 
-    CHUNK = 2048
+    CHUNK = 2048	# set to 8192 for it to perform well on the orignal Pi 1
     SLEEP_TIME = 0.035
     output_stream = None
     _tmp_stream = None
