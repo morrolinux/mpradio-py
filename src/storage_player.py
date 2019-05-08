@@ -10,6 +10,7 @@ from configuration import config
 import psutil
 import av
 from mp_io import MpradioIO
+import numpy as np
 
 
 class StoragePlayer(Player):
@@ -202,11 +203,31 @@ class StoragePlayer(Player):
                 break
             time.sleep(0.2)
 
+    def gen_silence(self):
+        silence = np.zeros((2, 1152), dtype='int16')
+
+        self._tmp_stream = self.output_stream
+        self.output_stream = MpradioIO()
+        out_container = av.open(self.output_stream, 'w', 'wav')
+        out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
+
+        for _ in range(10):
+            frame = av.AudioFrame.from_ndarray(silence, 's16p')
+            frame.pts = None
+            out_pack = out_stream.encode(frame)
+            if out_pack:
+                out_container.mux(out_pack)
+            else:
+                break
+        time.sleep(1)
+        self.output_stream = self._tmp_stream
+
     def pause(self):
+        self.gen_silence()
         if self.__timer.is_paused():
             return
         self.__timer.pause()
-        self.silence()
+        # self.silence()
         self.ready.clear()
 
     def resume(self):
