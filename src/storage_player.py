@@ -1,15 +1,17 @@
-from os import path
+import json
+import threading
 import time
-from timer import Timer
+from os import path
+
+import av
+import psutil
+from configuration import config
+from mp_io import MpradioIO
 from player import Player
 from playlist import Playlist
 from rds import RdsUpdater
-import threading
-import json
-from configuration import config
-import psutil
-import av
-from mp_io import MpradioIO
+from timer import Timer
+from prof import Profiler
 
 
 class StoragePlayer(Player):
@@ -24,6 +26,7 @@ class StoragePlayer(Player):
     __out = None
     __silence_track = None
     __tmp_stream = None
+    p = None
 
     def __init__(self):
         super().__init__()
@@ -32,6 +35,7 @@ class StoragePlayer(Player):
         self.__resume_file = config.get_resume_file()
         self.__skip = threading.Event()
         self.output_stream = None
+        self.p = Profiler()
 
     def playback_position(self):
         return self.__timer.get_time()
@@ -100,6 +104,8 @@ class StoragePlayer(Player):
         self.__playlist.set_noshuffle()
 
     def play(self, song):
+        self.p.start()
+        self.p.add("invoked")
         # cleanup and generate silence for pi_fm_adv so it won't stutter
         self.silence()
         self.__tmp_stream = None
@@ -172,6 +178,7 @@ class StoragePlayer(Player):
             if not buffer_ready:
                 try:
                     if packet.pos > resume_time + time_unit*2:
+                        self.p.add("pre-buffer finished")
                         self.output_stream = self.__out  # link for external access
                         self.ready.set()
                         buffer_ready = True
@@ -181,6 +188,8 @@ class StoragePlayer(Player):
             # avoid CPU saturation on single-core systems
             if psutil.cpu_percent() > 95:
                 time.sleep(0.01)
+
+        self.p.add("encoding finished")
 
         # transcoding terminated. Flush output stream
         try:
@@ -207,6 +216,9 @@ class StoragePlayer(Player):
             if self.__terminating:
                 break
             time.sleep(0.2)
+
+        self.p.add("playback finished")
+        self.p.print_stats()
 
     def __generate_silence(self):
         self.__silence_track = MpradioIO()
