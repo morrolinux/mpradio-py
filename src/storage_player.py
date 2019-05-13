@@ -23,6 +23,7 @@ class StoragePlayer(Player):
     __rds_updater = None
     __skip = None
     __out = None
+    __silence_track = None
 
     def __init__(self):
         super().__init__()
@@ -30,6 +31,7 @@ class StoragePlayer(Player):
         self.__rds_updater = RdsUpdater()
         self.__resume_file = config.get_resume_file()
         self.__skip = threading.Event()
+        self.output_stream = None
 
     def playback_position(self):
         return self.__timer.get_time()
@@ -79,6 +81,7 @@ class StoragePlayer(Player):
         self.__timer.start()
         self.__rds_updater.run()
         self.__update_playback_position()
+        self.__generate_silence()
 
         for song in self.__playlist:
             if song is None:
@@ -203,27 +206,45 @@ class StoragePlayer(Player):
                 break
             time.sleep(0.2)
 
-    def gen_silence(self):
-        silence = np.zeros((2, 1152), dtype='int16')
+    def __generate_silence(self):
+        print("generating silence...")
 
-        self._tmp_stream = self.output_stream
-        self.output_stream = MpradioIO()
-        out_container = av.open(self.output_stream, 'w', 'wav')
+        self.__silence_track = MpradioIO()
+        out_container = av.open(self.__silence_track, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
 
-        for _ in range(10):
-            frame = av.AudioFrame.from_ndarray(silence, 's16p')
-            frame.pts = None
-            out_pack = out_stream.encode(frame)
-            if out_pack:
-                out_container.mux(out_pack)
-            else:
-                break
-        time.sleep(1)
+        # open input file
+        try:
+            input_container = av.open("/home/pi/mpradio/sounds/silence.wav")
+            audio_stream = input_container.streams[0]
+        except av.AVError:
+            print("Can't open silence file:, skipping...")
+            return
+
+        # transcode input to wav
+        for packet in input_container.demux(audio_stream):
+            try:
+                for frame in packet.decode():
+                    frame.pts = None
+                    out_pack = out_stream.encode(frame)
+                    if out_pack:
+                        out_container.mux(out_pack)
+            except av.AVError:
+                print("Error during playback for:", song_path)
+                return
+
+    def silence(self):
+        self.__silence_track.seek_to_start()
+
+        self._tmp_stream = self.output_stream
+        self.output_stream = self.__silence_track
+
+        time.sleep(5)   # just to test
+        print("restoring channel..")
         self.output_stream = self._tmp_stream
 
     def pause(self):
-        self.gen_silence()
+        self.silence()
         if self.__timer.is_paused():
             return
         self.__timer.pause()

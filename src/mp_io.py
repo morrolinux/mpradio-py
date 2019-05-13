@@ -34,3 +34,6 @@ class MpradioIO(io.BytesIO):
             return True
         else:
             return False
+
+    def seek_to_start(self):
+        self.__last_r = 0
