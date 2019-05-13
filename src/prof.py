@@ -25,10 +25,17 @@ class Profiler:
     def __cpu_monitor(self):
         while not self.__termination.is_set():
             self.__add(self.__get_cpu_status())
-            time.sleep(1)
+            time.sleep(5)
 
     def __get_cpu_status(self):
-            return {"time": time.clock(), "cpu": psutil.cpu_percent()}
+        t = time.clock()
+        samples = 5
+        cpu_percent = 0
+        for _ in range(samples):
+            cpu_percent += psutil.cpu_percent()
+            time.sleep(0.01)
+        cpu_percent /= samples
+        return {"time": t, "cpu": cpu_percent}
 
     def __add(self, point):
         self.__l.acquire(blocking=True)
