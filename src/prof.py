@@ -15,6 +15,7 @@ class Profiler:
     def add(self, event):
         d = self.__get_cpu_status()
         d["event"] = event
+        print(">>", d["time"], ":", event)
         self.__add(d)
 
     def start(self):
@@ -32,6 +33,7 @@ class Profiler:
 
     def __get_cpu_status(self):
         t = time.time() - self.__basetime
+        """ 
         samples = 10
         cpu_percent = 0
         for _ in range(samples):
@@ -39,6 +41,9 @@ class Profiler:
             time.sleep(0.05)
         cpu_percent /= samples
         return {"time": t, "cpu": cpu_percent}
+        """
+        # faster (less precise) sampling not to slow down the program
+        return {"time": t, "cpu": psutil.cpu_percent}
 
     def __add(self, point):
         self.__l.acquire(blocking=True)

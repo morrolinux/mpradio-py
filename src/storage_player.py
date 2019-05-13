@@ -135,7 +135,8 @@ class StoragePlayer(Player):
         except av.AVError:
             print("Can't open file:", song_path, "skipping...")
             return
-
+        self.p.add("input file opened")
+        
         # create output stream
         self.__out = MpradioIO()
         out_container = av.open(self.__out, 'w', 'wav')
