@@ -10,6 +10,7 @@ class Profiler:
 
     def __init__(self):
         self.__l = threading.Lock()
+        self.__basetime = time.time()
 
     def add(self, event):
         d = self.__get_cpu_status()
@@ -28,7 +29,7 @@ class Profiler:
             time.sleep(5)
 
     def __get_cpu_status(self):
-        t = time.process_time()
+        t = time.time() - self.__basetime
         samples = 10
         cpu_percent = 0
         for _ in range(samples):

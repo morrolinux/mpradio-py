@@ -151,7 +151,7 @@ class StoragePlayer(Player):
         buffer_ready = False
 
         # transcode input to wav
-        for packet in input_container.demux(audio_stream):
+        for i, packet in enumerate(input_container.demux(audio_stream)):
 
             # seek to the point
             try:
@@ -186,8 +186,9 @@ class StoragePlayer(Player):
                     pass
 
             # avoid CPU saturation on single-core systems
-            if psutil.cpu_percent() > 95:
-                time.sleep(0.01)
+            if i % 5 == 0:
+                if psutil.cpu_percent() > 95:
+                    time.sleep(0.01)
 
         self.p.add("encoding finished")
 
