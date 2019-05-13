@@ -14,7 +14,7 @@ class Configuration:
     __resume_file = "resume.json"
     __playlist_file = "playlist.json"
     __library_file = "library.json"
-    __stop_sound = "stop1.wav"
+    __stop_sound = "silence.wav"
     __rds_ctl = "/tmp/rds_ctl"
     __ctl_path = "/tmp/mpradio_bt"
 
