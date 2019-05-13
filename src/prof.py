@@ -28,12 +28,12 @@ class Profiler:
             time.sleep(5)
 
     def __get_cpu_status(self):
-        t = time.clock()
-        samples = 5
+        t = time.process_time()
+        samples = 10
         cpu_percent = 0
         for _ in range(samples):
             cpu_percent += psutil.cpu_percent()
-            time.sleep(0.01)
+            time.sleep(0.05)
         cpu_percent /= samples
         return {"time": t, "cpu": cpu_percent}
 

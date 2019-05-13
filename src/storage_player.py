@@ -219,6 +219,7 @@ class StoragePlayer(Player):
 
         self.p.add("playback finished")
         self.p.print_stats()
+        self.p.stop()
 
     def __generate_silence(self):
         self.__silence_track = MpradioIO()
