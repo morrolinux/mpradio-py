@@ -1,6 +1,8 @@
 from abc import abstractmethod
 from media import MediaInfo, MediaControl
 import threading
+import subprocess
+import time
 
 
 class Player(MediaControl, MediaInfo):
@@ -17,12 +19,10 @@ class Player(MediaControl, MediaInfo):
     def playback_position(self):
         pass
 
-    '''
     def silence(self, silence_time=1.2):
-        self._tmp_stream = self.output_stream
+        tmp_stream = self.output_stream
         self.output_stream = subprocess.Popen(["sox", "-n", "-r", "48000", "-b", "16", "-c", "1", "-t", "wav", "-",
                                                "trim", "0", str(silence_time)],
                                               stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
         time.sleep(silence_time)
-        self.output_stream = self._tmp_stream
-    '''
+        self.output_stream = tmp_stream

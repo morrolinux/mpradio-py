@@ -100,9 +100,8 @@ class StoragePlayer(Player):
         self.__playlist.set_noshuffle()
 
     def play(self, song):
-        # cleanup and generate silence for pi_fm_adv so it won't stutter
-        self.silence()
         self.__tmp_stream = None
+        # self.silence()
 
         # get/set/resume song timer
         resume_time = song.get("position")
