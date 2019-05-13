@@ -234,24 +234,21 @@ class StoragePlayer(Player):
                 return
 
     def silence(self):
-        self.__silence_track.seek_to_start()
-
         self._tmp_stream = self.output_stream
+        self.__silence_track.seek_to_start()
         self.output_stream = self.__silence_track
 
-        time.sleep(5)   # just to test
-        print("restoring channel..")
-        self.output_stream = self._tmp_stream
-
     def pause(self):
-        self.silence()
         if self.__timer.is_paused():
             return
         self.__timer.pause()
-        # self.silence()
-        self.ready.clear()
+        self.silence()
+        # self.ready.clear()
 
     def resume(self):
+        if not self.__timer.is_paused():
+            return
+        self.output_stream = self._tmp_stream
         self.__timer.resume()
         self.ready.set()
 
