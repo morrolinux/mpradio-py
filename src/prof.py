@@ -4,13 +4,13 @@ import psutil
 
 
 class Profiler:
-    __cpu_graph = []
     __termination = threading.Event()
     __l = None
 
     def __init__(self):
         self.__l = threading.Lock()
-        self.__basetime = time.time()
+        self.__basetime = None
+        self.__cpu_graph = None
 
     def add(self, event):
         d = self.__get_cpu_status()
@@ -18,6 +18,8 @@ class Profiler:
         self.__add(d)
 
     def start(self):
+        self.__basetime = time.time()
+        self.__cpu_graph = []
         threading.Thread(target=self.__cpu_monitor).start()
 
     def stop(self):
