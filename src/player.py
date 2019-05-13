@@ -7,10 +7,9 @@ import threading
 
 class Player(MediaControl, MediaInfo):
 
-    CHUNK = 2048	# set to 8192 for it to perform well on the orignal Pi 1
+    CHUNK = 8192    # set to 8192 for it to perform well on the orignal Pi 1. For any newer model, 2048 will do.
     SLEEP_TIME = 0.035
     output_stream = None
-    _tmp_stream = None
     ready = None
 
     def __init__(self):
@@ -20,6 +19,7 @@ class Player(MediaControl, MediaInfo):
     def playback_position(self):
         pass
 
+    '''
     def silence(self, silence_time=1.2):
         self._tmp_stream = self.output_stream
         self.output_stream = subprocess.Popen(["sox", "-n", "-r", "48000", "-b", "16", "-c", "1", "-t", "wav", "-",
@@ -27,3 +27,4 @@ class Player(MediaControl, MediaInfo):
                                               stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
         time.sleep(silence_time)
         self.output_stream = self._tmp_stream
+    '''

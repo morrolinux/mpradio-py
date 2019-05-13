@@ -24,6 +24,7 @@ class StoragePlayer(Player):
     __skip = None
     __out = None
     __silence_track = None
+    __tmp_stream = None
 
     def __init__(self):
         super().__init__()
@@ -100,7 +101,8 @@ class StoragePlayer(Player):
         self.__playlist.set_noshuffle()
 
     def play(self, song):
-        self._tmp_stream = None
+        self.silence()
+        self.__tmp_stream = None
 
         # get/set/resume song timer
         resume_time = song.get("position")
@@ -131,7 +133,6 @@ class StoragePlayer(Player):
         # open output stream
         # self.ready.clear()  # TODO: I SHOULD really use this as a pre-buffer when skipping song. problem is silence stutters pifmadv
         self.__out = MpradioIO()
-        self.output_stream = self.__out       # link for external access
         out_container = av.open(self.__out, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
 
@@ -167,10 +168,11 @@ class StoragePlayer(Player):
             if self.__terminating or self.__skip.is_set():
                 break
 
-            # set the player to ready after a short buffer is ready
+            # pre-buffer some output and set the player to ready
             if not buffer_ready:
                 try:
                     if packet.pos > resume_time + time_unit*2:
+                        self.output_stream = self.__out  # link for external access
                         self.ready.set()
                         buffer_ready = True
                 except TypeError:
@@ -234,7 +236,7 @@ class StoragePlayer(Player):
                 return
 
     def silence(self):
-        self._tmp_stream = self.output_stream
+        self.__tmp_stream = self.output_stream
         self.__silence_track.seek_to_start()
         self.output_stream = self.__silence_track
 
@@ -248,7 +250,7 @@ class StoragePlayer(Player):
     def resume(self):
         if not self.__timer.is_paused():
             return
-        self.output_stream = self._tmp_stream
+        self.output_stream = self.__tmp_stream
         self.__timer.resume()
         self.ready.set()
 
