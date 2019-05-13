@@ -101,6 +101,7 @@ class StoragePlayer(Player):
         self.__playlist.set_noshuffle()
 
     def play(self, song):
+        # cleanup and generate silence for pi_fm_adv so it won't stutter
         self.silence()
         self.__tmp_stream = None
 
@@ -130,8 +131,7 @@ class StoragePlayer(Player):
             print("Can't open file:", song_path, "skipping...")
             return
 
-        # open output stream
-        # self.ready.clear()  # TODO: I SHOULD really use this as a pre-buffer when skipping song. problem is silence stutters pifmadv
+        # create output stream
         self.__out = MpradioIO()
         out_container = av.open(self.__out, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
@@ -146,7 +146,8 @@ class StoragePlayer(Player):
         buffer_ready = False
 
         # transcode input to wav
-        for i, packet in enumerate(input_container.demux(audio_stream)):
+        for packet in input_container.demux(audio_stream):
+
             # seek to the point
             try:
                 if packet.pos < seek_point:
@@ -160,8 +161,8 @@ class StoragePlayer(Player):
                     out_pack = out_stream.encode(frame)
                     if out_pack:
                         out_container.mux(out_pack)
-            except av.AVError:
-                print("Error during playback for:", song_path)
+            except av.AVError as err:
+                print("Error during playback for:", song_path, err)
                 return
 
             # stop transcoding if we receive skip or termination signal
@@ -209,18 +210,16 @@ class StoragePlayer(Player):
             time.sleep(0.2)
 
     def __generate_silence(self):
-        print("generating silence...")
-
         self.__silence_track = MpradioIO()
         out_container = av.open(self.__silence_track, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
 
         # open input file
         try:
-            input_container = av.open("/home/pi/mpradio/sounds/silence.wav")
+            input_container = av.open(config.get_sounds_folder() + config.get_stop_sound())
             audio_stream = input_container.streams[0]
         except av.AVError:
-            print("Can't open silence file:, skipping...")
+            print("Can't open silence file, skipping...")
             return
 
         # transcode input to wav
@@ -235,7 +234,15 @@ class StoragePlayer(Player):
                 print("Error during playback for:", song_path)
                 return
 
+        out_container.close()
+        self.__silence_track.set_write_completed()
+
     def silence(self):
+        """
+            This will backup the player output_stream and replace it with a dummy stream containing silence.
+            The original output stream must then be swapped back for the player to be read from external again.
+            We need this because pi_fm_adv for FM output will loop-stutter if input stops.
+        """
         self.__tmp_stream = self.output_stream
         self.__silence_track.seek_to_start()
         self.output_stream = self.__silence_track
@@ -245,7 +252,6 @@ class StoragePlayer(Player):
             return
         self.__timer.pause()
         self.silence()
-        # self.ready.clear()
 
     def resume(self):
         if not self.__timer.is_paused():

@@ -1,7 +1,5 @@
 from abc import abstractmethod
 from media import MediaInfo, MediaControl
-import subprocess
-import time
 import threading
 
 
