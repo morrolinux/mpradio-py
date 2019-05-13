@@ -10,7 +10,6 @@ from configuration import config
 import psutil
 import av
 from mp_io import MpradioIO
-import numpy as np
 
 
 class StoragePlayer(Player):
