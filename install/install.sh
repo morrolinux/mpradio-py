@@ -3,7 +3,7 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
-ln -s src/mpradio.py /home/pi/mpradio.py
+ln -s /home/pi/mpradio/src/mpradio.py /home/pi/mpradio.py
 
 apt-get -y install git libsndfile1-dev libbluetooth-dev bluez pi-bluetooth python-gobject python-gobject-2 bluez-tools sox ffmpeg libsox-fmt-mp3 python-dbus bluealsa obexpushd python3-rpi.gpio python3-mutagen python3-dbus python3-pip python3-dev pkg-config
 
