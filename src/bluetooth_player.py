@@ -119,9 +119,6 @@ class BtPlayer(Player):
         # TODO: check if this and the above is really needed when playing a device
         # wait until playback (buffer read) terminates; catch signals meanwhile
         while not self.__out.is_read_completed():
-            if self.__skip.is_set():
-                self.__skip.clear()
-                break
             if self.__terminating:
                 break
             time.sleep(0.2)
