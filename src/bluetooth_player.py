@@ -5,7 +5,6 @@ import av
 from mp_io import MpradioIO
 from rds import RdsUpdater
 import time
-import psutil
 import threading
 
 
@@ -15,7 +14,6 @@ class BtPlayer(Player):
     __cmd_arr = None
     __rds_updater = None
     __now_playing = None
-    __out = None
     output_stream = None
     __terminating = False
     CHUNK = 1024 * 2
@@ -24,7 +22,6 @@ class BtPlayer(Player):
         super().__init__()
         self.__rds_updater = RdsUpdater()
         self.__bt_addr = bt_addr
-        self._tmp_stream = None
         self.__cmd_arr = ["sudo", "dbus-send", "--system", "--type=method_call", "--dest=org.bluez", "/org/bluez/hci0/dev_"
                           + bt_addr.replace(":", "_").upper() + "/player0", "org.bluez.MediaPlayer1.Pause"]
 
@@ -47,8 +44,6 @@ class BtPlayer(Player):
             time.sleep(1)
 
     def play(self, device):
-        self._tmp_stream = None
-
         # open input device
         try:
             input_container = av.open(device, format="alsa")
@@ -68,9 +63,8 @@ class BtPlayer(Player):
             return
 
         # open output stream
-        self.__out = MpradioIO()
-        self.output_stream = self.__out       # link for external access
-        out_container = av.open(self.__out, 'w', 'wav')
+        self.output_stream = MpradioIO()
+        out_container = av.open(self.output_stream, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
 
         # transcode input to wav
@@ -92,6 +86,7 @@ class BtPlayer(Player):
                 print("termination signal received")
                 break
 
+            # pre-buffer
             if i == 4:
                 self.ready.set()
 
@@ -112,12 +107,12 @@ class BtPlayer(Player):
 
         # close output container and tell the buffer no more data is coming
         out_container.close()
-        self.__out.set_write_completed()
+        self.output_stream.set_write_completed()
         print("transcoding finished.")
 
         # TODO: check if this and the above is really needed when playing a device
         # wait until playback (buffer read) terminates; catch signals meanwhile
-        while not self.__out.is_read_completed():
+        while not self.output_stream.is_read_completed():
             if self.__terminating:
                 break
             time.sleep(0.2)
