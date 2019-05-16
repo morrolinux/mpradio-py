@@ -158,7 +158,7 @@ class BtPlayer(Player):
         pass
 
     def stop(self):
-        self.silence()
+        self.output_stream.silence(True)
         self.__rds_updater.stop()
         self.__terminating = True
         print("bluetooth player stopped")
