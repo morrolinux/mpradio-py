@@ -240,6 +240,7 @@ class StoragePlayer(Player):
         self.ready.clear()
         self.__timer.stop()
         self.__rds_updater.stop()
+        self.output_stream.stop()
 
     def song_name(self):
         return self.__now_playing["title"]
