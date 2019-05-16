@@ -1,0 +1,3659 @@
+version: 1
+creator: yappi
+pid: 2387
+cmd:  ./mpradio.py
+part: 1
+
+events: Ticks
+
+fl=(368) /usr/lib/python3.7/threading.py
+fl=(24) /home/morro/mpradio-py/src/storage_player.py
+fl=(394) /home/morro/mpradio-py/src/storage_player.py
+fl=(14) /usr/lib/python3.7/threading.py
+fl=(518) /home/morro/mpradio-py/src/mp_io.py
+fl=(15) /usr/lib/python3.7/threading.py
+fl=(29) /usr/lib/python3.7/threading.py
+fl=(512) /home/morro/mpradio-py/src/mp_io.py
+fl=(134) /home/morro/mpradio-py/src/playlist.py
+fl=(135) /home/morro/mpradio-py/src/media_scanner.py
+fl=(257) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(274) /usr/lib/python3.7/site-packages/mutagen/easyid3.py
+fl=(276) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(280) /usr/lib/python3.7/fnmatch.py
+fl=(281) /usr/lib/python3.7/fnmatch.py
+fl=(285) /usr/lib/python3.7/re.py
+fl=(286) /usr/lib/python3.7/re.py
+fl=(288) /usr/lib/python3.7/sre_compile.py
+fl=(362) /home/morro/mpradio-py/src/control_pipe.py
+fl=(289) /usr/lib/python3.7/sre_parse.py
+fl=(293) /usr/lib/python3.7/sre_parse.py
+fl=(295) /usr/lib/python3.7/sre_parse.py
+fl=(369) ./mpradio.py
+fl=(306) /usr/lib/python3.7/sre_compile.py
+fl=(32) /usr/lib/python3.7/subprocess.py
+fl=(38) /usr/lib/python3.7/subprocess.py
+fl=(541) /home/morro/mpradio-py/src/storage_player.py
+fl=(12) /usr/lib/python3.7/threading.py
+fl=(542) /home/morro/mpradio-py/src/player.py
+fl=(315) /usr/lib/python3.7/sre_compile.py
+fl=(307) /usr/lib/python3.7/sre_compile.py
+fl=(282) /usr/lib/python3.7/fnmatch.py
+fl=(303) /usr/lib/python3.7/sre_parse.py
+fl=(297) /usr/lib/python3.7/sre_parse.py
+fl=(162) /usr/lib/python3.7/site-packages/mutagen/easyid3.py
+fl=(283) /usr/lib/python3.7/re.py
+fl=(168) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(169) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(453) <frozen importlib._bootstrap>
+fl=(461) <frozen importlib._bootstrap>
+fl=(322) /usr/lib/python3.7/traceback.py
+fl=(324) /usr/lib/python3.7/traceback.py
+fl=(301) /usr/lib/python3.7/sre_parse.py
+fl=(11) /usr/lib/python3.7/threading.py
+fl=(310) /usr/lib/python3.7/sre_compile.py
+fl=(31) /home/morro/mpradio-py/src/encoder.py
+fl=(325) /usr/lib/python3.7/traceback.py
+fl=(328) /usr/lib/python3.7/traceback.py
+fl=(183) /usr/lib/python3.7/site-packages/mutagen/id3/_file.py
+fl=(291) /usr/lib/python3.7/sre_parse.py
+fl=(462) <frozen importlib._bootstrap>
+fl=(124) /home/morro/mpradio-py/src/analog_output.py
+fl=(339) /usr/lib/python3.7/traceback.py
+fl=(340) /usr/lib/python3.7/linecache.py
+fl=(341) /usr/lib/python3.7/linecache.py
+fl=(342) /usr/lib/python3.7/linecache.py
+fl=(60) /usr/lib/python3.7/subprocess.py
+fl=(17) /usr/lib/python3.7/threading.py
+fl=(536) /home/morro/mpradio-py/src/mp_io.py
+fl=(308) /usr/lib/python3.7/sre_parse.py
+fl=(120) /usr/lib/python3.7/threading.py
+fl=(417) /usr/lib/python3.7/logging/__init__.py
+fl=(318) /usr/lib/python3.7/enum.py
+fl=(219) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(45) /usr/lib/python3.7/os.py
+fl=(463) <frozen importlib._bootstrap>
+fl=(61) /usr/lib/python3.7/posixpath.py
+fl=(221) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(420) /usr/lib/python3.7/logging/__init__.py
+fl=(488) <frozen importlib._bootstrap>
+fl=(176) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(175) /usr/lib/python3.7/contextlib.py
+fl=(407) /usr/lib/python3.7/logging/__init__.py
+fl=(141) /usr/lib/python3.7/json/__init__.py
+fl=(25) /home/morro/mpradio-py/src/storage_player.py
+fl=(469) <frozen importlib._bootstrap_external>
+fl=(225) /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py
+fl=(470) <frozen importlib._bootstrap_external>
+fl=(561) /home/morro/mpradio-py/src/bluetooth_remote.py
+fl=(408) /usr/lib/python3.7/logging/__init__.py
+fl=(142) /usr/lib/python3.7/json/encoder.py
+fl=(298) /usr/lib/python3.7/sre_parse.py
+fl=(180) /home/morro/mpradio-py/src/bluetooth_remote.py
+fl=(121) /usr/lib/python3.7/threading.py
+fl=(319) /usr/lib/python3.7/enum.py
+fl=(39) /usr/lib/python3.7/os.py
+fl=(314) /usr/lib/python3.7/sre_compile.py
+fl=(294) /usr/lib/python3.7/sre_parse.py
+fl=(1) /usr/lib/python3.7/threading.py
+fl=(489) <frozen importlib._bootstrap>
+fl=(472) <frozen importlib._bootstrap_external>
+fl=(344) /usr/lib/python3.7/tokenize.py
+fl=(196) /home/morro/mpradio-py/src/bluetooth_remote.py
+fl=(299) /usr/lib/python3.7/sre_parse.py
+fl=(290) /usr/lib/python3.7/sre_parse.py
+fl=(490) <frozen importlib._bootstrap_external>
+fl=(550) /home/morro/mpradio-py/src/control_pipe.py
+fl=(433) /usr/lib/python3.7/logging/__init__.py
+fl=(435) /usr/lib/python3.7/logging/__init__.py
+fl=(236) /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py
+fl=(144) /usr/lib/python3.7/json/encoder.py
+fl=(436) /usr/lib/python3.7/logging/__init__.py
+fl=(302) /usr/lib/python3.7/sre_parse.py
+fl=(214) /home/morro/mpradio-py/src/control_pipe.py
+fl=(316) /usr/lib/python3.7/sre_parse.py
+fl=(455) <frozen importlib._bootstrap>
+fl=(123) /usr/lib/python3.7/threading.py
+fl=(91) /home/morro/mpradio-py/src/timer.py
+fl=(287) /usr/lib/python3.7/sre_compile.py
+fl=(425) /usr/lib/python3.7/logging/__init__.py
+fl=(382) /home/morro/mpradio-py/src/media_scanner.py
+fl=(185) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(438) /usr/lib/python3.7/logging/__init__.py
+fl=(426) /usr/lib/python3.7/logging/__init__.py
+fl=(525) /home/morro/mpradio-py/src/rds.py
+fl=(543) /usr/lib/python3.7/subprocess.py
+fl=(129) /home/morro/mpradio-py/src/storage_player.py
+fl=(43) /usr/lib/python3.7/posixpath.py
+fl=(54) /usr/lib/python3.7/os.py
+fl=(118) /home/morro/mpradio-py/src/rds.py
+fl=(227) /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py
+fl=(0) /home/morro/mpradio-py/src/storage_player.py
+fl=(304) /usr/lib/python3.7/sre_parse.py
+fl=(138) /usr/lib/python3.7/_bootlocale.py
+fl=(239) /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py
+fl=(566) /usr/lib/python3.7/_weakrefset.py
+fl=(498) <frozen importlib._bootstrap_external>
+fl=(208) /usr/lib/python3.7/site-packages/bluetooth/bluez.py
+fl=(189) /usr/lib/python3.7/site-packages/mutagen/id3/_id3v1.py
+fl=(305) /usr/lib/python3.7/sre_parse.py
+fl=(456) <frozen importlib._bootstrap>
+fl=(320) /usr/lib/python3.7/enum.py
+fl=(475) <frozen importlib._bootstrap_external>
+fl=(26) /usr/lib/python3.7/genericpath.py
+fl=(346) /usr/lib/python3.7/tokenize.py
+fl=(263) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(53) /usr/lib/python3.7/_collections_abc.py
+fl=(75) /usr/lib/python3.7/json/__init__.py
+fl=(49) /usr/lib/python3.7/warnings.py
+fl=(375) /usr/lib/python3.7/traceback.py
+fl=(296) /usr/lib/python3.7/sre_parse.py
+fl=(411) /usr/lib/python3.7/logging/__init__.py
+fl=(572) /home/morro/mpradio-py/src/timer.py
+fl=(6) /usr/lib/python3.7/threading.py
+fl=(574) /home/morro/mpradio-py/src/encoder.py
+fl=(42) /usr/lib/python3.7/posixpath.py
+fl=(197) /usr/lib/python3.7/site-packages/bluetooth/bluez.py
+fl=(241) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(563) <string>
+fl=(198) /usr/lib/python3.7/site-packages/bluetooth/bluez.py
+fl=(418) /usr/lib/python3.7/logging/__init__.py
+fl=(575) /usr/lib/python3.7/subprocess.py
+fl=(18) /usr/lib/python3.7/threading.py
+fl=(312) /usr/lib/python3.7/sre_compile.py
+fl=(573) /home/morro/mpradio-py/src/rds.py
+fl=(393) /home/morro/mpradio-py/src/playlist.py
+fl=(188) /usr/lib/python3.7/site-packages/mutagen/id3/_util.py
+fl=(401) /usr/lib/python3.7/_collections_abc.py
+fl=(230) /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py
+fl=(147) /usr/lib/python3.7/os.py
+fl=(35) /usr/lib/python3.7/subprocess.py
+fl=(193) /usr/lib/python3.7/contextlib.py
+fl=(359) /usr/lib/python3.7/codecs.py
+fl=(265) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(414) /usr/lib/python3.7/logging/__init__.py
+fl=(311) /usr/lib/python3.7/sre_compile.py
+fl=(253) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(571) /usr/lib/python3.7/threading.py
+fl=(55) /usr/lib/python3.7/os.py
+fl=(439) /usr/lib/python3.7/logging/__init__.py
+fl=(292) /usr/lib/python3.7/sre_parse.py
+fl=(50) /usr/lib/python3.7/warnings.py
+fl=(79) /usr/lib/python3.7/json/__init__.py
+fl=(476) <frozen importlib._bootstrap_external>
+fl=(376) /usr/lib/python3.7/traceback.py
+fl=(482) <frozen importlib._bootstrap>
+fl=(8) /usr/lib/python3.7/threading.py
+fl=(163) /usr/lib/python3.7/site-packages/mutagen/id3/_file.py
+fl=(243) /usr/lib/python3.7/encodings/__init__.py
+fl=(576) /usr/lib/python3.7/subprocess.py
+fl=(222) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(480) <frozen importlib._bootstrap>
+fl=(538) /home/morro/mpradio-py/src/storage_player.py
+fl=(440) /usr/lib/python3.7/logging/__init__.py
+fl=(252) /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py
+fl=(199) /usr/lib/python3.7/site-packages/bluetooth/bluez.py
+fl=(448) /usr/lib/python3.7/logging/__init__.py
+fl=(161) /usr/lib/python3.7/posixpath.py
+fl=(421) /usr/lib/python3.7/logging/__init__.py
+fl=(409) /usr/lib/python3.7/logging/__init__.py
+fl=(458) <frozen importlib._bootstrap>
+fl=(347) /usr/lib/python3.7/tokenize.py
+fl=(473) <frozen importlib._bootstrap_external>
+fl=(266) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(264) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(492) <frozen importlib._bootstrap>
+fl=(402) /usr/lib/python3.7/abc.py
+fl=(460) <frozen importlib._bootstrap>
+fl=(9) /usr/lib/python3.7/_weakrefset.py
+fl=(172) /usr/lib/python3.7/contextlib.py
+fl=(47) /usr/lib/python3.7/warnings.py
+fl=(164) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(481) <frozen importlib._bootstrap>
+fl=(415) /usr/lib/python3.7/logging/__init__.py
+fl=(3) /usr/lib/python3.7/threading.py
+fl=(209) /usr/lib/python3.7/site-packages/bluetooth/btcommon.py
+fl=(82) /usr/lib/python3.7/json/decoder.py
+fl=(429) /usr/lib/python3.7/posixpath.py
+fl=(140) /usr/lib/python3.7/codecs.py
+fl=(466) <frozen importlib._bootstrap>
+fl=(464) <frozen importlib._bootstrap>
+fl=(545) /usr/lib/python3.7/subprocess.py
+fl=(28) /usr/lib/python3.7/threading.py
+fl=(58) /usr/lib/python3.7/warnings.py
+fl=(356) /usr/lib/python3.7/codecs.py
+fl=(269) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(234) /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py
+fl=(87) /home/morro/mpradio-py/src/timer.py
+fl=(485) <frozen importlib._bootstrap_external>
+fl=(331) /usr/lib/python3.7/linecache.py
+fl=(46) /usr/lib/python3.7/warnings.py
+fl=(173) /usr/lib/python3.7/contextlib.py
+fl=(2) /usr/lib/python3.7/threading.py
+fl=(404) /usr/lib/python3.7/abc.py
+fl=(500) <frozen importlib._bootstrap>
+fl=(248) <frozen importlib._bootstrap>
+fl=(56) /usr/lib/python3.7/os.py
+fl=(578) /home/morro/mpradio-py/src/analog_output.py
+fl=(352) /usr/lib/python3.7/tokenize.py
+fl=(365) /usr/lib/python3.7/platform.py
+fl=(379) /usr/lib/python3.7/traceback.py
+fl=(477) <frozen importlib._bootstrap>
+fl=(350) /usr/lib/python3.7/sre_compile.py
+fl=(451) <frozen importlib._bootstrap>
+fl=(413) /usr/lib/python3.7/logging/__init__.py
+fl=(258) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(442) /usr/lib/python3.7/logging/__init__.py
+fl=(21) /usr/lib/python3.7/threading.py
+fl=(206) <string>
+fl=(165) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(170) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(437) /usr/lib/python3.7/logging/__init__.py
+fl=(483) <frozen importlib._bootstrap_external>
+fl=(177) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(374) /usr/lib/python3.7/traceback.py
+fl=(424) /usr/lib/python3.7/posixpath.py
+fl=(237) /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py
+fl=(232) /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py
+fl=(181) <string>
+fl=(430) /usr/lib/python3.7/genericpath.py
+fl=(412) /usr/lib/python3.7/logging/__init__.py
+fl=(271) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(270) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(244) /usr/lib/python3.7/encodings/__init__.py
+fl=(450) /usr/lib/python3.7/logging/__init__.py
+fl=(445) /usr/lib/python3.7/logging/__init__.py
+fl=(467) <frozen importlib._bootstrap>
+fl=(179) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(494) <frozen importlib._bootstrap>
+fl=(249) /usr/lib/python3.7/encodings/utf_8.py
+fl=(259) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(484) <frozen importlib._bootstrap_external>
+fl=(539) /home/morro/mpradio-py/src/timer.py
+fl=(33) /usr/lib/python3.7/subprocess.py
+fl=(255) /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py
+fl=(487) <frozen importlib._bootstrap_external>
+fl=(454) <frozen importlib._bootstrap>
+fl=(443) /usr/lib/python3.7/logging/__init__.py
+fl=(422) /usr/lib/python3.7/logging/__init__.py
+fl=(267) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(447) /usr/lib/python3.7/logging/__init__.py
+fl=(419) /usr/lib/python3.7/logging/__init__.py
+fl=(503) /home/morro/mpradio-py/src/mp_io.py
+fl=(507) /usr/lib/python3.7/_collections_abc.py
+fl=(428) /usr/lib/python3.7/logging/__init__.py
+fl=(495) <frozen importlib._bootstrap_external>
+fl=(336) /usr/lib/python3.7/linecache.py
+fl=(231) /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py
+fl=(434) /usr/lib/python3.7/logging/__init__.py
+fl=(478) <frozen importlib._bootstrap>
+fl=(367) /usr/lib/python3.7/site-packages/mutagen/easyid3.py
+fl=(277) /usr/lib/python3.7/site-packages/mutagen/_compat.py
+fl=(240) /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py
+fl=(254) /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py
+fl=(380) /usr/lib/python3.7/traceback.py
+fl=(471) <frozen importlib._bootstrap_external>
+fl=(446) /usr/lib/python3.7/logging/__init__.py
+fl=(330) /usr/lib/python3.7/traceback.py
+fl=(357) /usr/lib/python3.7/codecs.py
+fl=(5) /usr/lib/python3.7/threading.py
+fl=(337) /usr/lib/python3.7/traceback.py
+fl=(334) /usr/lib/python3.7/traceback.py
+fl=(250) /usr/lib/python3.7/codecs.py
+fl=(441) /usr/lib/python3.7/logging/__init__.py
+fl=(204) <string>
+fl=(238) /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py
+fl=(321) /usr/lib/python3.7/threading.py
+fl=(502) <frozen importlib._bootstrap>
+fl=(167) /usr/lib/python3.7/site-packages/mutagen/easyid3.py
+fl=(215) /usr/lib/python3.7/site-packages/mutagen/id3/_util.py
+fl=(212) /usr/lib/python3.7/site-packages/bluetooth/btcommon.py
+fl=(497) <frozen importlib._bootstrap>
+fl=(166) /usr/lib/python3.7/site-packages/mutagen/_tags.py
+fl=(465) <frozen importlib._bootstrap>
+fl=(474) <frozen importlib._bootstrap_external>
+fl=(226) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(509) /usr/lib/python3.7/_collections_abc.py
+fl=(261) /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py
+fl=(218) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(184) /usr/lib/python3.7/site-packages/mutagen/id3/_file.py
+fl=(220) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(397) /home/morro/mpradio-py/src/rds.py
+fl=(136) /home/morro/mpradio-py/src/configuration.py
+fl=(85) /usr/lib/python3.7/json/decoder.py
+fl=(508) /usr/lib/python3.7/_collections_abc.py
+fl=(486) <frozen importlib._bootstrap_external>
+fl=(256) /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py
+fl=(406) /usr/lib/python3.7/_collections_abc.py
+fl=(366) /usr/lib/python3.7/platform.py
+fl=(235) /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py
+fl=(233) /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py
+fl=(349) /usr/lib/python3.7/sre_parse.py
+fl=(96) /usr/lib/python3.7/threading.py
+fl=(260) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(272) /usr/lib/python3.7/site-packages/mutagen/_util.py
+fl=(496) <frozen importlib._bootstrap>
+fl=(383) /home/morro/mpradio-py/src/configuration.py
+fl=(493) <frozen importlib._bootstrap>
+fl=(216) /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py
+fl=(535) /home/morro/mpradio-py/src/mp_io.py
+fl=(395) /home/morro/mpradio-py/src/timer.py
+fl=(217) /usr/lib/python3.7/site-packages/mutagen/id3/_file.py
+fl=(396) /home/morro/mpradio-py/src/timer.py
+fl=(262) /usr/lib/python3.7/site-packages/mutagen/id3/_file.py
+fl=(133) /home/morro/mpradio-py/src/playlist.py
+fl=(540) ./mpradio.py
+fl=(112) /home/morro/mpradio-py/src/timer.py
+fl=(131) /home/morro/mpradio-py/src/storage_player.py
+fl=(126) /home/morro/mpradio-py/src/rds.py
+
+fn=(368) Thread.run /usr/lib/python3.7/threading.py:854
+fn=(24) StoragePlayer.__run /home/morro/mpradio-py/src/storage_player.py:77
+fn=(394) StoragePlayer.play /home/morro/mpradio-py/src/storage_player.py:99
+fn=(14) Event.wait /usr/lib/python3.7/threading.py:534
+fn=(518) MpradioIO.read /home/morro/mpradio-py/src/mp_io.py:15
+fn=(15) Condition.__enter__ /usr/lib/python3.7/threading.py:240
+fn=(29) Condition.__exit__ /usr/lib/python3.7/threading.py:243
+fn=(512) MpradioIO.write /home/morro/mpradio-py/src/mp_io.py:24
+fn=(134) Playlist.__next__ /home/morro/mpradio-py/src/playlist.py:29
+fn=(135) MediaScanner.scan /home/morro/mpradio-py/src/media_scanner.py:16
+fn=(257) ID3.__has_key /usr/lib/python3.7/site-packages/mutagen/_util.py:438
+fn=(274) EasyID3.__getitem__ /usr/lib/python3.7/site-packages/mutagen/easyid3.py:211
+fn=(276) dict_match /usr/lib/python3.7/site-packages/mutagen/_util.py:919
+fn=(280) fnmatchcase /usr/lib/python3.7/fnmatch.py:64
+fn=(281) _compile_pattern /usr/lib/python3.7/fnmatch.py:38
+fn=(285) compile /usr/lib/python3.7/re.py:232
+fn=(286) _compile /usr/lib/python3.7/re.py:271
+fn=(288) compile /usr/lib/python3.7/sre_compile.py:759
+fn=(362) ControlPipe.__listen /home/morro/mpradio-py/src/control_pipe.py:31
+fn=(289) parse /usr/lib/python3.7/sre_parse.py:919
+fn=(293) _parse_sub /usr/lib/python3.7/sre_parse.py:417
+fn=(295) _parse /usr/lib/python3.7/sre_parse.py:475
+fn=(369) Mpradio.check_remotes ./mpradio.py:120
+fn=(306) _code /usr/lib/python3.7/sre_compile.py:598
+fn=(32) Popen.__init__ /usr/lib/python3.7/subprocess.py:656
+fn=(38) Popen._execute_child /usr/lib/python3.7/subprocess.py:1383
+fn=(541) StoragePlayer.stop /home/morro/mpradio-py/src/storage_player.py:245
+fn=(12) Event.is_set /usr/lib/python3.7/threading.py:507
+fn=(542) StoragePlayer.silence /home/morro/mpradio-py/src/player.py:23
+fn=(315) _compile /usr/lib/python3.7/sre_compile.py:71
+fn=(307) _compile_info /usr/lib/python3.7/sre_compile.py:536
+fn=(282) translate /usr/lib/python3.7/fnmatch.py:74
+fn=(303) SubPattern.__getitem__ /usr/lib/python3.7/sre_parse.py:164
+fn=(297) Tokenizer.get /usr/lib/python3.7/sre_parse.py:254
+fn=(162) EasyID3.__init__ /usr/lib/python3.7/site-packages/mutagen/easyid3.py:167
+fn=(283) escape /usr/lib/python3.7/re.py:252
+fn=(168) wrapper /usr/lib/python3.7/site-packages/mutagen/_util.py:166
+fn=(169) ID3.wrapper /usr/lib/python3.7/site-packages/mutagen/_util.py:134
+fn=(453) _find_and_load <frozen importlib._bootstrap>:978
+fn=(461) _find_and_load_unlocked <frozen importlib._bootstrap>:948
+fn=(322) format_exc /usr/lib/python3.7/traceback.py:165
+fn=(324) format_exception /usr/lib/python3.7/traceback.py:108
+fn=(301) SubPattern.append /usr/lib/python3.7/sre_parse.py:172
+fn=(11) Thread.start /usr/lib/python3.7/threading.py:829
+fn=(310) _get_literal_prefix /usr/lib/python3.7/sre_compile.py:461
+fn=(31) Encoder.run /home/morro/mpradio-py/src/encoder.py:24
+fn=(325) TracebackException.__init__ /usr/lib/python3.7/traceback.py:465
+fn=(328) extract /usr/lib/python3.7/traceback.py:318
+fn=(183) ID3.load /usr/lib/python3.7/site-packages/mutagen/id3/_file.py:113
+fn=(291) Tokenizer.__next /usr/lib/python3.7/sre_parse.py:233
+fn=(462) _call_with_frames_removed <frozen importlib._bootstrap>:211
+fn=(124) AnalogOutput.run /home/morro/mpradio-py/src/analog_output.py:10
+fn=(339) FrameSummary.line /usr/lib/python3.7/traceback.py:282
+fn=(340) getline /usr/lib/python3.7/linecache.py:15
+fn=(341) getlines /usr/lib/python3.7/linecache.py:37
+fn=(342) updatecache /usr/lib/python3.7/linecache.py:82
+fn=(60) <genexpr> /usr/lib/python3.7/subprocess.py:1442
+fn=(17) Condition.wait /usr/lib/python3.7/threading.py:264
+fn=(536) MpradioIO.is_read_completed /home/morro/mpradio-py/src/mp_io.py:32
+fn=(308) SubPattern.getwidth /usr/lib/python3.7/sre_parse.py:174
+fn=(120) Event.set /usr/lib/python3.7/threading.py:513
+fn=(417) Logger.log /usr/lib/python3.7/logging/__init__.py:1434
+fn=(318) RegexFlag.__and__ /usr/lib/python3.7/enum.py:836
+fn=(219) ID3._read /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:179
+fn=(45) get_exec_path /usr/lib/python3.7/os.py:616
+fn=(463) _find_spec <frozen importlib._bootstrap>:882
+fn=(61) join /usr/lib/python3.7/posixpath.py:75
+fn=(221) read_frames /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:543
+fn=(420) Logger._log /usr/lib/python3.7/logging/__init__.py:1496
+fn=(488) _load_unlocked <frozen importlib._bootstrap>:663
+fn=(176) _openfile /usr/lib/python3.7/site-packages/mutagen/_util.py:186
+fn=(175) _GeneratorContextManager.__enter__ /usr/lib/python3.7/contextlib.py:107
+fn=(407) getLogger /usr/lib/python3.7/logging/__init__.py:1930
+fn=(141) dumps /usr/lib/python3.7/json/__init__.py:183
+fn=(25) StoragePlayer.__retrive_last_boot_playback /home/morro/mpradio-py/src/storage_player.py:49
+fn=(469) find_spec <frozen importlib._bootstrap_external>:1272
+fn=(225) _fromData /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py:235
+fn=(470) _get_spec <frozen importlib._bootstrap_external>:1240
+fn=(561) BtRemote.stop /home/morro/mpradio-py/src/bluetooth_remote.py:82
+fn=(408) Manager.getLogger /usr/lib/python3.7/logging/__init__.py:1221
+fn=(142) JSONEncoder.encode /usr/lib/python3.7/json/encoder.py:182
+fn=(298) Tokenizer.match /usr/lib/python3.7/sre_parse.py:249
+fn=(180) BtRemote.run /home/morro/mpradio-py/src/bluetooth_remote.py:23
+fn=(121) Condition.notify_all /usr/lib/python3.7/threading.py:358
+fn=(319) __call__ /usr/lib/python3.7/enum.py:284
+fn=(39) fsencode /usr/lib/python3.7/os.py:803
+fn=(314) _generate_overlap_table /usr/lib/python3.7/sre_compile.py:432
+fn=(294) Tokenizer.tell /usr/lib/python3.7/sre_parse.py:286
+fn=(1) Thread.__init__ /usr/lib/python3.7/threading.py:758
+fn=(489) module_from_spec <frozen importlib._bootstrap>:576
+fn=(472) FileFinder.find_spec <frozen importlib._bootstrap_external>:1356
+fn=(344) open /usr/lib/python3.7/tokenize.py:443
+fn=(196) BtRemote.__run /home/morro/mpradio-py/src/bluetooth_remote.py:26
+fn=(299) _parse_flags /usr/lib/python3.7/sre_parse.py:843
+fn=(290) Tokenizer.__init__ /usr/lib/python3.7/sre_parse.py:224
+fn=(490) ExtensionFileLoader.create_module <frozen importlib._bootstrap_external>:1040
+fn=(550) ControlPipe.stop /home/morro/mpradio-py/src/control_pipe.py:42
+fn=(433) Logger.handle /usr/lib/python3.7/logging/__init__.py:1521
+fn=(435) Logger.callHandlers /usr/lib/python3.7/logging/__init__.py:1575
+fn=(236) TXXX._readData /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py:173
+fn=(144) JSONEncoder.iterencode /usr/lib/python3.7/json/encoder.py:204
+fn=(436) _StderrHandler.handle /usr/lib/python3.7/logging/__init__.py:892
+fn=(302) SubPattern.__len__ /usr/lib/python3.7/sre_parse.py:160
+fn=(214) ControlPipe.listen /home/morro/mpradio-py/src/control_pipe.py:28
+fn=(316) Pattern.groups /usr/lib/python3.7/sre_parse.py:81
+fn=(455) _ModuleLockManager.__enter__ <frozen importlib._bootstrap>:147
+fn=(123) Condition.notify /usr/lib/python3.7/threading.py:335
+fn=(91) Timer.start /home/morro/mpradio-py/src/timer.py:21
+fn=(287) isstring /usr/lib/python3.7/sre_compile.py:595
+fn=(425) Logger.makeRecord /usr/lib/python3.7/logging/__init__.py:1481
+fn=(382) MediaScanner.save_library /home/morro/mpradio-py/src/media_scanner.py:58
+fn=(185) ID3Header.__init__ /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:46
+fn=(438) _StderrHandler.emit /usr/lib/python3.7/logging/__init__.py:1022
+fn=(426) LogRecord.__init__ /usr/lib/python3.7/logging/__init__.py:293
+fn=(525) RdsUpdater.q_gram /home/morro/mpradio-py/src/rds.py:57
+fn=(543) Popen.__del__ /usr/lib/python3.7/subprocess.py:850
+fn=(129) StoragePlayer.__update_playback_position /home/morro/mpradio-py/src/storage_player.py:46
+fn=(43) _get_sep /usr/lib/python3.7/posixpath.py:41
+fn=(54) _Environ.__getitem__ /usr/lib/python3.7/os.py:673
+fn=(118) RdsUpdater.run /home/morro/mpradio-py/src/rds.py:73
+fn=(227) TXXX.__init__ /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py:57
+fn=(0) StoragePlayer.run /home/morro/mpradio-py/src/storage_player.py:74
+fn=(304) _escape /usr/lib/python3.7/sre_parse.py:343
+fn=(138) getpreferredencoding /usr/lib/python3.7/_bootlocale.py:33
+fn=(239) EncodedTextSpec.read /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py:470
+fn=(566) _remove /usr/lib/python3.7/_weakrefset.py:38
+fn=(498) ExtensionFileLoader.exec_module <frozen importlib._bootstrap_external>:1048
+fn=(208) advertise_service /usr/lib/python3.7/site-packages/bluetooth/bluez.py:223
+fn=(189) find_id3v1 /usr/lib/python3.7/site-packages/mutagen/id3/_id3v1.py:19
+fn=(305) fix_flags /usr/lib/python3.7/sre_parse.py:903
+fn=(456) _get_module_lock <frozen importlib._bootstrap>:157
+fn=(320) __new__ /usr/lib/python3.7/enum.py:526
+fn=(475) _path_join <frozen importlib._bootstrap_external>:56
+fn=(26) isfile /usr/lib/python3.7/genericpath.py:27
+fn=(346) detect_encoding /usr/lib/python3.7/tokenize.py:350
+fn=(263) ID3.update_to_v24 /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:361
+fn=(53) _Environ.get /usr/lib/python3.7/_collections_abc.py:657
+fn=(75) load /usr/lib/python3.7/json/__init__.py:274
+fn=(49) simplefilter /usr/lib/python3.7/warnings.py:165
+fn=(375) TracebackException.format /usr/lib/python3.7/traceback.py:588
+fn=(296) SubPattern.__init__ /usr/lib/python3.7/sre_parse.py:111
+fn=(411) Logger.__init__ /usr/lib/python3.7/logging/__init__.py:1341
+fn=(572) Timer.stop /home/morro/mpradio-py/src/timer.py:25
+fn=(6) Event.__init__ /usr/lib/python3.7/threading.py:499
+fn=(574) Encoder.stop /home/morro/mpradio-py/src/encoder.py:45
+fn=(42) dirname /usr/lib/python3.7/posixpath.py:154
+fn=(197) BluetoothSocket.bind /usr/lib/python3.7/site-packages/bluetooth/bluez.py:174
+fn=(241) decode_terminated /usr/lib/python3.7/site-packages/mutagen/_util.py:974
+fn=(563) BluetoothSocket.close <string>:1
+fn=(198) _get_available_port /usr/lib/python3.7/site-packages/bluetooth/bluez.py:125
+fn=(418) Logger.isEnabledFor /usr/lib/python3.7/logging/__init__.py:1619
+fn=(575) Popen.kill /usr/lib/python3.7/subprocess.py:1753
+fn=(18) Condition._is_owned /usr/lib/python3.7/threading.py:255
+fn=(312) _combine_flags /usr/lib/python3.7/sre_compile.py:65
+fn=(573) RdsUpdater.stop /home/morro/mpradio-py/src/rds.py:76
+fn=(393) Playlist.save_playlist /home/morro/mpradio-py/src/playlist.py:54
+fn=(188) __new__ /usr/lib/python3.7/site-packages/mutagen/id3/_util.py:130
+fn=(401) update /usr/lib/python3.7/_collections_abc.py:824
+fn=(230) TXXX.__setattr__ /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py:75
+fn=(147) walk /usr/lib/python3.7/os.py:278
+fn=(35) Popen._get_handles /usr/lib/python3.7/subprocess.py:1329
+fn=(193) _GeneratorContextManager.__exit__ /usr/lib/python3.7/contextlib.py:116
+fn=(359) IncrementalDecoder.decode /usr/lib/python3.7/codecs.py:319
+fn=(265) ID3.getall /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:218
+fn=(414) Manager._fixupParents /usr/lib/python3.7/logging/__init__.py:1272
+fn=(311) _get_iscased /usr/lib/python3.7/sre_compile.py:453
+fn=(253) ID3._add /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:286
+fn=(571) Event.clear /usr/lib/python3.7/threading.py:524
+fn=(55) encode /usr/lib/python3.7/os.py:751
+fn=(439) _StderrHandler.format /usr/lib/python3.7/logging/__init__.py:869
+fn=(292) Pattern.__init__ /usr/lib/python3.7/sre_parse.py:76
+fn=(50) _add_filter /usr/lib/python3.7/warnings.py:181
+fn=(79) loads /usr/lib/python3.7/json/__init__.py:299
+fn=(476) <listcomp> <frozen importlib._bootstrap_external>:58
+fn=(376) StackSummary.format /usr/lib/python3.7/traceback.py:385
+fn=(482) cb <frozen importlib._bootstrap>:176
+fn=(8) Condition.__init__ /usr/lib/python3.7/threading.py:216
+fn=(163) ID3.__init__ /usr/lib/python3.7/site-packages/mutagen/id3/_file.py:74
+fn=(243) search_function /usr/lib/python3.7/encodings/__init__.py:71
+fn=(576) Popen.send_signal /usr/lib/python3.7/subprocess.py:1742
+fn=(222) determine_bpi /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:117
+fn=(480) _ModuleLockManager.__exit__ <frozen importlib._bootstrap>:151
+fn=(538) StoragePlayer.playback_position /home/morro/mpradio-py/src/storage_player.py:34
+fn=(440) Formatter.format /usr/lib/python3.7/logging/__init__.py:606
+fn=(252) MultiSpec.read /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py:505
+fn=(199) BluetoothSocket.__init__ /usr/lib/python3.7/site-packages/bluetooth/bluez.py:153
+fn=(448) _StderrHandler.flush /usr/lib/python3.7/logging/__init__.py:1011
+fn=(161) basename /usr/lib/python3.7/posixpath.py:144
+fn=(421) Logger.findCaller /usr/lib/python3.7/logging/__init__.py:1451
+fn=(409) _acquireLock /usr/lib/python3.7/logging/__init__.py:212
+fn=(458) _ModuleLock.__init__ <frozen importlib._bootstrap>:58
+fn=(347) read_or_stop /usr/lib/python3.7/tokenize.py:374
+fn=(473) _path_stat <frozen importlib._bootstrap_external>:74
+fn=(266) ID3.items /usr/lib/python3.7/site-packages/mutagen/_util.py:460
+fn=(264) ID3.__update_common /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:346
+fn=(492) _init_module_attrs <frozen importlib._bootstrap>:504
+fn=(402) __instancecheck__ /usr/lib/python3.7/abc.py:137
+fn=(460) _ModuleLock.acquire <frozen importlib._bootstrap>:78
+fn=(9) WeakSet.add /usr/lib/python3.7/_weakrefset.py:81
+fn=(172) helper /usr/lib/python3.7/contextlib.py:237
+fn=(47) catch_warnings.__enter__ /usr/lib/python3.7/warnings.py:474
+fn=(164) ID3.__init__ /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:174
+fn=(481) _ModuleLock.release <frozen importlib._bootstrap>:103
+fn=(415) _releaseLock /usr/lib/python3.7/logging/__init__.py:221
+fn=(3) current_thread /usr/lib/python3.7/threading.py:1214
+fn=(209) is_valid_uuid /usr/lib/python3.7/site-packages/bluetooth/btcommon.py:195
+fn=(82) JSONDecoder.decode /usr/lib/python3.7/json/decoder.py:332
+fn=(429) splitext /usr/lib/python3.7/posixpath.py:121
+fn=(140) IncrementalEncoder.__init__ /usr/lib/python3.7/codecs.py:186
+fn=(466) _ImportLockContext.__exit__ <frozen importlib._bootstrap>:859
+fn=(464) _ImportLockContext.__enter__ <frozen importlib._bootstrap>:855
+fn=(545) Popen._internal_poll /usr/lib/python3.7/subprocess.py:1544
+fn=(28) Condition._acquire_restore /usr/lib/python3.7/threading.py:252
+fn=(58) catch_warnings.__exit__ /usr/lib/python3.7/warnings.py:493
+fn=(356) IncrementalDecoder.__init__ /usr/lib/python3.7/codecs.py:309
+fn=(269) ID3.values /usr/lib/python3.7/site-packages/mutagen/_util.py:454
+fn=(234) MultiSpec.validate /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py:529
+fn=(87) Timer.__init__ /home/morro/mpradio-py/src/timer.py:11
+fn=(485) FileFinder._get_spec <frozen importlib._bootstrap_external>:1351
+fn=(331) lazycache /usr/lib/python3.7/linecache.py:147
+fn=(46) catch_warnings.__init__ /usr/lib/python3.7/warnings.py:453
+fn=(173) _GeneratorContextManager.__init__ /usr/lib/python3.7/contextlib.py:81
+fn=(2) _newname /usr/lib/python3.7/threading.py:728
+fn=(404) __subclasscheck__ /usr/lib/python3.7/abc.py:141
+fn=(500) _installed_safely.__exit__ <frozen importlib._bootstrap>:318
+fn=(248) _handle_fromlist <frozen importlib._bootstrap>:1009
+fn=(56) decode /usr/lib/python3.7/os.py:755
+fn=(578) AnalogOutput.stop /home/morro/mpradio-py/src/analog_output.py:17
+fn=(352) find_cookie /usr/lib/python3.7/tokenize.py:380
+fn=(365) machine /usr/lib/python3.7/platform.py:1098
+fn=(379) TracebackException.format_exception_only /usr/lib/python3.7/traceback.py:543
+fn=(477) _verbose_message <frozen importlib._bootstrap>:222
+fn=(350) _simple /usr/lib/python3.7/sre_compile.py:423
+fn=(451) ModuleSpec.parent <frozen importlib._bootstrap>:416
+fn=(413) _checkLevel /usr/lib/python3.7/logging/__init__.py:187
+fn=(258) ID3.__getitem__ /usr/lib/python3.7/site-packages/mutagen/_util.py:535
+fn=(442) Formatter.usesTime /usr/lib/python3.7/logging/__init__.py:584
+fn=(21) Condition._release_save /usr/lib/python3.7/threading.py:249
+fn=(206) BluetoothSocket.getsockname <string>:1
+fn=(165) ID3.__init__ /usr/lib/python3.7/site-packages/mutagen/_util.py:531
+fn=(170) convert_file_args /usr/lib/python3.7/site-packages/mutagen/_util.py:126
+fn=(437) _StderrHandler.acquire /usr/lib/python3.7/logging/__init__.py:849
+fn=(483) _path_isfile <frozen importlib._bootstrap_external>:93
+fn=(177) is_fileobj /usr/lib/python3.7/site-packages/mutagen/_util.py:47
+fn=(374) TracebackException._load_lines /usr/lib/python3.7/traceback.py:528
+fn=(424) normcase /usr/lib/python3.7/posixpath.py:52
+fn=(237) EncodingSpec.read /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py:254
+fn=(232) TXXX._setattr /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py:86
+fn=(181) __new__ <string>:1
+fn=(430) _splitext /usr/lib/python3.7/genericpath.py:117
+fn=(412) Logger.__init__ /usr/lib/python3.7/logging/__init__.py:727
+fn=(271) <listcomp> /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:239
+fn=(270) <listcomp> /usr/lib/python3.7/site-packages/mutagen/_util.py:455
+fn=(244) normalize_encoding /usr/lib/python3.7/encodings/__init__.py:43
+fn=(450) _StderrHandler.release /usr/lib/python3.7/logging/__init__.py:856
+fn=(445) Formatter.formatMessage /usr/lib/python3.7/logging/__init__.py:590
+fn=(467) find_spec <frozen importlib._bootstrap>:792
+fn=(179) verify_filename /usr/lib/python3.7/site-packages/mutagen/_util.py:89
+fn=(494) ModuleSpec.cached <frozen importlib._bootstrap>:403
+fn=(249) getregentry /usr/lib/python3.7/encodings/utf_8.py:33
+fn=(259) ID3.__setitem__ /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:341
+fn=(484) _path_is_mode_type <frozen importlib._bootstrap_external>:84
+fn=(539) Timer.get_time /home/morro/mpradio-py/src/timer.py:37
+fn=(33) _cleanup /usr/lib/python3.7/subprocess.py:226
+fn=(255) TXXX.HashKey /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py:875
+fn=(487) spec_from_file_location <frozen importlib._bootstrap_external>:574
+fn=(454) _ModuleLockManager.__init__ <frozen importlib._bootstrap>:143
+fn=(443) PercentStyle.usesTime /usr/lib/python3.7/logging/__init__.py:429
+fn=(422) <lambda> /usr/lib/python3.7/logging/__init__.py:154
+fn=(267) ID3.keys /usr/lib/python3.7/site-packages/mutagen/_util.py:544
+fn=(447) _StderrHandler.stream /usr/lib/python3.7/logging/__init__.py:1151
+fn=(419) Logger.getEffectiveLevel /usr/lib/python3.7/logging/__init__.py:1605
+fn=(503) MpradioIO.__init__ /home/morro/mpradio-py/src/mp_io.py:8
+fn=(507) Dictionary.keys /usr/lib/python3.7/_collections_abc.py:672
+fn=(428) getLevelName /usr/lib/python3.7/logging/__init__.py:117
+fn=(495) _get_cached <frozen importlib._bootstrap_external>:369
+fn=(336) checkcache /usr/lib/python3.7/linecache.py:53
+fn=(231) EncodingSpec.validate /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py:261
+fn=(434) Logger.filter /usr/lib/python3.7/logging/__init__.py:747
+fn=(478) ModuleSpec.__init__ <frozen importlib._bootstrap>:369
+fn=(367) getter /usr/lib/python3.7/site-packages/mutagen/easyid3.py:120
+fn=(277) <lambda> /usr/lib/python3.7/site-packages/mutagen/_compat.py:79
+fn=(240) iter_text_fixups /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py:442
+fn=(254) TXXX._upgrade_frame /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py:109
+fn=(380) _format_final_exc_line /usr/lib/python3.7/traceback.py:145
+fn=(471) _path_importer_cache <frozen importlib._bootstrap_external>:1203
+fn=(446) PercentStyle.format /usr/lib/python3.7/logging/__init__.py:432
+fn=(330) walk_tb /usr/lib/python3.7/traceback.py:302
+fn=(357) IncrementalDecoder.__init__ /usr/lib/python3.7/codecs.py:260
+fn=(5) _MainThread.daemon /usr/lib/python3.7/threading.py:1104
+fn=(337) _some_str /usr/lib/python3.7/traceback.py:153
+fn=(334) FrameSummary.__init__ /usr/lib/python3.7/traceback.py:243
+fn=(250) __new__ /usr/lib/python3.7/codecs.py:94
+fn=(441) LogRecord.getMessage /usr/lib/python3.7/logging/__init__.py:371
+fn=(204) BluetoothSocket.listen <string>:1
+fn=(238) EncodingSpec.read /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py:164
+fn=(321) Thread.name /usr/lib/python3.7/threading.py:1052
+fn=(502) <genexpr> <frozen importlib._bootstrap>:321
+fn=(167) <lambda> /usr/lib/python3.7/site-packages/mutagen/easyid3.py:172
+fn=(215) has_valid_padding /usr/lib/python3.7/site-packages/mutagen/id3/_util.py:105
+fn=(212) <listcomp> /usr/lib/python3.7/site-packages/bluetooth/btcommon.py:221
+fn=(497) _installed_safely.__enter__ <frozen importlib._bootstrap>:311
+fn=(166) ID3.__init__ /usr/lib/python3.7/site-packages/mutagen/_tags.py:109
+fn=(465) find_spec <frozen importlib._bootstrap>:719
+fn=(474) _relax_case <frozen importlib._bootstrap_external>:40
+fn=(226) <lambda> /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:30
+fn=(509) KeysView.__iter__ /usr/lib/python3.7/_collections_abc.py:719
+fn=(261) TSSE.HashKey /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py:145
+fn=(218) read_full /usr/lib/python3.7/site-packages/mutagen/_util.py:638
+fn=(184) ID3._pre_load_header /usr/lib/python3.7/site-packages/mutagen/id3/_file.py:109
+fn=(220) ID3Header.known_frames /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:37
+fn=(397) RdsUpdater.set /home/morro/mpradio-py/src/rds.py:29
+fn=(136) Configuration.get_music_folder /home/morro/mpradio-py/src/configuration.py:91
+fn=(85) JSONDecoder.raw_decode /usr/lib/python3.7/json/decoder.py:343
+fn=(508) KeysView.__init__ /usr/lib/python3.7/_collections_abc.py:698
+fn=(486) ExtensionFileLoader.__init__ <frozen importlib._bootstrap_external>:1029
+fn=(256) TXXX.FrameID /usr/lib/python3.7/site-packages/mutagen/id3/_frames.py:151
+fn=(406) __subclasshook__ /usr/lib/python3.7/_collections_abc.py:392
+fn=(366) uname /usr/lib/python3.7/platform.py:923
+fn=(235) <listcomp> /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py:534
+fn=(233) EncodedTextSpec.validate /usr/lib/python3.7/site-packages/mutagen/id3/_specs.py:495
+fn=(349) SubPattern.__setitem__ /usr/lib/python3.7/sre_parse.py:168
+fn=(96) Thread.daemon /usr/lib/python3.7/threading.py:1104
+fn=(260) ID3.__setitem__ /usr/lib/python3.7/site-packages/mutagen/_util.py:538
+fn=(272) ID3.get /usr/lib/python3.7/site-packages/mutagen/_util.py:509
+fn=(496) _installed_safely.__init__ <frozen importlib._bootstrap>:307
+fn=(383) Configuration.get_library_file /home/morro/mpradio-py/src/configuration.py:88
+fn=(493) ModuleSpec.has_location <frozen importlib._bootstrap>:424
+fn=(216) <lambda> /usr/lib/python3.7/site-packages/mutagen/id3/_tags.py:31
+fn=(535) MpradioIO.set_write_completed /home/morro/mpradio-py/src/mp_io.py:29
+fn=(395) Timer.reset /home/morro/mpradio-py/src/timer.py:34
+fn=(217) ID3.size /usr/lib/python3.7/site-packages/mutagen/id3/_file.py:103
+fn=(396) Timer.resume /home/morro/mpradio-py/src/timer.py:31
+fn=(262) ID3.version /usr/lib/python3.7/site-packages/mutagen/id3/_file.py:79
+fn=(133) Playlist.__iter__ /home/morro/mpradio-py/src/playlist.py:26
+fn=(540) Mpradio.termination_handler ./mpradio.py:63
+fn=(112) Timer.count /home/morro/mpradio-py/src/timer.py:15
+fn=(131) StoragePlayer.__update_playback_position_thread /home/morro/mpradio-py/src/storage_player.py:37
+fn=(126) RdsUpdater.__run /home/morro/mpradio-py/src/rds.py:40
+
+fl=(368)
+fn=(368)
+854 228
+cfl=(369)
+cfn=(369)
+calls=1 0
+0 11939
+cfl=(196)
+cfn=(196)
+calls=1 0
+0 365
+cfl=(362)
+cfn=(362)
+calls=1 0
+0 17248
+cfl=(112)
+cfn=(112)
+calls=1 0
+0 0
+cfl=(131)
+cfn=(131)
+calls=1 0
+0 0
+cfl=(24)
+cfn=(24)
+calls=1 0
+0 437063
+cfl=(126)
+cfn=(126)
+calls=1 0
+0 0
+
+fl=(24)
+fn=(24)
+77 934
+cfl=(417)
+cfn=(417)
+calls=1 0
+0 113
+cfl=(407)
+cfn=(407)
+calls=1 0
+0 389
+cfl=(394)
+cfn=(394)
+calls=1 0
+0 398627
+cfl=(134)
+cfn=(134)
+calls=1 0
+0 35806
+cfl=(133)
+cfn=(133)
+calls=1 0
+0 0
+cfl=(129)
+cfn=(129)
+calls=1 0
+0 199
+cfl=(118)
+cfn=(118)
+calls=1 0
+0 191
+cfl=(91)
+cfn=(91)
+calls=1 0
+0 241
+cfl=(25)
+cfn=(25)
+calls=1 0
+0 546
+
+fl=(394)
+fn=(394)
+99 68852
+cfl=(536)
+cfn=(536)
+calls=87 0
+0 924
+cfl=(535)
+cfn=(535)
+calls=1 0
+0 1
+cfl=(514)
+cfn=(514)
+calls=1 0
+0 53
+cfl=(100)
+cfn=(100)
+calls=6021 0
+0 4349
+cfl=(503)
+cfn=(503)
+calls=1 0
+0 12
+cfl=(397)
+cfn=(397)
+calls=1 0
+0 3
+cfl=(396)
+cfn=(396)
+calls=1 0
+0 1
+cfl=(395)
+cfn=(395)
+calls=1 0
+0 1
+
+fl=(14)
+fn=(14)
+534 75976
+cfl=(540)
+cfn=(540)
+calls=1 0
+0 0
+cfl=(29)
+cfn=(29)
+calls=6304 0
+0 61220
+cfl=(17)
+cfn=(17)
+calls=8 0
+0 1154
+cfl=(15)
+cfn=(15)
+calls=6305 0
+0 67161
+
+fl=(518)
+fn=(518)
+15 50769
+
+fl=(15)
+fn=(15)
+240 44128
+
+fl=(29)
+fn=(29)
+243 42671
+
+fl=(512)
+fn=(512)
+24 22217
+
+fl=(134)
+fn=(134)
+29 35
+cfl=(393)
+cfn=(393)
+calls=1 0
+0 116
+cfl=(135)
+cfn=(135)
+calls=1 0
+0 35652
+
+fl=(135)
+fn=(135)
+16 185
+cfl=(382)
+cfn=(382)
+calls=1 0
+0 233
+cfl=(257)
+cfn=(257)
+calls=5 0
+0 32465
+cfl=(162)
+cfn=(162)
+calls=5 0
+0 2413
+cfl=(161)
+cfn=(161)
+calls=5 0
+0 33
+cfl=(158)
+cfn=(158)
+calls=5 0
+0 61
+cfl=(155)
+cfn=(155)
+calls=5 0
+0 61
+cfl=(147)
+cfn=(147)
+calls=2 0
+0 107
+cfl=(136)
+cfn=(136)
+calls=1 0
+0 3
+
+fl=(257)
+fn=(257)
+438 46
+cfl=(274)
+cfn=(274)
+calls=5 0
+0 32448
+cfl=(258)
+cfn=(258)
+calls=16 0
+0 12
+
+fl=(274)
+fn=(274)
+211 32
+cfl=(367)
+cfn=(367)
+calls=3 0
+0 9
+cfl=(276)
+cfn=(276)
+calls=5 0
+0 32402
+
+fl=(276)
+fn=(276)
+919 193
+cfl=(280)
+cfn=(280)
+calls=110 0
+0 32199
+cfl=(277)
+cfn=(277)
+calls=2 0
+0 9
+
+fl=(280)
+fn=(280)
+64 330
+cfl=(281)
+cfn=(281)
+calls=55 0
+0 31655
+
+fl=(281)
+fn=(281)
+38 268
+cfl=(285)
+cfn=(285)
+calls=55 0
+0 27838
+cfl=(282)
+cfn=(282)
+calls=55 0
+0 3499
+
+fl=(285)
+fn=(285)
+232 119
+cfl=(286)
+cfn=(286)
+calls=55 0
+0 27718
+
+fl=(286)
+fn=(286)
+271 744
+cfl=(318)
+cfn=(318)
+calls=55 0
+0 834
+cfl=(288)
+cfn=(288)
+calls=55 0
+0 25872
+cfl=(287)
+cfn=(287)
+calls=55 0
+0 123
+
+fl=(288)
+fn=(288)
+759 800
+cfl=(316)
+cfn=(316)
+calls=110 0
+0 260
+cfl=(306)
+cfn=(306)
+calls=55 0
+0 9986
+cfl=(289)
+cfn=(289)
+calls=55 0
+0 14518
+cfl=(287)
+cfn=(287)
+calls=55 0
+0 115
+
+fl=(362)
+fn=(362)
+31 5710
+cfl=(363)
+cfn=(363)
+calls=90 0
+0 502
+
+fl=(289)
+fn=(289)
+919 466
+cfl=(305)
+cfn=(305)
+calls=55 0
+0 166
+cfl=(293)
+cfn=(293)
+calls=55 0
+0 13463
+cfl=(292)
+cfn=(292)
+calls=55 0
+0 83
+cfl=(290)
+cfn=(290)
+calls=55 0
+0 338
+
+fl=(293)
+fn=(293)
+417 739
+cfl=(298)
+cfn=(298)
+calls=110 0
+0 103
+cfl=(295)
+cfn=(295)
+calls=110 0
+0 12812
+cfl=(294)
+cfn=(294)
+calls=110 0
+0 268
+
+fl=(295)
+fn=(295)
+475 4173
+cfl=(349)
+cfn=(349)
+calls=3 0
+0 2
+cfl=(302)
+cfn=(302)
+calls=6 0
+0 11
+cfl=(304)
+cfn=(304)
+calls=55 0
+0 184
+cfl=(303)
+cfn=(303)
+calls=768 0
+0 1809
+cfl=(301)
+cfn=(301)
+calls=756 0
+0 1699
+cfl=(293)
+cfn=(293)
+calls=55 0
+0 9044
+cfl=(299)
+cfn=(299)
+calls=55 0
+0 348
+cfl=(298)
+cfn=(298)
+calls=113 0
+0 353
+cfl=(294)
+cfn=(294)
+calls=58 0
+0 133
+cfl=(297)
+cfn=(297)
+calls=814 0
+0 2417
+cfl=(296)
+cfn=(296)
+calls=110 0
+0 139
+
+fl=(369)
+fn=(369)
+120 3675
+cfl=(561)
+cfn=(561)
+calls=1 0
+0 478
+cfl=(550)
+cfn=(550)
+calls=1 0
+0 330
+cfl=(370)
+cfn=(370)
+calls=177 0
+0 902
+
+fl=(306)
+fn=(306)
+598 282
+cfl=(315)
+cfn=(315)
+calls=55 0
+0 5059
+cfl=(307)
+cfn=(307)
+calls=55 0
+0 4606
+
+fl=(32)
+fn=(32)
+656 217
+cfl=(38)
+cfn=(38)
+calls=3 0
+0 7496
+cfl=(35)
+cfn=(35)
+calls=3 0
+0 107
+cfl=(33)
+cfn=(33)
+calls=3 0
+0 14
+
+fl=(38)
+fn=(38)
+1383 510
+cfl=(60)
+cfn=(60)
+calls=27 0
+0 1179
+cfl=(45)
+cfn=(45)
+calls=3 0
+0 721
+cfl=(42)
+cfn=(42)
+calls=3 0
+0 71
+cfl=(39)
+cfn=(39)
+calls=3 0
+0 59
+
+fl=(541)
+fn=(541)
+245 209
+cfl=(573)
+cfn=(573)
+calls=1 0
+0 116
+cfl=(572)
+cfn=(572)
+calls=1 0
+0 134
+cfl=(571)
+cfn=(571)
+calls=1 0
+0 91
+cfl=(542)
+cfn=(542)
+calls=1 0
+0 5577
+
+fl=(12)
+fn=(12)
+507 5948
+
+fl=(542)
+fn=(542)
+23 196
+cfl=(543)
+cfn=(543)
+calls=1 0
+0 205
+cfl=(32)
+cfn=(32)
+calls=1 0
+0 5151
+
+fl=(315)
+fn=(315)
+71 2326
+cfl=(350)
+cfn=(350)
+calls=3 0
+0 24
+cfl=(303)
+cfn=(303)
+calls=707 0
+0 1621
+cfl=(315)
+cfn=(315)
+calls=58 0
+0 4406
+cfl=(312)
+cfn=(312)
+calls=55 0
+0 50
+
+fl=(307)
+fn=(307)
+536 1005
+cfl=(314)
+cfn=(314)
+calls=55 0
+0 410
+cfl=(310)
+cfn=(310)
+calls=55 0
+0 1654
+cfl=(308)
+cfn=(308)
+calls=55 0
+0 915
+
+fl=(282)
+fn=(282)
+74 1062
+cfl=(283)
+cfn=(283)
+calls=643 0
+0 2392
+
+fl=(303)
+fn=(303)
+164 2309
+cfl=(296)
+cfn=(296)
+calls=3 0
+0 2
+
+fl=(297)
+fn=(297)
+254 1417
+cfl=(291)
+cfn=(291)
+calls=869 0
+0 1143
+
+fl=(162)
+fn=(162)
+167 47
+cfl=(168)
+cfn=(168)
+calls=5 0
+0 2282
+cfl=(167)
+cfn=(167)
+calls=5 0
+0 5
+cfl=(163)
+cfn=(163)
+calls=5 0
+0 77
+
+fl=(283)
+fn=(283)
+252 1407
+
+fl=(168)
+fn=(168)
+166 39
+cfl=(185)
+cfn=(185)
+calls=5 0
+0 233
+cfl=(169)
+cfn=(169)
+calls=5 0
+0 2261
+
+fl=(169)
+fn=(169)
+134 59
+cfl=(193)
+cfn=(193)
+calls=5 0
+0 103
+cfl=(183)
+cfn=(183)
+calls=5 0
+0 1426
+cfl=(175)
+cfn=(175)
+calls=5 0
+0 600
+cfl=(172)
+cfn=(172)
+calls=5 0
+0 48
+cfl=(170)
+cfn=(170)
+calls=5 0
+0 22
+
+fl=(453)
+fn=(453)
+978 130
+cfl=(482)
+cfn=(482)
+calls=14 0
+0 81
+cfl=(480)
+cfn=(480)
+calls=14 0
+0 72
+cfl=(461)
+cfn=(461)
+calls=14 0
+0 1779
+cfl=(455)
+cfn=(455)
+calls=14 0
+0 254
+cfl=(454)
+cfn=(454)
+calls=14 0
+0 13
+
+fl=(461)
+fn=(461)
+948 78
+cfl=(488)
+cfn=(488)
+calls=2 0
+0 640
+cfl=(463)
+cfn=(463)
+calls=6 0
+0 701
+cfl=(462)
+cfn=(462)
+calls=8 0
+0 899
+
+fl=(322)
+fn=(322)
+165 10
+cfl=(324)
+cfn=(324)
+calls=1 0
+0 1724
+
+fl=(324)
+fn=(324)
+108 29
+cfl=(375)
+cfn=(375)
+calls=11 0
+0 143
+cfl=(325)
+cfn=(325)
+calls=1 0
+0 1550
+
+fl=(301)
+fn=(301)
+172 1182
+
+fl=(11)
+fn=(11)
+829 96
+cfl=(14)
+cfn=(14)
+calls=7 0
+0 1260
+cfl=(12)
+cfn=(12)
+calls=7 0
+0 6
+
+fl=(310)
+fn=(310)
+461 1006
+cfl=(310)
+cfn=(310)
+calls=55 0
+0 1094
+cfl=(312)
+cfn=(312)
+calls=55 0
+0 66
+cfl=(311)
+cfn=(311)
+calls=110 0
+0 92
+
+fl=(31)
+fn=(31)
+24 35
+cfl=(120)
+cfn=(120)
+calls=1 0
+0 28
+cfl=(32)
+cfn=(32)
+calls=1 0
+0 1561
+
+fl=(325)
+fn=(325)
+465 50
+cfl=(374)
+cfn=(374)
+calls=1 0
+0 21
+cfl=(337)
+cfn=(337)
+calls=2 0
+0 4
+cfl=(328)
+cfn=(328)
+calls=2 0
+0 1469
+cfl=(325)
+cfn=(325)
+calls=1 0
+0 81
+
+fl=(328)
+fn=(328)
+318 65
+cfl=(339)
+cfn=(339)
+calls=4 0
+0 1333
+cfl=(336)
+cfn=(336)
+calls=4 0
+0 10
+cfl=(334)
+cfn=(334)
+calls=5 0
+0 6
+cfl=(331)
+cfn=(331)
+calls=5 0
+0 33
+cfl=(330)
+cfn=(330)
+calls=7 0
+0 7
+
+fl=(183)
+fn=(183)
+113 73
+cfl=(263)
+cfn=(263)
+calls=1 0
+0 146
+cfl=(262)
+cfn=(262)
+calls=1 0
+0 1
+cfl=(219)
+cfn=(219)
+calls=1 0
+0 776
+cfl=(218)
+cfn=(218)
+calls=1 0
+0 3
+cfl=(217)
+cfn=(217)
+calls=1 0
+0 1
+cfl=(189)
+cfn=(189)
+calls=5 0
+0 167
+cfl=(168)
+cfn=(168)
+calls=5 0
+0 251
+cfl=(184)
+cfn=(184)
+calls=5 0
+0 3
+
+fl=(291)
+fn=(291)
+233 1392
+
+fl=(462)
+fn=(462)
+211 21
+
+fl=(124)
+fn=(124)
+10 17
+cfl=(120)
+cfn=(120)
+calls=1 0
+0 25
+cfl=(32)
+cfn=(32)
+calls=1 0
+0 1338
+
+fl=(339)
+fn=(339)
+282 30
+cfl=(340)
+cfn=(340)
+calls=5 0
+0 1318
+
+fl=(340)
+fn=(340)
+15 18
+cfl=(341)
+cfn=(341)
+calls=5 0
+0 1295
+
+fl=(341)
+fn=(341)
+37 22
+cfl=(342)
+cfn=(342)
+calls=3 0
+0 1269
+
+fl=(342)
+fn=(342)
+82 87
+cfl=(344)
+cfn=(344)
+calls=3 0
+0 387
+
+fl=(60)
+fn=(60)
+1442 197
+cfl=(61)
+cfn=(61)
+calls=24 0
+0 637
+cfl=(39)
+cfn=(39)
+calls=24 0
+0 343
+
+fl=(17)
+fn=(17)
+264 133
+cfl=(28)
+cfn=(28)
+calls=8 0
+0 37
+cfl=(21)
+cfn=(21)
+calls=8 0
+0 22
+cfl=(18)
+cfn=(18)
+calls=8 0
+0 27
+
+fl=(536)
+fn=(536)
+32 924
+
+fl=(308)
+fn=(308)
+174 693
+cfl=(308)
+cfn=(308)
+calls=58 0
+0 520
+
+fl=(120)
+fn=(120)
+513 210
+cfl=(29)
+cfn=(29)
+calls=8 0
+0 82
+cfl=(121)
+cfn=(121)
+calls=8 0
+0 428
+cfl=(15)
+cfn=(15)
+calls=8 0
+0 137
+
+fl=(417)
+fn=(417)
+1434 67
+cfl=(420)
+cfn=(420)
+calls=4 0
+0 661
+cfl=(418)
+cfn=(418)
+calls=6 0
+0 119
+
+fl=(318)
+fn=(318)
+836 328
+cfl=(319)
+cfn=(319)
+calls=110 0
+0 420
+
+fl=(219)
+fn=(219)
+179 16
+cfl=(253)
+cfn=(253)
+calls=4 0
+0 91
+cfl=(221)
+cfn=(221)
+calls=1 0
+0 664
+cfl=(220)
+cfn=(220)
+calls=1 0
+0 3
+
+fl=(45)
+fn=(45)
+616 218
+cfl=(58)
+cfn=(58)
+calls=3 0
+0 35
+cfl=(54)
+cfn=(54)
+calls=3 0
+0 72
+cfl=(53)
+cfn=(53)
+calls=3 0
+0 145
+cfl=(49)
+cfn=(49)
+calls=3 0
+0 144
+cfl=(47)
+cfn=(47)
+calls=3 0
+0 48
+cfl=(46)
+cfn=(46)
+calls=3 0
+0 32
+
+fl=(463)
+fn=(463)
+882 85
+cfl=(469)
+cfn=(469)
+calls=6 0
+0 516
+cfl=(467)
+cfn=(467)
+calls=6 0
+0 17
+cfl=(466)
+cfn=(466)
+calls=18 0
+0 39
+cfl=(465)
+cfn=(465)
+calls=6 0
+0 4
+cfl=(464)
+cfn=(464)
+calls=18 0
+0 38
+
+fl=(61)
+fn=(61)
+75 380
+cfl=(43)
+cfn=(43)
+calls=29 0
+0 150
+
+fl=(221)
+fn=(221)
+543 50
+cfl=(225)
+cfn=(225)
+calls=4 0
+0 503
+cfl=(188)
+cfn=(188)
+calls=4 0
+0 23
+cfl=(222)
+cfn=(222)
+calls=1 0
+0 73
+
+fl=(420)
+fn=(420)
+1496 37
+cfl=(433)
+cfn=(433)
+calls=4 0
+0 322
+cfl=(425)
+cfn=(425)
+calls=4 0
+0 235
+cfl=(421)
+cfn=(421)
+calls=4 0
+0 66
+
+fl=(488)
+fn=(488)
+663 28
+cfl=(500)
+cfn=(500)
+calls=2 0
+0 29
+cfl=(498)
+cfn=(498)
+calls=2 0
+0 173
+cfl=(497)
+cfn=(497)
+calls=2 0
+0 4
+cfl=(496)
+cfn=(496)
+calls=2 0
+0 2
+cfl=(489)
+cfn=(489)
+calls=2 0
+0 400
+
+fl=(176)
+fn=(176)
+186 151
+cfl=(181)
+cfn=(181)
+calls=5 0
+0 19
+cfl=(179)
+cfn=(179)
+calls=5 0
+0 17
+cfl=(177)
+cfn=(177)
+calls=5 0
+0 11
+
+fl=(175)
+fn=(175)
+107 11
+
+fl=(407)
+fn=(407)
+1930 75
+cfl=(408)
+cfn=(408)
+calls=6 0
+0 477
+
+fl=(141)
+fn=(141)
+183 75
+cfl=(142)
+cfn=(142)
+calls=6 0
+0 472
+
+fl=(25)
+fn=(25)
+49 80
+cfl=(87)
+cfn=(87)
+calls=1 0
+0 33
+cfl=(75)
+cfn=(75)
+calls=1 0
+0 144
+cfl=(26)
+cfn=(26)
+calls=1 0
+0 150
+
+fl=(469)
+fn=(469)
+1272 15
+cfl=(470)
+cfn=(470)
+calls=6 0
+0 500
+
+fl=(225)
+fn=(225)
+235 31
+cfl=(236)
+cfn=(236)
+calls=4 0
+0 280
+cfl=(227)
+cfn=(227)
+calls=4 0
+0 187
+cfl=(226)
+cfn=(226)
+calls=4 0
+0 4
+
+fl=(470)
+fn=(470)
+1240 84
+cfl=(478)
+cfn=(478)
+calls=4 0
+0 7
+cfl=(472)
+cfn=(472)
+calls=6 0
+0 389
+cfl=(471)
+cfn=(471)
+calls=6 0
+0 8
+
+fl=(561)
+fn=(561)
+82 130
+cfl=(563)
+cfn=(563)
+calls=1 0
+0 106
+cfl=(551)
+cfn=(551)
+calls=1 0
+0 113
+
+fl=(408)
+fn=(408)
+1221 159
+cfl=(415)
+cfn=(415)
+calls=6 0
+0 27
+cfl=(414)
+cfn=(414)
+calls=3 0
+0 94
+cfl=(411)
+cfn=(411)
+calls=3 0
+0 137
+cfl=(409)
+cfn=(409)
+calls=6 0
+0 46
+
+fl=(142)
+fn=(142)
+182 147
+cfl=(144)
+cfn=(144)
+calls=6 0
+0 274
+
+fl=(298)
+fn=(298)
+249 294
+cfl=(291)
+cfn=(291)
+calls=110 0
+0 162
+
+fl=(180)
+fn=(180)
+23 15
+cfl=(11)
+cfn=(11)
+calls=1 0
+0 383
+cfl=(1)
+cfn=(1)
+calls=1 0
+0 35
+
+fl=(121)
+fn=(121)
+358 147
+cfl=(123)
+cfn=(123)
+calls=8 0
+0 250
+
+fl=(319)
+fn=(319)
+284 263
+cfl=(320)
+cfn=(320)
+calls=110 0
+0 156
+
+fl=(39)
+fn=(39)
+803 245
+
+fl=(314)
+fn=(314)
+432 340
+
+fl=(294)
+fn=(294)
+286 288
+
+fl=(1)
+fn=(1)
+758 167
+cfl=(9)
+cfn=(9)
+calls=7 0
+0 50
+cfl=(6)
+cfn=(6)
+calls=7 0
+0 109
+cfl=(5)
+cfn=(5)
+calls=4 0
+0 6
+cfl=(3)
+cfn=(3)
+calls=7 0
+0 33
+cfl=(2)
+cfn=(2)
+calls=7 0
+0 30
+cfl=(96)
+cfn=(96)
+calls=3 0
+0 2
+
+fl=(489)
+fn=(489)
+576 12
+cfl=(492)
+cfn=(492)
+calls=2 0
+0 52
+cfl=(490)
+cfn=(490)
+calls=2 0
+0 333
+
+fl=(472)
+fn=(472)
+1356 103
+cfl=(485)
+cfn=(485)
+calls=2 0
+0 33
+cfl=(483)
+cfn=(483)
+calls=2 0
+0 21
+cfl=(477)
+cfn=(477)
+calls=22 0
+0 19
+cfl=(475)
+cfn=(475)
+calls=22 0
+0 154
+cfl=(474)
+cfn=(474)
+calls=6 0
+0 4
+cfl=(473)
+cfn=(473)
+calls=6 0
+0 48
+
+fl=(344)
+fn=(344)
+443 65
+cfl=(356)
+cfn=(356)
+calls=3 0
+0 18
+cfl=(346)
+cfn=(346)
+calls=3 0
+0 146
+
+fl=(196)
+fn=(196)
+26 35
+cfl=(208)
+cfn=(208)
+calls=1 0
+0 169
+cfl=(206)
+cfn=(206)
+calls=1 0
+0 22
+cfl=(204)
+cfn=(204)
+calls=1 0
+0 6
+cfl=(197)
+cfn=(197)
+calls=1 0
+0 131
+
+fl=(299)
+fn=(299)
+843 204
+cfl=(297)
+cfn=(297)
+calls=55 0
+0 143
+
+fl=(290)
+fn=(290)
+224 216
+cfl=(291)
+cfn=(291)
+calls=55 0
+0 86
+
+fl=(490)
+fn=(490)
+1040 9
+cfl=(477)
+cfn=(477)
+calls=2 0
+0 2
+cfl=(462)
+cfn=(462)
+calls=2 0
+0 321
+
+fl=(550)
+fn=(550)
+42 45
+cfl=(551)
+cfn=(551)
+calls=1 0
+0 284
+
+fl=(433)
+fn=(433)
+1521 20
+cfl=(435)
+cfn=(435)
+calls=4 0
+0 296
+cfl=(434)
+cfn=(434)
+calls=4 0
+0 6
+
+fl=(435)
+fn=(435)
+1575 22
+cfl=(436)
+cfn=(436)
+calls=4 0
+0 273
+
+fl=(236)
+fn=(236)
+173 43
+cfl=(252)
+cfn=(252)
+calls=4 0
+0 69
+cfl=(239)
+cfn=(239)
+calls=3 0
+0 131
+cfl=(232)
+cfn=(232)
+calls=11 0
+0 8
+cfl=(237)
+cfn=(237)
+calls=4 0
+0 20
+
+fl=(144)
+fn=(144)
+204 274
+
+fl=(436)
+fn=(436)
+892 25
+cfl=(450)
+cfn=(450)
+calls=4 0
+0 8
+cfl=(438)
+cfn=(438)
+calls=4 0
+0 224
+cfl=(437)
+cfn=(437)
+calls=4 0
+0 11
+cfl=(434)
+cfn=(434)
+calls=4 0
+0 3
+
+fl=(302)
+fn=(302)
+160 184
+
+fl=(214)
+fn=(214)
+28 9
+cfl=(11)
+cfn=(11)
+calls=1 0
+0 226
+cfl=(1)
+cfn=(1)
+calls=1 0
+0 30
+
+fl=(316)
+fn=(316)
+81 187
+
+fl=(455)
+fn=(455)
+147 41
+cfl=(460)
+cfn=(460)
+calls=14 0
+0 50
+cfl=(456)
+cfn=(456)
+calls=14 0
+0 163
+
+fl=(123)
+fn=(123)
+335 152
+cfl=(18)
+cfn=(18)
+calls=8 0
+0 90
+
+fl=(91)
+fn=(91)
+21 12
+cfl=(99)
+cfn=(99)
+calls=1 0
+0 182
+cfl=(92)
+cfn=(92)
+calls=1 0
+0 45
+
+fl=(287)
+fn=(287)
+595 165
+
+fl=(425)
+fn=(425)
+1481 21
+cfl=(426)
+cfn=(426)
+calls=4 0
+0 214
+
+fl=(382)
+fn=(382)
+58 77
+cfl=(388)
+cfn=(388)
+calls=1 0
+0 48
+cfl=(383)
+cfn=(383)
+calls=1 0
+0 1
+
+fl=(185)
+fn=(185)
+46 78
+cfl=(216)
+cfn=(216)
+calls=1 0
+0 1
+cfl=(215)
+cfn=(215)
+calls=1 0
+0 5
+cfl=(188)
+cfn=(188)
+calls=5 0
+0 66
+
+fl=(438)
+fn=(438)
+1022 32
+cfl=(448)
+cfn=(448)
+calls=4 0
+0 68
+cfl=(447)
+cfn=(447)
+calls=4 0
+0 3
+cfl=(439)
+cfn=(439)
+calls=4 0
+0 84
+
+fl=(426)
+fn=(426)
+293 92
+cfl=(431)
+cfn=(431)
+calls=4 0
+0 4
+cfl=(94)
+cfn=(94)
+calls=4 0
+0 10
+cfl=(429)
+cfn=(429)
+calls=4 0
+0 42
+cfl=(161)
+cfn=(161)
+calls=4 0
+0 33
+cfl=(428)
+cfn=(428)
+calls=4 0
+0 11
+
+fl=(525)
+fn=(525)
+57 142
+
+fl=(543)
+fn=(543)
+850 84
+cfl=(545)
+cfn=(545)
+calls=1 0
+0 37
+
+fl=(129)
+fn=(129)
+46 19
+cfl=(99)
+cfn=(99)
+calls=1 0
+0 83
+cfl=(92)
+cfn=(92)
+calls=1 0
+0 96
+
+fl=(43)
+fn=(43)
+41 135
+
+fl=(54)
+fn=(54)
+673 74
+cfl=(56)
+cfn=(56)
+calls=3 0
+0 27
+cfl=(55)
+cfn=(55)
+calls=6 0
+0 90
+
+fl=(118)
+fn=(118)
+73 9
+cfl=(99)
+cfn=(99)
+calls=1 0
+0 154
+cfl=(92)
+cfn=(92)
+calls=1 0
+0 26
+
+fl=(227)
+fn=(227)
+57 48
+
+fl=(0)
+fn=(0)
+74 10
+cfl=(11)
+cfn=(11)
+calls=1 0
+0 129
+cfl=(1)
+cfn=(1)
+calls=1 0
+0 47
+
+fl=(304)
+fn=(304)
+343 119
+
+fl=(138)
+fn=(138)
+33 103
+
+fl=(239)
+fn=(239)
+470 36
+cfl=(241)
+cfn=(241)
+calls=7 0
+0 130
+cfl=(240)
+cfn=(240)
+calls=14 0
+0 8
+
+fl=(566)
+fn=(566)
+38 145
+
+fl=(498)
+fn=(498)
+1048 9
+cfl=(477)
+cfn=(477)
+calls=2 0
+0 2
+cfl=(462)
+cfn=(462)
+calls=2 0
+0 162
+
+fl=(208)
+fn=(208)
+223 23
+cfl=(209)
+cfn=(209)
+calls=4 0
+0 44
+
+fl=(189)
+fn=(189)
+19 47
+
+fl=(305)
+fn=(305)
+903 126
+
+fl=(456)
+fn=(456)
+157 78
+cfl=(458)
+cfn=(458)
+calls=14 0
+0 64
+
+fl=(320)
+fn=(320)
+526 156
+
+fl=(475)
+fn=(475)
+56 55
+cfl=(476)
+cfn=(476)
+calls=22 0
+0 82
+
+fl=(26)
+fn=(26)
+27 31
+
+fl=(346)
+fn=(346)
+350 49
+cfl=(352)
+cfn=(352)
+calls=3 0
+0 25
+cfl=(347)
+cfn=(347)
+calls=3 0
+0 62
+
+fl=(263)
+fn=(263)
+361 19
+cfl=(265)
+cfn=(265)
+calls=2 0
+0 53
+cfl=(257)
+cfn=(257)
+calls=8 0
+0 16
+cfl=(272)
+cfn=(272)
+calls=1 0
+0 2
+cfl=(264)
+cfn=(264)
+calls=1 0
+0 53
+
+fl=(53)
+fn=(53)
+657 25
+cfl=(54)
+cfn=(54)
+calls=3 0
+0 120
+
+fl=(75)
+fn=(75)
+274 20
+cfl=(79)
+cfn=(79)
+calls=1 0
+0 83
+
+fl=(49)
+fn=(49)
+165 54
+cfl=(50)
+cfn=(50)
+calls=3 0
+0 83
+
+fl=(375)
+fn=(375)
+588 36
+cfl=(379)
+cfn=(379)
+calls=4 0
+0 25
+cfl=(376)
+cfn=(376)
+calls=2 0
+0 81
+cfl=(375)
+cfn=(375)
+calls=4 0
+0 55
+
+fl=(296)
+fn=(296)
+111 142
+
+fl=(411)
+fn=(411)
+1341 94
+cfl=(413)
+cfn=(413)
+calls=3 0
+0 23
+cfl=(412)
+cfn=(412)
+calls=3 0
+0 19
+
+fl=(572)
+fn=(572)
+25 13
+cfl=(120)
+cfn=(120)
+calls=1 0
+0 120
+
+fl=(6)
+fn=(6)
+499 44
+cfl=(8)
+cfn=(8)
+calls=8 0
+0 78
+
+fl=(574)
+fn=(574)
+45 33
+cfl=(575)
+cfn=(575)
+calls=1 0
+0 99
+
+fl=(42)
+fn=(42)
+154 73
+cfl=(43)
+cfn=(43)
+calls=8 0
+0 27
+
+fl=(197)
+fn=(197)
+174 14
+cfl=(198)
+cfn=(198)
+calls=1 0
+0 120
+
+fl=(241)
+fn=(241)
+974 28
+
+fl=(563)
+fn=(563)
+1 53
+
+fl=(198)
+fn=(198)
+125 18
+cfl=(202)
+cfn=(202)
+calls=1 0
+0 15
+cfl=(197)
+cfn=(197)
+calls=1 0
+0 16
+cfl=(199)
+cfn=(199)
+calls=1 0
+0 69
+
+fl=(418)
+fn=(418)
+1619 70
+cfl=(415)
+cfn=(415)
+calls=4 0
+0 17
+cfl=(419)
+cfn=(419)
+calls=4 0
+0 12
+cfl=(409)
+cfn=(409)
+calls=4 0
+0 19
+
+fl=(575)
+fn=(575)
+1753 44
+cfl=(576)
+cfn=(576)
+calls=2 0
+0 74
+
+fl=(18)
+fn=(18)
+255 77
+
+fl=(312)
+fn=(312)
+65 117
+
+fl=(573)
+fn=(573)
+76 18
+cfl=(120)
+cfn=(120)
+calls=1 0
+0 98
+
+fl=(393)
+fn=(393)
+54 39
+cfl=(388)
+cfn=(388)
+calls=1 0
+0 25
+
+fl=(188)
+fn=(188)
+130 77
+
+fl=(401)
+fn=(401)
+824 33
+
+fl=(230)
+fn=(230)
+75 49
+cfl=(234)
+cfn=(234)
+calls=4 0
+0 35
+cfl=(233)
+cfn=(233)
+calls=3 0
+0 2
+cfl=(232)
+cfn=(232)
+calls=11 0
+0 11
+cfl=(231)
+cfn=(231)
+calls=4 0
+0 10
+
+fl=(147)
+fn=(147)
+278 39
+
+fl=(35)
+fn=(35)
+1329 36
+
+fl=(193)
+fn=(193)
+116 25
+
+fl=(359)
+fn=(359)
+319 52
+
+fl=(265)
+fn=(265)
+218 14
+cfl=(271)
+cfn=(271)
+calls=3 0
+0 18
+cfl=(266)
+cfn=(266)
+calls=3 0
+0 56
+cfl=(257)
+cfn=(257)
+calls=3 0
+0 6
+
+fl=(414)
+fn=(414)
+1272 65
+
+fl=(311)
+fn=(311)
+453 92
+
+fl=(253)
+fn=(253)
+286 30
+cfl=(261)
+cfn=(261)
+calls=1 0
+0 3
+cfl=(259)
+cfn=(259)
+calls=4 0
+0 16
+cfl=(257)
+cfn=(257)
+calls=4 0
+0 15
+cfl=(255)
+cfn=(255)
+calls=3 0
+0 14
+cfl=(254)
+cfn=(254)
+calls=4 0
+0 8
+
+fl=(571)
+fn=(571)
+524 36
+cfl=(29)
+cfn=(29)
+calls=1 0
+0 14
+cfl=(15)
+cfn=(15)
+calls=1 0
+0 41
+
+fl=(55)
+fn=(55)
+751 66
+
+fl=(439)
+fn=(439)
+869 14
+cfl=(440)
+cfn=(440)
+calls=4 0
+0 69
+
+fl=(292)
+fn=(292)
+76 83
+
+fl=(50)
+fn=(50)
+181 49
+
+fl=(79)
+fn=(79)
+299 36
+cfl=(82)
+cfn=(82)
+calls=1 0
+0 44
+
+fl=(476)
+fn=(476)
+58 52
+
+fl=(376)
+fn=(376)
+385 46
+cfl=(339)
+cfn=(339)
+calls=10 0
+0 6
+
+fl=(482)
+fn=(482)
+176 52
+
+fl=(8)
+fn=(8)
+216 78
+
+fl=(163)
+fn=(163)
+74 29
+cfl=(164)
+cfn=(164)
+calls=5 0
+0 48
+
+fl=(243)
+fn=(243)
+71 18
+cfl=(249)
+cfn=(249)
+calls=1 0
+0 16
+cfl=(244)
+cfn=(244)
+calls=1 0
+0 17
+
+fl=(576)
+fn=(576)
+1742 48
+
+fl=(222)
+fn=(222)
+117 32
+cfl=(188)
+cfn=(188)
+calls=4 0
+0 21
+
+fl=(480)
+fn=(480)
+151 25
+cfl=(481)
+cfn=(481)
+calls=14 0
+0 47
+
+fl=(538)
+fn=(538)
+34 55
+cfl=(539)
+cfn=(539)
+calls=3 0
+0 15
+
+fl=(440)
+fn=(440)
+606 22
+cfl=(445)
+cfn=(445)
+calls=4 0
+0 17
+cfl=(442)
+cfn=(442)
+calls=4 0
+0 22
+cfl=(441)
+cfn=(441)
+calls=4 0
+0 6
+
+fl=(252)
+fn=(252)
+505 18
+cfl=(239)
+cfn=(239)
+calls=4 0
+0 44
+
+fl=(199)
+fn=(199)
+153 69
+
+fl=(448)
+fn=(448)
+1011 32
+cfl=(450)
+cfn=(450)
+calls=4 0
+0 9
+cfl=(447)
+cfn=(447)
+calls=12 0
+0 8
+cfl=(437)
+cfn=(437)
+calls=4 0
+0 10
+
+fl=(161)
+fn=(161)
+144 34
+cfl=(156)
+cfn=(156)
+calls=9 0
+0 19
+
+fl=(421)
+fn=(421)
+1451 29
+cfl=(424)
+cfn=(424)
+calls=4 0
+0 20
+cfl=(422)
+cfn=(422)
+calls=4 0
+0 12
+
+fl=(409)
+fn=(409)
+212 41
+
+fl=(458)
+fn=(458)
+58 41
+
+fl=(347)
+fn=(347)
+374 9
+
+fl=(473)
+fn=(473)
+74 13
+
+fl=(266)
+fn=(266)
+460 14
+cfl=(269)
+cfn=(269)
+calls=3 0
+0 35
+cfl=(267)
+cfn=(267)
+calls=3 0
+0 6
+
+fl=(264)
+fn=(264)
+346 8
+cfl=(265)
+cfn=(265)
+calls=1 0
+0 42
+cfl=(257)
+cfn=(257)
+calls=1 0
+0 2
+
+fl=(492)
+fn=(492)
+504 21
+cfl=(494)
+cfn=(494)
+calls=2 0
+0 17
+cfl=(493)
+cfn=(493)
+calls=2 0
+0 1
+
+fl=(402)
+fn=(402)
+137 9
+
+fl=(460)
+fn=(460)
+78 40
+
+fl=(9)
+fn=(9)
+81 41
+
+fl=(172)
+fn=(172)
+237 18
+cfl=(173)
+cfn=(173)
+calls=5 0
+0 30
+
+fl=(47)
+fn=(47)
+474 40
+
+fl=(164)
+fn=(164)
+174 25
+cfl=(165)
+cfn=(165)
+calls=5 0
+0 22
+
+fl=(481)
+fn=(481)
+103 37
+
+fl=(415)
+fn=(415)
+221 31
+
+fl=(3)
+fn=(3)
+1214 33
+
+fl=(209)
+fn=(209)
+195 24
+cfl=(212)
+cfn=(212)
+calls=2 0
+0 5
+
+fl=(82)
+fn=(82)
+332 31
+cfl=(85)
+cfn=(85)
+calls=1 0
+0 3
+
+fl=(429)
+fn=(429)
+121 17
+cfl=(430)
+cfn=(430)
+calls=4 0
+0 19
+
+fl=(140)
+fn=(140)
+186 41
+
+fl=(466)
+fn=(466)
+859 27
+
+fl=(464)
+fn=(464)
+855 26
+
+fl=(545)
+fn=(545)
+1544 19
+
+fl=(28)
+fn=(28)
+252 23
+
+fl=(58)
+fn=(58)
+493 27
+
+fl=(356)
+fn=(356)
+309 27
+cfl=(357)
+cfn=(357)
+calls=4 0
+0 7
+
+fl=(269)
+fn=(269)
+454 11
+cfl=(270)
+cfn=(270)
+calls=3 0
+0 17
+cfl=(267)
+cfn=(267)
+calls=3 0
+0 5
+
+fl=(234)
+fn=(234)
+529 24
+cfl=(235)
+cfn=(235)
+calls=4 0
+0 2
+
+fl=(87)
+fn=(87)
+11 10
+cfl=(88)
+cfn=(88)
+calls=1 0
+0 23
+
+fl=(485)
+fn=(485)
+1351 16
+cfl=(487)
+cfn=(487)
+calls=2 0
+0 14
+cfl=(486)
+cfn=(486)
+calls=2 0
+0 3
+
+fl=(331)
+fn=(331)
+147 21
+
+fl=(46)
+fn=(46)
+453 32
+
+fl=(173)
+fn=(173)
+81 22
+
+fl=(2)
+fn=(2)
+728 30
+
+fl=(404)
+fn=(404)
+141 3
+
+fl=(500)
+fn=(500)
+318 12
+cfl=(477)
+cfn=(477)
+calls=2 0
+0 1
+
+fl=(248)
+fn=(248)
+1009 17
+
+fl=(56)
+fn=(56)
+755 16
+
+fl=(578)
+fn=(578)
+17 6
+cfl=(575)
+cfn=(575)
+calls=1 0
+0 19
+
+fl=(352)
+fn=(352)
+380 11
+
+fl=(365)
+fn=(365)
+1098 22
+cfl=(366)
+cfn=(366)
+calls=1 0
+0 2
+
+fl=(379)
+fn=(379)
+543 15
+cfl=(380)
+cfn=(380)
+calls=2 0
+0 8
+
+fl=(477)
+fn=(477)
+222 25
+
+fl=(350)
+fn=(350)
+423 8
+cfl=(303)
+cfn=(303)
+calls=3 0
+0 6
+
+fl=(451)
+fn=(451)
+416 17
+
+fl=(413)
+fn=(413)
+187 18
+
+fl=(258)
+fn=(258)
+535 23
+
+fl=(442)
+fn=(442)
+584 9
+cfl=(443)
+cfn=(443)
+calls=4 0
+0 13
+
+fl=(21)
+fn=(21)
+249 17
+
+fl=(206)
+fn=(206)
+1 2
+
+fl=(165)
+fn=(165)
+531 17
+cfl=(166)
+cfn=(166)
+calls=5 0
+0 4
+
+fl=(170)
+fn=(170)
+126 15
+
+fl=(437)
+fn=(437)
+849 15
+
+fl=(483)
+fn=(483)
+93 5
+cfl=(484)
+cfn=(484)
+calls=2 0
+0 15
+
+fl=(177)
+fn=(177)
+47 15
+
+fl=(374)
+fn=(374)
+528 8
+cfl=(374)
+cfn=(374)
+calls=1 0
+0 11
+cfl=(339)
+cfn=(339)
+calls=5 0
+0 12
+
+fl=(424)
+fn=(424)
+52 12
+
+fl=(237)
+fn=(237)
+254 14
+cfl=(238)
+cfn=(238)
+calls=4 0
+0 6
+
+fl=(232)
+fn=(232)
+86 20
+
+fl=(181)
+fn=(181)
+1 12
+
+fl=(430)
+fn=(430)
+117 13
+
+fl=(412)
+fn=(412)
+727 19
+
+fl=(271)
+fn=(271)
+239 10
+
+fl=(270)
+fn=(270)
+455 10
+cfl=(258)
+cfn=(258)
+calls=12 0
+0 7
+
+fl=(244)
+fn=(244)
+43 10
+
+fl=(450)
+fn=(450)
+856 12
+
+fl=(445)
+fn=(445)
+590 9
+cfl=(446)
+cfn=(446)
+calls=4 0
+0 8
+
+fl=(467)
+fn=(467)
+792 10
+
+fl=(179)
+fn=(179)
+89 7
+cfl=(177)
+cfn=(177)
+calls=5 0
+0 9
+
+fl=(494)
+fn=(494)
+403 6
+cfl=(495)
+cfn=(495)
+calls=2 0
+0 10
+
+fl=(249)
+fn=(249)
+33 10
+cfl=(250)
+cfn=(250)
+calls=1 0
+0 6
+
+fl=(259)
+fn=(259)
+341 10
+cfl=(260)
+cfn=(260)
+calls=4 0
+0 2
+
+fl=(484)
+fn=(484)
+84 4
+cfl=(473)
+cfn=(473)
+calls=2 0
+0 11
+
+fl=(539)
+fn=(539)
+37 15
+
+fl=(33)
+fn=(33)
+226 14
+
+fl=(255)
+fn=(255)
+875 12
+cfl=(256)
+cfn=(256)
+calls=3 0
+0 2
+
+fl=(487)
+fn=(487)
+574 9
+cfl=(478)
+cfn=(478)
+calls=2 0
+0 2
+
+fl=(454)
+fn=(454)
+143 13
+
+fl=(443)
+fn=(443)
+429 9
+
+fl=(422)
+fn=(422)
+154 8
+
+fl=(267)
+fn=(267)
+544 8
+
+fl=(447)
+fn=(447)
+1151 12
+
+fl=(419)
+fn=(419)
+1605 12
+
+fl=(503)
+fn=(503)
+8 11
+
+fl=(507)
+fn=(507)
+672 8
+cfl=(508)
+cfn=(508)
+calls=2 0
+0 3
+
+fl=(428)
+fn=(428)
+117 8
+
+fl=(495)
+fn=(495)
+369 6
+
+fl=(336)
+fn=(336)
+53 7
+
+fl=(231)
+fn=(231)
+261 10
+
+fl=(434)
+fn=(434)
+747 9
+
+fl=(478)
+fn=(478)
+369 9
+
+fl=(367)
+fn=(367)
+120 6
+cfl=(258)
+cfn=(258)
+calls=3 0
+0 3
+
+fl=(277)
+fn=(277)
+79 6
+
+fl=(240)
+fn=(240)
+442 8
+
+fl=(254)
+fn=(254)
+109 6
+
+fl=(380)
+fn=(380)
+145 6
+cfl=(337)
+cfn=(337)
+calls=2 0
+0 1
+
+fl=(471)
+fn=(471)
+1203 8
+
+fl=(446)
+fn=(446)
+432 8
+
+fl=(330)
+fn=(330)
+302 7
+
+fl=(357)
+fn=(357)
+260 7
+
+fl=(5)
+fn=(5)
+1104 6
+
+fl=(337)
+fn=(337)
+153 6
+
+fl=(334)
+fn=(334)
+243 6
+
+fl=(250)
+fn=(250)
+94 5
+
+fl=(441)
+fn=(441)
+371 6
+
+fl=(204)
+fn=(204)
+1 3
+
+fl=(238)
+fn=(238)
+164 6
+
+fl=(321)
+fn=(321)
+1052 6
+
+fl=(502)
+fn=(502)
+321 5
+
+fl=(167)
+fn=(167)
+172 5
+
+fl=(215)
+fn=(215)
+105 4
+
+fl=(212)
+fn=(212)
+221 5
+
+fl=(497)
+fn=(497)
+311 4
+
+fl=(166)
+fn=(166)
+109 4
+
+fl=(465)
+fn=(465)
+719 4
+
+fl=(474)
+fn=(474)
+40 4
+
+fl=(226)
+fn=(226)
+30 4
+
+fl=(509)
+fn=(509)
+719 3
+
+fl=(261)
+fn=(261)
+145 3
+cfl=(256)
+cfn=(256)
+calls=1 0
+0 0
+
+fl=(218)
+fn=(218)
+638 2
+
+fl=(184)
+fn=(184)
+109 3
+
+fl=(220)
+fn=(220)
+37 3
+
+fl=(397)
+fn=(397)
+29 3
+
+fl=(136)
+fn=(136)
+91 3
+
+fl=(85)
+fn=(85)
+343 3
+
+fl=(508)
+fn=(508)
+698 3
+
+fl=(486)
+fn=(486)
+1029 3
+
+fl=(256)
+fn=(256)
+151 3
+
+fl=(406)
+fn=(406)
+392 2
+
+fl=(366)
+fn=(366)
+923 2
+
+fl=(235)
+fn=(235)
+534 2
+
+fl=(233)
+fn=(233)
+495 2
+
+fl=(349)
+fn=(349)
+168 2
+
+fl=(96)
+fn=(96)
+1104 2
+
+fl=(260)
+fn=(260)
+538 2
+
+fl=(272)
+fn=(272)
+509 1
+cfl=(258)
+cfn=(258)
+calls=1 0
+0 0
+
+fl=(496)
+fn=(496)
+307 2
+
+fl=(383)
+fn=(383)
+88 1
+
+fl=(493)
+fn=(493)
+424 1
+
+fl=(216)
+fn=(216)
+31 1
+
+fl=(535)
+fn=(535)
+29 1
+
+fl=(395)
+fn=(395)
+34 1
+
+fl=(217)
+fn=(217)
+103 1
+
+fl=(396)
+fn=(396)
+31 1
+
+fl=(262)
+fn=(262)
+79 1
+
+fl=(133)
+fn=(133)
+26 0
+
+fl=(540)
+fn=(540)
+63 0
+cfl=(578)
+cfn=(578)
+calls=1 0
+0 25
+cfl=(574)
+cfn=(574)
+calls=1 0
+0 133
+cfl=(541)
+cfn=(541)
+calls=1 0
+0 6130
+cfl=(120)
+cfn=(120)
+calls=1 0
+0 133
+
+fl=(112)
+fn=(112)
+15 0
+cfl=(113)
+cfn=(113)
+calls=19 0
+0 118
+
+fl=(131)
+fn=(131)
+37 0
+cfl=(538)
+cfn=(538)
+calls=3 0
+0 71
+cfl=(141)
+cfn=(141)
+calls=4 0
+0 473
+
+fl=(126)
+fn=(126)
+40 0
+cfl=(525)
+cfn=(525)
+calls=8 0
+0 210
+cfl=(127)
+cfn=(127)
+calls=17 0
+0 68

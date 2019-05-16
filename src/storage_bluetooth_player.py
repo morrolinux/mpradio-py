@@ -7,6 +7,7 @@ from rds import RdsUpdater
 import threading
 import json
 from configuration import config
+import psutil
 import av
 from mp_io import MpradioIO
 
@@ -21,8 +22,6 @@ class StoragePlayer(Player):
     __rds_updater = None
     __skip = None
     __out = None
-    __silence_track = None
-    CHUNK = 1024 * 4
 
     def __init__(self):
         super().__init__()
@@ -30,7 +29,6 @@ class StoragePlayer(Player):
         self.__rds_updater = RdsUpdater()
         self.__resume_file = config.get_resume_file()
         self.__skip = threading.Event()
-        self.output_stream = None
 
     def playback_position(self):
         return self.__timer.get_time()
@@ -80,7 +78,6 @@ class StoragePlayer(Player):
         self.__timer.start()
         self.__rds_updater.run()
         self.__update_playback_position()
-        self.__generate_silence()
 
         for song in self.__playlist:
             if song is None:
@@ -98,86 +95,58 @@ class StoragePlayer(Player):
         self.__playlist.add(song)
         self.__playlist.set_noshuffle()
 
-    def play(self, song):
-        # get/set/resume song timer
-        resume_time = song.get("position")
-        if resume_time is None:
-            resume_time = 0
-            self.__timer.reset()
-        self.__timer.resume()
+    def play(self, device):
+        self._tmp_stream = None
 
-        # update song name
-        self.__now_playing = song
-        self.__rds_updater.set(song)
-        song_path = r"" + song["path"].replace("\\", "")
-
-        # open input file
+        # open input device
         try:
-            input_container = av.open(song_path)
+            input_container = av.open("bluealsa:HCI=hci0,DEV=48:2C:A0:32:A0:C1", format="alsa")
+
             audio_stream = None
             for i, stream in enumerate(input_container.streams):
                 if stream.type == 'audio':
                     audio_stream = stream
                     break
+
             if not audio_stream:
+                print("audio stream not found")
                 return
+
         except av.AVError:
-            print("Can't open file:", song_path, "skipping...")
+            print("Can't open input stream for device", device)
             return
 
-        if self.output_stream is not None:
-            self.output_stream.stop()
-
-        # create output stream
+        # open output stream
         self.__out = MpradioIO()
+        self.output_stream = self.__out       # link for external access
         out_container = av.open(self.__out, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
 
-        # calculate initial seek
-        try:
-            time_unit = input_container.size/int(input_container.duration/1000000)
-        except ZeroDivisionError:
-            time_unit = 0
-        seek_point = time_unit * resume_time
-
-        buffer_ready = False
-
         # transcode input to wav
         for i, packet in enumerate(input_container.demux(audio_stream)):
-
-            # seek to the point
-            try:
-                if packet.pos < seek_point:
-                    continue
-            except TypeError:
-                pass
-
             try:
                 for frame in packet.decode():
                     frame.pts = None
                     out_pack = out_stream.encode(frame)
                     if out_pack:
                         out_container.mux(out_pack)
-            except av.AVError as err:
-                print("Error during playback for:", song_path, err)
+                    else:
+                        print("out_pack is None")
+            except av.AVError:
+                print("Error during playback for:", song_path)
                 return
 
-            # stop transcoding if we receive skip or termination signal
-            if self.__terminating or self.__skip.is_set():
+            # stop transcoding if we receive termination signal
+            if self.__terminating:
+                print("termination signal received")
                 break
 
-            # pre-buffer some output and set the player to ready
-            if not buffer_ready:
-                try:
-                    if packet.pos > resume_time + time_unit*2:
-                        self.output_stream = self.__out  # link for external access
-                        self.ready.set()
-                        buffer_ready = True
-                except TypeError:
-                    pass
+            if i == 10:
+                self.ready.set()
 
-            # Avoid CPU saturation on single-core systems.
-            time.sleep(0.01)
+            # avoid CPU saturation on single-core systems
+            if psutil.cpu_percent() > 95:
+                time.sleep(0.01)
 
         # transcoding terminated. Flush output stream
         try:
@@ -196,6 +165,7 @@ class StoragePlayer(Player):
         self.__out.set_write_completed()
         print("transcoding finished.")
 
+        # TODO: check if this and the above is really needed when playing a device
         # wait until playback (buffer read) terminates; catch signals meanwhile
         while not self.__out.is_read_completed():
             if self.__skip.is_set():
@@ -205,44 +175,14 @@ class StoragePlayer(Player):
                 break
             time.sleep(0.2)
 
-    def __generate_silence(self):
-        self.__silence_track = MpradioIO()
-        out_container = av.open(self.__silence_track, 'w', 'wav')
-        out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
-
-        # open input file
-        try:
-            input_container = av.open(config.get_sounds_folder() + config.get_stop_sound())
-            audio_stream = input_container.streams[0]
-        except av.AVError:
-            print("Can't open silence file, skipping...")
-            return
-
-        # transcode input to wav
-        for packet in input_container.demux(audio_stream):
-            try:
-                for frame in packet.decode():
-                    frame.pts = None
-                    out_pack = out_stream.encode(frame)
-                    if out_pack:
-                        out_container.mux(out_pack)
-            except av.AVError:
-                print("Error during playback for:", song_path)
-                return
-
-        out_container.close()
-        self.__silence_track.set_write_completed()
-
     def pause(self):
         if self.__timer.is_paused():
             return
         self.__timer.pause()
-        self.output_stream.silence(True)
+        self.silence()
+        self.ready.clear()
 
     def resume(self):
-        if not self.__timer.is_paused():
-            return
-        self.output_stream.silence(False)
         self.__timer.resume()
         self.ready.set()
 

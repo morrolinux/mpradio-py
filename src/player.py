@@ -7,7 +7,7 @@ import time
 
 class Player(MediaControl, MediaInfo):
 
-    CHUNK = 8192    # set to 8192 for it to perform well on the orignal Pi 1. For any newer model, 2048 will do.
+    CHUNK = 1024 * 8    # set to 8192 for it to perform well on the orignal Pi 1. For any newer model, 2048 will do.
     SLEEP_TIME = 0.035
     output_stream = None
     ready = None
