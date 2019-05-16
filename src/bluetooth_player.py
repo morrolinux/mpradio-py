@@ -3,7 +3,6 @@ from player import Player
 import subprocess
 import av
 from mp_io import MpradioIO
-import threading
 from rds import RdsUpdater
 import time
 import psutil
@@ -19,6 +18,7 @@ class BtPlayer(Player):
     __out = None
     output_stream = None
     __terminating = False
+    CHUNK = 1024 * 2
 
     def __init__(self, bt_addr):
         super().__init__()
@@ -44,7 +44,7 @@ class BtPlayer(Player):
         self.__rds_updater.run()
         while not self.__terminating:
             self.play(dev)
-            time.sleep(0.5)
+            time.sleep(1)
 
     def play(self, device):
         self._tmp_stream = None
@@ -92,12 +92,11 @@ class BtPlayer(Player):
                 print("termination signal received")
                 break
 
-            if i == 10:
+            if i == 4:
                 self.ready.set()
 
-            # avoid CPU saturation on single-core systems
-            if psutil.cpu_percent() > 95:
-                time.sleep(0.01)
+            # Avoid CPU saturation on single-core systems.
+            # time.sleep(0.001)
 
         # transcoding terminated. Flush output stream
         try:
