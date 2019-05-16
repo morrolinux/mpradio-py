@@ -236,7 +236,7 @@ class StoragePlayer(Player):
 
     def stop(self):
         self.__terminating = True
-        self.silence()
+        self.output_stream.silence(True)
         self.ready.clear()
         self.__timer.stop()
         self.__rds_updater.stop()
