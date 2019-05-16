@@ -19,6 +19,8 @@ class Player(MediaControl, MediaInfo):
     def playback_position(self):
         pass
 
+    """
+    legacy method for generating silence
     def silence(self, silence_time=1.2):
         tmp_stream = self.output_stream
         self.output_stream = subprocess.Popen(["sox", "-n", "-r", "48000", "-b", "16", "-c", "1", "-t", "wav", "-",
@@ -26,3 +28,4 @@ class Player(MediaControl, MediaInfo):
                                               stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
         time.sleep(silence_time)
         self.output_stream = tmp_stream
+    """

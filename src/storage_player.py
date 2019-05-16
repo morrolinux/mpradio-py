@@ -80,7 +80,6 @@ class StoragePlayer(Player):
         self.__timer.start()
         self.__rds_updater.run()
         self.__update_playback_position()
-        self.__generate_silence()
 
         for song in self.__playlist:
             if song is None:
@@ -204,34 +203,6 @@ class StoragePlayer(Player):
             if self.__terminating:
                 break
             time.sleep(0.2)
-
-    def __generate_silence(self):
-        self.__silence_track = MpradioIO()
-        out_container = av.open(self.__silence_track, 'w', 'wav')
-        out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
-
-        # open input file
-        try:
-            input_container = av.open(config.get_sounds_folder() + config.get_stop_sound())
-            audio_stream = input_container.streams[0]
-        except av.AVError:
-            print("Can't open silence file, skipping...")
-            return
-
-        # transcode input to wav
-        for packet in input_container.demux(audio_stream):
-            try:
-                for frame in packet.decode():
-                    frame.pts = None
-                    out_pack = out_stream.encode(frame)
-                    if out_pack:
-                        out_container.mux(out_pack)
-            except av.AVError:
-                print("Error during playback for:", song_path)
-                return
-
-        out_container.close()
-        self.__silence_track.set_write_completed()
 
     def pause(self):
         if self.__timer.is_paused():
