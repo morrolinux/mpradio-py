@@ -16,7 +16,7 @@ class BtPlayer(Player):
     __now_playing = None
     output_stream = None
     __terminating = False
-    CHUNK = 1024 * 2
+    CHUNK = 1024 * 64   # Pi0 on integrated bluetooth seem to work best with 64k chunks
 
     def __init__(self, bt_addr):
         super().__init__()
@@ -91,7 +91,7 @@ class BtPlayer(Player):
                 self.ready.set()
 
             # Avoid CPU saturation on single-core systems.
-            # time.sleep(0.001)
+            time.sleep(0.002)   # useful on Pi0 with integrated BT
 
         # transcoding terminated. Flush output stream
         try:
