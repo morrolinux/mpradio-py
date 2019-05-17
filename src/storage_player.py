@@ -235,11 +235,12 @@ class StoragePlayer(Player):
         self.next()
 
     def stop(self):
-        self.__terminating = True
         self.output_stream.silence(True)
-        self.ready.clear()
+        self.__terminating = True
         self.__timer.stop()
         self.__rds_updater.stop()
+        time.sleep(1)
+        self.ready.clear()
         self.output_stream.stop()
 
     def song_name(self):

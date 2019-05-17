@@ -87,7 +87,7 @@ class BtPlayer(Player):
                 break
 
             # pre-buffer
-            if i == 4:
+            if i == 2:
                 self.ready.set()
 
             # Avoid CPU saturation on single-core systems.
@@ -161,6 +161,7 @@ class BtPlayer(Player):
         self.output_stream.silence(True)
         self.__rds_updater.stop()
         self.__terminating = True
+        time.sleep(1)
         self.output_stream.stop()
         print("bluetooth player stopped")
 

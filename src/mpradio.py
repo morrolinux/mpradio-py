@@ -130,10 +130,9 @@ class Mpradio:
                         if self.player.__class__.__name__ == "BtPlayer":
                             continue
                         tmp = BtPlayer(cmd[2])
-                        tmp.run()
-                        tmp.ready.wait()
                         self.player.stop()
                         self.player = tmp
+                        self.player.run()
                         print("bluetooth attached")
                     elif cmd[1] == "detach":
                         if self.player.__class__.__name__ != "BtPlayer":
