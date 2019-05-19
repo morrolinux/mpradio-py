@@ -9,6 +9,7 @@ import json
 from configuration import config
 import av
 from mp_io import MpradioIO
+from bytearray_io import BytearrayIO
 
 
 class StoragePlayer(Player):
@@ -128,7 +129,7 @@ class StoragePlayer(Player):
             self.output_stream.stop()
 
         # create output stream
-        self.__out = MpradioIO()
+        self.__out = BytearrayIO()  # MpradioIO()
         out_container = av.open(self.__out, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
 
