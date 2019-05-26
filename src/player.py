@@ -1,8 +1,9 @@
 from abc import abstractmethod
 from media import MediaInfo, MediaControl
 import threading
-import subprocess
-import time
+import av
+import av.filter
+from fractions import Fraction
 
 
 class Player(MediaControl, MediaInfo):
@@ -18,6 +19,34 @@ class Player(MediaControl, MediaInfo):
     @abstractmethod
     def playback_position(self):
         pass
+
+    def init_filter_graph(self, in_sample_rate=44100, in_fmt='fltp', in_layout='stereo'):
+        graph = av.filter.Graph()
+
+        volume_val = 10
+
+        # initialize filters
+        filter_chain = [
+            graph.add_abuffer(format=in_fmt,
+                              sample_rate=in_sample_rate,
+                              layout=in_layout,
+                              time_base=Fraction(1, in_sample_rate)),
+
+            # initialize filter with keyword parameters
+            graph.add('volume', volume=str(volume_val)),
+
+            # there always must be a sink at the end of the filter chain
+            graph.add('abuffersink')
+        ]
+
+        # link up the filters into a chain
+        for c, n in zip(filter_chain, filter_chain[1:]):
+            c.link_to(n)
+
+        # initialize the filter graph
+        graph.configure()
+
+        return graph
 
     """
     legacy method for generating silence

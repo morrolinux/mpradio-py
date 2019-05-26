@@ -5,13 +5,13 @@ fi
 
 ln -s /home/pi/mpradio/src/mpradio.py /home/pi/mpradio.py
 
-apt-get -y install git libsndfile1-dev libbluetooth-dev bluez pi-bluetooth python-gobject python-gobject-2 bluez-tools sox ffmpeg libsox-fmt-mp3 python-dbus bluealsa obexpushd python3-rpi.gpio python3-mutagen python3-dbus python3-pip python3-dev pkg-config
+apt-get -y install git libsndfile1-dev libbluetooth-dev bluez pi-bluetooth python-gobject python-gobject-2 bluez-tools python-dbus bluealsa obexpushd python3-rpi.gpio python3-mutagen python3-dbus python3-pip python3-dev pkg-config
 
 # pyav specific dependencies:
 apt-get install -y libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libswresample-dev libavfilter-dev
 
-# needed for rfcomm bluetooth interface; ffmpeg python bindings
-pip3 install pybluez av psutil
+# needed for rfcomm bluetooth interface; etc
+pip3 install pybluez psutil virtualenv
 
 
 # install requirements as a dir. structure
@@ -70,5 +70,18 @@ fi
 echo PRETTY_HOSTNAME=mpradio > /etc/machine-info
 # avoid recompilation (by need2recompile.service) after first install 
 cp -f /sys/firmware/devicetree/base/model /etc/lastmodel
+
+# experimental branch: pyav ffmpeg audio filters
+# TODO: install in a cleaner way
+su -l pi
+git clone https://github.com/egao1980/PyAV.git
+cd PyAV
+git checkout audio-filters
+source scripts/activate.sh
+pip install Cython
+make
+deactivate
+exit
+cp -rf /home/pi/PyAV/av /usr/local/lib/python3.5/dist-packages/av
 
 sleep 5 && reboot

@@ -1,5 +1,5 @@
 [Unit]
-Description=Bluealsa audio server
+Description=simple-agent pairing
 After=bluetooth.target mpradio-bt-setup.service
 
 [Service]

@@ -31,6 +31,7 @@ class StoragePlayer(Player):
         self.__resume_file = config.get_resume_file()
         self.__skip = threading.Event()
         self.output_stream = None
+        self.graph = self.init_filter_graph()
 
     def playback_position(self):
         return self.__timer.get_time()
@@ -153,10 +154,23 @@ class StoragePlayer(Player):
 
             try:
                 for frame in packet.decode():
-                    frame.pts = None
-                    out_pack = out_stream.encode(frame)
-                    if out_pack:
-                        out_container.mux(out_pack)
+                    # send the frame to the EQ (filter graph node)
+                    self.graph.push(frame)
+
+                    # pull frames from graph until it's done processing / waiting for new input
+                    while True:
+                        try:
+                            out_frame = self.graph.pull()
+                            out_frame.pts = None
+                            for p in out_stream.encode(out_frame):
+                                out_container.mux(p)
+
+                        except av.AVError as ex:
+                            if ex.errno != 11:
+                                raise ex
+                            else:
+                                break
+
             except av.AVError as err:
                 print("Error during playback for:", song_path, err)
                 return

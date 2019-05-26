@@ -42,7 +42,7 @@ def main(path):
     graph = init_filter_graph()
 
     for i, packet in enumerate(input_container.demux()):
-        print("packet", i)
+        # print("packet", i)
 
         for f in packet.decode():
             # submit the frame for processing
