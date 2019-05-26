@@ -33,7 +33,8 @@ class Player(MediaControl, MediaInfo):
                               time_base=Fraction(1, in_sample_rate)),
 
             # initialize filter with keyword parameters
-            graph.add('volume', volume=str(volume_val)),
+            # graph.add('volume', volume=str(volume_val)),
+            graph.add('equalizer', 'f=5200:width_type=h:width=200:g=-20'),
 
             # there always must be a sink at the end of the filter chain
             graph.add('abuffersink')
