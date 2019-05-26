@@ -126,7 +126,7 @@ class StoragePlayer(Player):
             return
 
         # initialize filter graph based on the input
-        self.graph = self.init_filter_graph(in_sample_rate=audio_stream.rate)
+        self.graph = self.init_filter_graph(in_sample_rate=audio_stream.rate, in_fmt=audio_stream.format)
 
         if self.output_stream is not None:
             self.output_stream.stop()

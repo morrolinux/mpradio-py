@@ -73,15 +73,18 @@ cp -f /sys/firmware/devicetree/base/model /etc/lastmodel
 
 # experimental branch: pyav ffmpeg audio filters
 # TODO: install in a cleaner way
-su -l pi
-git clone https://github.com/egao1980/PyAV.git
-cd PyAV
-git checkout audio-filters
-source scripts/activate.sh
-pip install Cython
-make
-deactivate
-exit
-cp -rf /home/pi/PyAV/av /usr/local/lib/python3.5/dist-packages/av
+cd /home/pi
+rm -rf /usr/local/lib/python3.5/dist-packages/av
+# git clone https://github.com/egao1980/PyAV.git
+# cd PyAV
+# git checkout audio-filters
+# source scripts/activate.sh
+# pip install Cython
+# make
+# deactivate
+# cp -rf /home/pi/PyAV/av /usr/local/lib/python3.5/dist-packages/av
+cd mpradio/install
+mkdir /usr/local/lib/python3.5/dist-packages/av
+tar xjf av.tar.gz -C /usr/local/lib/python3.5/dist-packages/av
 
 sleep 5 && reboot
