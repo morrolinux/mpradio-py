@@ -1,38 +1,23 @@
-"""
-Simple audio filtering example ported from C code:
-   https://github.com/FFmpeg/FFmpeg/blob/master/doc/examples/filter_audio.c
-"""
-from __future__ import division
-from __future__ import print_function
-
 import sys
 from fractions import Fraction
-
 import av
 import av.filter
 
 
-FRAME_SIZE = 1024
-
-INPUT_SAMPLE_RATE = 48000
-INPUT_FORMAT = 's16'
-INPUT_CHANNEL_LAYOUT = 'stereo'
-
-VOLUME_VAL = 0.10
-
-
-def init_filter_graph():
+def init_filter_graph(in_sample_rate=48000, in_fmt='s16', in_layout='stereo'):
     graph = av.filter.Graph()
+
+    volume_val = 0.10
 
     # initialize filters
     filter_chain = [
-        graph.add_abuffer(format=INPUT_FORMAT,
-                          sample_rate=INPUT_SAMPLE_RATE,
-                          layout=INPUT_CHANNEL_LAYOUT,
-                          time_base=Fraction(1, INPUT_SAMPLE_RATE)),
+        graph.add_abuffer(format=in_fmt,
+                          sample_rate=in_sample_rate,
+                          layout=in_layout,
+                          time_base=Fraction(1, in_sample_rate)),
 
         # initialize filter with keyword parameters
-        graph.add('volume', volume=str(VOLUME_VAL)),
+        graph.add('volume', volume=str(volume_val)),
 
         # there always must be a sink at the end of the filter chain
         graph.add('abuffersink')
