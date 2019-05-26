@@ -5,12 +5,8 @@ Simple audio filtering example ported from C code:
 from __future__ import division
 from __future__ import print_function
 
-import hashlib
 import sys
 from fractions import Fraction
-
-import av.audio.frame as af
-import numpy as np
 
 import av
 import av.filter
@@ -22,22 +18,11 @@ INPUT_SAMPLE_RATE = 48000
 INPUT_FORMAT = 's16'
 INPUT_CHANNEL_LAYOUT = 'stereo'
 
-OUTPUT_SAMPLE_RATE = 48000
-OUTPUT_FORMAT = 's16'  # notice, packed audio format, expect only one plane in output
-OUTPUT_CHANNEL_LAYOUT = 'stereo'  # -> AV_CH_LAYOUT_STEREO
-
 VOLUME_VAL = 0.10
 
 
 def init_filter_graph():
     graph = av.filter.Graph()
-
-    output_format = 'sample_fmts={}:sample_rates={}:channel_layouts={}'.format(
-        OUTPUT_FORMAT,
-        OUTPUT_SAMPLE_RATE,
-        OUTPUT_CHANNEL_LAYOUT
-    )
-    print('Output format: {}'.format(output_format))
 
     # initialize filters
     filter_chain = [
@@ -45,17 +30,16 @@ def init_filter_graph():
                           sample_rate=INPUT_SAMPLE_RATE,
                           layout=INPUT_CHANNEL_LAYOUT,
                           time_base=Fraction(1, INPUT_SAMPLE_RATE)),
+
         # initialize filter with keyword parameters
         graph.add('volume', volume=str(VOLUME_VAL)),
-        # or compound string configuration
-        graph.add('aformat', output_format),
+
+        # there always must be a sink at the end of the filter chain
         graph.add('abuffersink')
     ]
 
     # link up the filters into a chain
-    print('Filter graph:')
     for c, n in zip(filter_chain, filter_chain[1:]):
-        print('\t{} -> {}'.format(c, n))
         c.link_to(n)
 
     # initialize the filter graph
@@ -64,50 +48,18 @@ def init_filter_graph():
     return graph
 
 
-def get_input(frame_num):
-    """
-    Manually construct and update AudioFrame.
-    Consider using AudioFrame.from_ndarry for most real life numpy->AudioFrame conversions.
+def main(path):
+    input_container = av.open(path)
+    output_container = av.open(path+"-new.wav", "w")
 
-    :param frame_num:
-    :return:
-    """
-    frame = av.AudioFrame(format=INPUT_FORMAT, layout=INPUT_CHANNEL_LAYOUT, samples=FRAME_SIZE)
-    frame.sample_rate = INPUT_SAMPLE_RATE
-    frame.pts = frame_num * FRAME_SIZE
-
-    for i in range(len(frame.layout.channels)):
-        for j in range(FRAME_SIZE):
-            data = np.zeros(FRAME_SIZE, dtype=af.format_dtypes[INPUT_FORMAT])
-            data[j] = np.sin(2 * np.pi * (frame_num + j) * (i + 1) / FRAME_SIZE)
-            frame.planes[i].update(data)
-
-    return frame
-
-
-def process_output(frame):
-    data = frame.to_ndarray()
-    for i in range(data.shape[0]):
-        m = hashlib.md5(data[i, :].tobytes())
-        print('Plane: {:0d} checksum: {}'.format(i, m.hexdigest()))
-
-
-def main(duration):
-    # frames_count = int(duration * INPUT_SAMPLE_RATE / FRAME_SIZE)
-    icntnr = av.open('/home/morro/Scrivania/out.wav')
-    ocntnr = av.open('/home/morro/Scrivania/out-new.wav', "w")
-
-    iastrm = next(s for s in icntnr.streams if s.type == "audio")  # add
-    ostrms = {"audio": ocntnr.add_stream(codec_name="pcm_s16le", rate=48000), }
+    output_stream = output_container.add_stream(codec_name="pcm_s16le", rate=48000)
 
     graph = init_filter_graph()
 
-    for i, packet in enumerate(icntnr.demux()):
+    for i, packet in enumerate(input_container.demux()):
         print("packet", i)
 
         for f in packet.decode():
-            # frame = get_input(f)
-
             # submit the frame for processing
             graph.push(f)
 
@@ -115,9 +67,9 @@ def main(duration):
             while True:
                 try:
                     out_frame = graph.pull()
-                    # process_output(out_frame)
-                    for p in ostrms["audio"].encode(out_frame):
-                        ocntnr.mux(p)
+                    out_frame.pts = None
+                    for p in output_stream.encode(out_frame):
+                        output_container.mux(p)
 
                 except av.AVError as ex:
                     if ex.errno != 11:
@@ -125,21 +77,10 @@ def main(duration):
                     else:
                         break
 
-    # process any remaining buffered frames
-    while True:
-        try:
-            out_frame = graph.pull()
-            process_output(out_frame)
-        except av.AVError as ex:
-            if ex.errno != 11:
-                raise ex
-            else:
-                break
-
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print('Usage: {0} <duration>'.format(sys.argv[0]))
+        print('Usage: {0} <audio file path>'.format(sys.argv[0]))
         exit(1)
 
-    main(float(sys.argv[1]))
+    main(sys.argv[1])
