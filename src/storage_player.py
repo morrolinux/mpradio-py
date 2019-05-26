@@ -31,7 +31,7 @@ class StoragePlayer(Player):
         self.__resume_file = config.get_resume_file()
         self.__skip = threading.Event()
         self.output_stream = None
-        self.graph = self.init_filter_graph()
+        self.graph = None
 
     def playback_position(self):
         return self.__timer.get_time()
@@ -125,6 +125,9 @@ class StoragePlayer(Player):
             print("Can't open file:", song_path, "skipping...")
             return
 
+        # initialize filter graph based on the input
+        self.graph = self.init_filter_graph(in_sample_rate=audio_stream.rate)
+
         if self.output_stream is not None:
             self.output_stream.stop()
 
@@ -154,14 +157,16 @@ class StoragePlayer(Player):
 
             try:
                 for frame in packet.decode():
-                    # send the frame to the EQ (filter graph node)
+                    # send the frame to the EQ (filter graph node) to apply effects
                     self.graph.push(frame)
 
                     # pull frames from graph until it's done processing / waiting for new input
                     while True:
                         try:
+                            # get the filtered audio frame
                             out_frame = self.graph.pull()
                             out_frame.pts = None
+                            # encode and mux the output
                             for p in out_stream.encode(out_frame):
                                 out_container.mux(p)
 
