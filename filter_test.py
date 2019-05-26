@@ -20,7 +20,7 @@ if __name__ == '__main__':
         "audio": ocntnr.add_stream(codec_name="pcm_s16le", rate=48000),
         }
 
-    # graph = av.filter.Graph()
+    graph = av.filter.Graph()
     # you can enumerate available filters with av.filter.filters_available.
     # print(av.filter.filters_available)
     #
