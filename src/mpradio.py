@@ -7,6 +7,7 @@ from encoder import Encoder
 from configuration import config    # must be imported before all other modules (dependency)
 from bluetooth_remote import BtRemote
 from bluetooth_player import BtPlayer
+from bluetooth_player_lite import BtPlayerLite
 from fm_output import FmOutput
 from analog_output import AnalogOutput
 from storage_player import StoragePlayer
@@ -127,15 +128,15 @@ class Mpradio:
                         self.bt_remote.reply(result)
                 elif cmd[0] == "bluetooth":
                     if cmd[1] == "attach":
-                        if self.player.__class__.__name__ == "BtPlayer":
+                        if self.player.__class__.__name__ == "BtPlayerLite":
                             continue
-                        tmp = BtPlayer(cmd[2])
+                        tmp = BtPlayerLite(cmd[2])
                         self.player.stop()
                         self.player = tmp
                         self.player.run()
                         print("bluetooth attached")
                     elif cmd[1] == "detach":
-                        if self.player.__class__.__name__ != "BtPlayer":
+                        if self.player.__class__.__name__ != "BtPlayerLite":
                             continue
                         tmp = StoragePlayer()
                         tmp.run()
