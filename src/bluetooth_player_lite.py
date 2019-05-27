@@ -7,6 +7,8 @@ from rds import RdsUpdater
 import time
 import threading
 import pyaudio
+import wave
+
 
 class BtPlayerLite(Player):
 
@@ -48,9 +50,9 @@ class BtPlayerLite(Player):
     def play(self, device):
         # open input device
         dev = None
-        for i in range(p.get_device_count()):
-            if p.get_device_info_by_index(i)['name'] == 'bluealsa':
-                dev = p.get_device_info_by_index(i)
+        for i in range(self.p.get_device_count()):
+            if self.p.get_device_info_by_index(i)['name'] == 'bluealsa':
+                dev = self.p.get_device_info_by_index(i)
 
         sample_rate = int(dev['defaultSampleRate'])
         in_channels = 2
@@ -62,13 +64,19 @@ class BtPlayerLite(Player):
 
         # open output stream
         self.output_stream = MpradioIO()
+        container = wave.open(self.output_stream, 'wb')
+        container.setnchannels(2)
+        container.setsampwidth(self.p.get_sample_size(in_fmt))
+        container.setframerate(sample_rate)
+
+        self.ready.set()
 
         while not self.__terminating:
             data = audio_stream.read(CHUNK)
-            self.output_stream.write(data)
-
+            container.writeframes(b''.join(data))
 
         # close output container and tell the buffer no more data is coming
+        container.close()
         audio_stream.stop_stream()
         audio_stream.close()
         self.p.terminate()
