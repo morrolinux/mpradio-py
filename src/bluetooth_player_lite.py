@@ -56,8 +56,8 @@ class BtPlayerLite(Player):
 
         sample_rate = int(dev['defaultSampleRate'])
         in_channels = 2
-        in_fmt = pyaudio.paInt24  # probabilmente anche 16 will do
-        CHUNK = 512
+        in_fmt = pyaudio.paInt16
+        CHUNK = 64
 
         audio_stream = self.p.open(sample_rate, channels=in_channels, format=in_fmt, input=True,
                                    input_device_index=dev['index'], frames_per_buffer=CHUNK)
@@ -73,7 +73,7 @@ class BtPlayerLite(Player):
 
         while not self.__terminating:
             data = audio_stream.read(CHUNK)
-            container.writeframes(b''.join(data))
+            container.writeframesraw(data)
 
         # close output container and tell the buffer no more data is coming
         container.close()
