@@ -71,4 +71,9 @@ echo PRETTY_HOSTNAME=mpradio > /etc/machine-info
 # avoid recompilation (by need2recompile.service) after first install 
 cp -f /sys/firmware/devicetree/base/model /etc/lastmodel
 
+echo "these modules might cause trouble with audio sampling rate"
+echo "please blacklist them if you haven't already:"
+echo "echo \"blacklist snd_bcm2835\" >> /etc/modprobe.d/blacklist.conf"
+echo "echo \"blacklist ipv6\" >> /etc/modprobe.d/blacklist.conf"
+
 sleep 5 && reboot

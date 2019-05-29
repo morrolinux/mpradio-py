@@ -18,7 +18,7 @@ class BtPlayerLite(Player):
     __now_playing = None
     output_stream = None
     __terminating = False
-    CHUNK = 1024 * 64   # Pi0 on integrated bluetooth seem to work best with 64k chunks
+    CHUNK = None
 
     def __init__(self, bt_addr):
         super().__init__()
@@ -54,25 +54,33 @@ class BtPlayerLite(Player):
             if self.p.get_device_info_by_index(i)['name'] == 'bluealsa':
                 dev = self.p.get_device_info_by_index(i)
 
-        sample_rate = int(dev['defaultSampleRate'])
+        # Consider 1 byte = 8 bit uncompressed mono signal
+        # double that for a stereo signal, we get 2 bytes,
+        # 16 bit stereo means 4 bytes audio frames
         in_channels = 2
         in_fmt = pyaudio.paInt16
-        CHUNK = 64
+        # 44100 frames per second means 176400 bytes per second or 1411.2 Kbps
+        sample_rate = 44100
 
+        # How many frames to read each time. for 44100 Hz 44,1 is 1ms equivalent
+        frame_chunk = 441  # 10ms audio coverage per iteration
+        self.CHUNK = frame_chunk * 4  # bytes to read cycle
+
+        # This will setup the stream to read CHUNK frames
         audio_stream = self.p.open(sample_rate, channels=in_channels, format=in_fmt, input=True,
-                                   input_device_index=dev['index'], frames_per_buffer=CHUNK)
+                                   input_device_index=dev['index'], frames_per_buffer=frame_chunk)
 
         # open output stream
         self.output_stream = MpradioIO()
         container = wave.open(self.output_stream, 'wb')
-        container.setnchannels(2)
+        container.setnchannels(in_channels)
         container.setsampwidth(self.p.get_sample_size(in_fmt))
         container.setframerate(sample_rate)
 
         self.ready.set()
 
         while not self.__terminating:
-            data = audio_stream.read(CHUNK, False)
+            data = audio_stream.read(frame_chunk, False)  # NB: If debugging, remove False
             container.writeframesraw(data)
 
         # close output container and tell the buffer no more data is coming
