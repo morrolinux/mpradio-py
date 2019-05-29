@@ -72,7 +72,7 @@ class BtPlayerLite(Player):
         self.ready.set()
 
         while not self.__terminating:
-            data = audio_stream.read(CHUNK)
+            data = audio_stream.read(CHUNK, False)
             container.writeframesraw(data)
 
         # close output container and tell the buffer no more data is coming
