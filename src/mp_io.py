@@ -33,7 +33,7 @@ class MpradioIO(io.BytesIO):
 
             if len(result) < 1:
                 # print("MpradioIO error: read 0 bytes.")
-                time.sleep(0.01)
+                time.sleep(0.02)    # TODO: maybe align it to bluetooth player buffer time?
                 if self.__terminating:
                     break
             else:

@@ -62,9 +62,11 @@ class BtPlayerLite(Player):
         # 44100 frames per second means 176400 bytes per second or 1411.2 Kbps
         sample_rate = 44100
 
-        # How many frames to read each time. for 44100 Hz 44,1 is 1ms equivalent
-        frame_chunk = 441  # 10ms audio coverage per iteration
-        self.CHUNK = frame_chunk * 4  # bytes to read cycle
+        buffer_time = 20  # 20ms audio coverage per iteration
+
+        # How many frames to read each time. for 44100Hz 44,1 is 1ms equivalent
+        frame_chunk = int((sample_rate/1000) * buffer_time)
+        self.CHUNK = frame_chunk * 4  # bytes to read at each cycle
 
         # This will setup the stream to read CHUNK frames
         audio_stream = self.p.open(sample_rate, channels=in_channels, format=in_fmt, input=True,
