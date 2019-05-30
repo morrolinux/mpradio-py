@@ -14,6 +14,8 @@ class MpradioIO(io.BytesIO):
         self.__write_completed = False
         self.__terminating = False
         self.__silent = False
+        self.__first_chunk = True
+        self.chunk_sleep_time = 0
 
     def read(self, size=None):
 
@@ -22,6 +24,13 @@ class MpradioIO(io.BytesIO):
             if size is None:
                 size = 1024 * 4
             return bytearray(size)
+
+        # read the first chunk with no delay, but read the subsequent chunks after a short delay
+        # (to be set from the player and < player's buffer time) to give it the time to write before the next read
+        if not self.__first_chunk:
+            time.sleep(self.chunk_sleep_time)
+        else:
+            self.__first_chunk = False
 
         while True:
             self.__lock.acquire()               # thread-safe lock
@@ -33,7 +42,7 @@ class MpradioIO(io.BytesIO):
 
             if len(result) < 1:
                 # print("MpradioIO error: read 0 bytes.")
-                time.sleep(0.02)    # TODO: maybe align it to bluetooth player buffer time?
+                time.sleep(0.008)    # TODO: maybe align it to bluetooth player buffer time?
                 if self.__terminating:
                     break
             else:
