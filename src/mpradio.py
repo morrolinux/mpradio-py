@@ -88,15 +88,9 @@ class Mpradio:
 
         # play stream
         while True:
-            try:
-                if data is not None:                             # send the encoded data to output, if any
-                    self.output.ready.wait()
-                    self.output.input_stream.write(data)
-                else:
-                    print("waiting for player data")
-                    raise AttributeError
-            except AttributeError:
-                time.sleep(self.player.SLEEP_TIME)                  # avoid 100% CPU when player is paused
+            if data is not None:
+                self.output.ready.wait()
+                self.output.input_stream.write(data)
             # advance the "play head"
             self.player.ready.wait()
             data = self.player.output_stream.read(self.player.CHUNK)
