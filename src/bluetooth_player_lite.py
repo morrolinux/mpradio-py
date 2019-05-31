@@ -68,15 +68,16 @@ class BtPlayerLite(Player):
         frame_chunk = int((sample_rate/1000) * buffer_time)
         self.CHUNK = frame_chunk * 4  # bytes to read at each cycle
 
-        # Make sure the consumer will wait enough for us to write new data before reading, but avoid stuttering
-        self.output_stream.chunk_sleep_time = (buffer_time/2)
-
         # This will setup the stream to read CHUNK frames
         audio_stream = self.p.open(sample_rate, channels=in_channels, format=in_fmt, input=True,
                                    input_device_index=dev['index'], frames_per_buffer=frame_chunk)
 
         # open output stream
         self.output_stream = MpradioIO()
+
+        # Make sure the consumer will wait enough for us to write new data before reading, but avoid stuttering
+        self.output_stream.chunk_sleep_time = int((buffer_time * 0.001)/2)
+
         container = wave.open(self.output_stream, 'wb')
         container.setnchannels(in_channels)
         container.setsampwidth(self.p.get_sample_size(in_fmt))
