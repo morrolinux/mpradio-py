@@ -5,7 +5,7 @@ fi
 
 ln -s /home/pi/mpradio/src/mpradio.py /home/pi/mpradio.py
 
-apt-get -y install git libsndfile1-dev libbluetooth-dev bluez pi-bluetooth python-gobject python-gobject-2 bluez-tools sox ffmpeg libsox-fmt-mp3 python-dbus bluealsa obexpushd python3-rpi.gpio python3-mutagen python3-dbus python3-pip python3-dev pkg-config
+apt-get -y install git libsndfile1-dev libbluetooth-dev bluez pi-bluetooth python-gobject python-gobject-2 bluez-tools sox ffmpeg libsox-fmt-mp3 python-dbus bluealsa obexpushd python3-rpi.gpio python3-mutagen python3-dbus python3-pip python3-dev pkg-config python3-pyaudio
 
 # pyav specific dependencies:
 apt-get install -y libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libswresample-dev libavfilter-dev
@@ -70,5 +70,10 @@ fi
 echo PRETTY_HOSTNAME=mpradio > /etc/machine-info
 # avoid recompilation (by need2recompile.service) after first install 
 cp -f /sys/firmware/devicetree/base/model /etc/lastmodel
+
+echo "these modules might cause trouble with audio sampling rate"
+echo "please blacklist them if you haven't already:"
+echo "echo \"blacklist snd_bcm2835\" >> /etc/modprobe.d/blacklist.conf"
+echo "echo \"blacklist ipv6\" >> /etc/modprobe.d/blacklist.conf"
 
 sleep 5 && reboot

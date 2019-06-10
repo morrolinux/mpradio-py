@@ -7,6 +7,7 @@ from encoder import Encoder
 from configuration import config    # must be imported before all other modules (dependency)
 from bluetooth_remote import BtRemote
 from bluetooth_player import BtPlayer
+from bluetooth_player_lite import BtPlayerLite
 from fm_output import FmOutput
 from analog_output import AnalogOutput
 from storage_player import StoragePlayer
@@ -87,23 +88,9 @@ class Mpradio:
 
         # play stream
         while True:
-            try:
-                if data is not None:
-                    self.encoder.ready.wait()
-                    self.encoder.input_stream.write(data)
-                else:
-                    # print("waiting for player data")
-                    raise AttributeError
-                self.encoder.ready.wait()
-                encoded = self.encoder.output_stream.read(self.player.CHUNK)
-                if encoded is not None:                             # send the encoded data to output, if any
-                    self.output.ready.wait()
-                    self.output.input_stream.write(encoded)
-                else:
-                    # print("waiting for encoder data")
-                    raise AttributeError
-            except AttributeError:
-                time.sleep(self.player.SLEEP_TIME)                  # avoid 100% CPU when player is paused
+            if data is not None:
+                self.output.ready.wait()
+                self.output.input_stream.write(data)
             # advance the "play head"
             self.player.ready.wait()
             data = self.player.output_stream.read(self.player.CHUNK)
@@ -127,15 +114,15 @@ class Mpradio:
                         self.bt_remote.reply(result)
                 elif cmd[0] == "bluetooth":
                     if cmd[1] == "attach":
-                        if self.player.__class__.__name__ == "BtPlayer":
+                        if self.player.__class__.__name__ == "BtPlayerLite":
                             continue
-                        tmp = BtPlayer(cmd[2])
+                        tmp = BtPlayerLite(cmd[2])
                         self.player.stop()
                         self.player = tmp
                         self.player.run()
                         print("bluetooth attached")
                     elif cmd[1] == "detach":
-                        if self.player.__class__.__name__ != "BtPlayer":
+                        if self.player.__class__.__name__ != "BtPlayerLite":
                             continue
                         tmp = StoragePlayer()
                         tmp.run()
