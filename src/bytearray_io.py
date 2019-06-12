@@ -18,24 +18,22 @@ class BytearrayIO:
     def silence(self, silent=True):
         pass
 
-    def read(self, size=1024):
-
+    def read(self, size=8192):
         while True:
-
             if self.__terminating:
                 break
 
             # buffer underrun protection by checking total amount of available data
             # note that this is an absolute value and doesn't consider wrap around(s)
             if self.__available <= 0:
-                time.sleep(0.01)
-                # print("buffer underrun. available =", self.available)
+                time.sleep(0.005)
+                # print("buffer underrun. available =", self.__available)
                 continue
 
             # reader wrap around when reaching last written byte
             if self.__last_r == self.__wrap_around_at:
                 self.__last_r = 0
-                print("read wrap around at", self.__wrap_around_at)
+                print("read wrap around at", self.__wrap_around_at, "avail:", self.__available)
 
             start = self.__last_r
 

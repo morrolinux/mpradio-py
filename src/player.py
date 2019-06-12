@@ -12,6 +12,7 @@ class Player(MediaControl, MediaInfo):
     output_stream = None
     ready = None
     chunk_size_time = 0
+    processing_time = 0
 
     def __init__(self):
         self.ready = threading.Event()

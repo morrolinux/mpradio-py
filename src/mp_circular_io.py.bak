@@ -1,0 +1,42 @@
+import time
+
+
+class CircularMpradioIO:
+    buf_size = 1024 * 10000
+
+    def __init__(self):
+        self.__ba = bytearray(self.buf_size)
+        self.__mv = memoryview(self.__ba)
+        self.__last_r = 0
+        self.__last_w = 0
+
+    def read(self, size):
+        if size > self.buf_size:
+            print("ERR: trying to read > buffer size!")
+
+        time.sleep(0.01)
+
+        while self.__last_r + size > self.__last_w:
+            print("buffer underrun!!")
+            time.sleep(0.01)
+
+        res = bytearray(size)
+        for i in range(self.__last_r, self.__last_r + size):
+            res[i - self.__last_r] = self.__mv[i % self.buf_size]
+        self.__last_r += size
+
+        print("read", size, "bytes to", self.__last_r)
+        return bytes(res)
+
+    def write(self, data):
+        size = len(data)
+        if size > self.buf_size:
+            print("ERR: trying to write > buffer size!")
+
+        for i in range(size):
+            self.__ba[(i + self.__last_w) % self.buf_size] = data[i]
+
+        self.__last_w += size
+        print("wrote", size, "bytes to", self.__last_w)
+
+

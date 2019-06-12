@@ -3,7 +3,6 @@ from player import Player
 import subprocess
 import av
 from mp_io import MpradioIO
-from bytearray_io import BytearrayIO
 from rds import RdsUpdater
 import time
 import threading
@@ -74,11 +73,10 @@ class BtPlayerLite(Player):
                                    input_device_index=dev['index'], frames_per_buffer=frame_chunk)
 
         # open output stream
-        self.output_stream = BytearrayIO()
+        self.output_stream = MpradioIO()
 
         # Make sure the consumer will wait enough for us to write new data before reading, but avoid stuttering
-        # self.output_stream.chunk_sleep_time = int((buffer_time * 0.001)/2)
-        self.chunk_size_time = buffer_time * 0.001
+        self.output_stream.chunk_sleep_time = int((buffer_time * 0.001)/2)
 
         container = wave.open(self.output_stream, 'wb')
         container.setnchannels(in_channels)
@@ -88,17 +86,23 @@ class BtPlayerLite(Player):
         self.ready.set()
 
         while not self.__terminating:
-            # start = time.time()
             data = audio_stream.read(frame_chunk, False)  # NB: If debugging, remove False
             container.writeframesraw(data)
-            # end = time.time()
-            # self.processing_time = end - start
 
         # close output container and tell the buffer no more data is coming
         container.close()
         audio_stream.stop_stream()
         audio_stream.close()
         self.p.terminate()
+
+        self.output_stream.set_write_completed()
+
+        # TODO: check if this and the above is really needed when playing a device
+        # wait until playback (buffer read) terminates; catch signals meanwhile
+        while not self.output_stream.is_read_completed():
+            if self.__terminating:
+                break
+            time.sleep(0.2)
 
     def get_now_playing(self):
         try:

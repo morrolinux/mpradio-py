@@ -93,7 +93,7 @@ class Mpradio:
                 self.output.input_stream.write(data)
             # advance the "play head"
             self.player.ready.wait()
-            data = self.player.output_stream.read(self.player.CHUNK)
+            data = self.player.output_stream.read()
             # print("advancing playhead...")
 
     def check_remotes(self):
