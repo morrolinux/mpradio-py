@@ -89,7 +89,7 @@ class Mpradio:
             if data is not None:
                 self.output.ready.wait()
                 self.output.input_stream.write(data)
-                t = 0.004
+                t = 0.005
                 wait_time = ((len(data)/4)/44.1) * 0.001
                 # print("just read", len(data), "bytes. sleeping for", wait_time, "-", t)
                 if wait_time >= t:
