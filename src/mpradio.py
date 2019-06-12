@@ -81,19 +81,20 @@ class Mpradio:
 
         threading.Thread(target=self.check_remotes).start()
 
-        # wait for the player to be ready and pre-buffer
-        self.player.ready.wait()
-        data = self.player.output_stream.read(self.player.CHUNK)
-        print("player is ready")
-
         # play stream
         while True:
+            self.player.ready.wait()
+            data = self.player.output_stream.read()
+
             if data is not None:
                 self.output.ready.wait()
                 self.output.input_stream.write(data)
-            # advance the "play head"
-            self.player.ready.wait()
-            data = self.player.output_stream.read()
+                t = 0.004
+                wait_time = ((len(data)/4)/44.1) * 0.001
+                # print("just read", len(data), "bytes. sleeping for", wait_time, "-", t)
+                if wait_time >= t:
+                    wait_time -= t
+                time.sleep(wait_time)
             # print("advancing playhead...")
 
     def check_remotes(self):

@@ -18,7 +18,7 @@ class BytearrayIO:
     def silence(self, silent=True):
         pass
 
-    def read(self, size=8192):
+    def read(self, size=16384):
         while True:
             if self.__terminating:
                 break
@@ -26,7 +26,7 @@ class BytearrayIO:
             # buffer underrun protection by checking total amount of available data
             # note that this is an absolute value and doesn't consider wrap around(s)
             if self.__available <= 0:
-                time.sleep(0.005)
+                time.sleep(0.001)
                 # print("buffer underrun. available =", self.__available)
                 continue
 
