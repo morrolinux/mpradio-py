@@ -1,14 +1,13 @@
 import dbus
 from player import Player
 import subprocess
-import av
-from mp_io import MpradioIO
 from bytearray_io import BytearrayIO
 from rds import RdsUpdater
 import time
 import threading
 import pyaudio
 import wave
+from prof import Profiler
 
 
 class BtPlayerLite(Player):
@@ -85,12 +84,14 @@ class BtPlayerLite(Player):
         container.setsampwidth(self.p.get_sample_size(in_fmt))
         container.setframerate(sample_rate)
 
+        prof = Profiler()
         self.ready.set()
 
         while not self.__terminating:
             # start = time.time()
             data = audio_stream.read(frame_chunk, False)  # NB: If debugging, remove False
             container.writeframesraw(data)
+            prof.add("chunk " + buffer_time + "ms")
             # end = time.time()
             # self.processing_time = end - start
 
@@ -99,6 +100,8 @@ class BtPlayerLite(Player):
         audio_stream.stop_stream()
         audio_stream.close()
         self.p.terminate()
+        prof.export_csv()
+        prof.stop()
 
     def get_now_playing(self):
         try:
