@@ -6,9 +6,11 @@ from mp_io import MpradioIO
 from rds import RdsUpdater
 import time
 import threading
+import pyaudio
+import wave
 
 
-class BtPlayer(Player):
+class BtPlayerLite(Player):
 
     __bt_addr = None
     __cmd_arr = None
@@ -16,7 +18,7 @@ class BtPlayer(Player):
     __now_playing = None
     output_stream = None
     __terminating = False
-    CHUNK = 1024 * 64   # Pi0 on integrated bluetooth seem to work best with 64k chunks
+    CHUNK = None
 
     def __init__(self, bt_addr):
         super().__init__()
@@ -24,6 +26,8 @@ class BtPlayer(Player):
         self.__bt_addr = bt_addr
         self.__cmd_arr = ["sudo", "dbus-send", "--system", "--type=method_call", "--dest=org.bluez", "/org/bluez/hci0/dev_"
                           + bt_addr.replace(":", "_").upper() + "/player0", "org.bluez.MediaPlayer1.Pause"]
+
+        self.p = pyaudio.PyAudio()
 
     def playback_position(self):
         pass
@@ -45,70 +49,53 @@ class BtPlayer(Player):
 
     def play(self, device):
         # open input device
-        try:
-            input_container = av.open(device, format="alsa")
+        dev = None
+        for i in range(self.p.get_device_count()):
+            if self.p.get_device_info_by_index(i)['name'] == 'bluealsa':
+                dev = self.p.get_device_info_by_index(i)
 
-            audio_stream = None
-            for i, stream in enumerate(input_container.streams):
-                if stream.type == 'audio':
-                    audio_stream = stream
-                    break
+        # Consider 1 byte = 8 bit uncompressed mono signal
+        # double that for a stereo signal, we get 2 bytes,
+        # 16 bit stereo means 4 bytes audio frames
+        in_channels = 2
+        in_fmt = pyaudio.paInt16
+        # 44100 frames per second means 176400 bytes per second or 1411.2 Kbps
+        sample_rate = 44100
 
-            if not audio_stream:
-                print("audio stream not found")
-                return
+        buffer_time = 20  # 20ms audio coverage per iteration
 
-        except av.AVError:
-            print("Can't open input stream for device", device)
-            return
+        # How many frames to read each time. for 44100Hz 44,1 is 1ms equivalent
+        frame_chunk = int((sample_rate/1000) * buffer_time)
+        self.CHUNK = frame_chunk * 4  # bytes to read at each cycle
+
+        # This will setup the stream to read CHUNK frames
+        audio_stream = self.p.open(sample_rate, channels=in_channels, format=in_fmt, input=True,
+                                   input_device_index=dev['index'], frames_per_buffer=frame_chunk)
 
         # open output stream
         self.output_stream = MpradioIO()
-        out_container = av.open(self.output_stream, 'w', 'wav')
-        out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
 
-        # transcode input to wav
-        for i, packet in enumerate(input_container.demux(audio_stream)):
-            try:
-                for frame in packet.decode():
-                    frame.pts = None
-                    out_pack = out_stream.encode(frame)
-                    if out_pack:
-                        out_container.mux(out_pack)
-                    else:
-                        print("out_pack is None")
-            except av.AVError:
-                print("Error during playback for:", device)
-                return
+        # Make sure the consumer will wait enough for us to write new data before reading, but avoid stuttering
+        self.output_stream.chunk_sleep_time = int((buffer_time * 0.001)/2)
 
-            # stop transcoding if we receive termination signal
-            if self.__terminating:
-                print("termination signal received")
-                break
+        container = wave.open(self.output_stream, 'wb')
+        container.setnchannels(in_channels)
+        container.setsampwidth(self.p.get_sample_size(in_fmt))
+        container.setframerate(sample_rate)
 
-            # pre-buffer
-            if i == 2:
-                self.ready.set()
+        self.ready.set()
 
-            # Avoid CPU saturation on single-core systems.
-            time.sleep(0.002)   # useful on Pi0 with integrated BT
-
-        # transcoding terminated. Flush output stream
-        try:
-            while True:
-                out_pack = out_stream.encode(None)
-                if out_pack:
-                    out_container.mux(out_pack)
-                else:
-                    break
-        except ValueError:
-            print("skipping flush...")
-            return
+        while not self.__terminating:
+            data = audio_stream.read(frame_chunk, False)  # NB: If debugging, remove False
+            container.writeframesraw(data)
 
         # close output container and tell the buffer no more data is coming
-        out_container.close()
+        container.close()
+        audio_stream.stop_stream()
+        audio_stream.close()
+        self.p.terminate()
+
         self.output_stream.set_write_completed()
-        print("transcoding finished.")
 
         # TODO: check if this and the above is really needed when playing a device
         # wait until playback (buffer read) terminates; catch signals meanwhile
