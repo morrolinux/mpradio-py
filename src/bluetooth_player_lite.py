@@ -85,13 +85,14 @@ class BtPlayerLite(Player):
         container.setframerate(sample_rate)
 
         prof = Profiler()
+        prof.start()
         self.ready.set()
 
         while not self.__terminating:
             # start = time.time()
             data = audio_stream.read(frame_chunk, False)  # NB: If debugging, remove False
             container.writeframesraw(data)
-            prof.add("chunk " + buffer_time + "ms")
+            prof.add("chunk " + str(buffer_time) + "ms")
             # end = time.time()
             # self.processing_time = end - start
 
