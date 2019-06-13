@@ -84,7 +84,7 @@ class BtPlayerLite(Player):
         container.setsampwidth(self.p.get_sample_size(in_fmt))
         container.setframerate(sample_rate)
 
-        prof = Profiler()
+        prof = Profiler(cpu_mon=False)
         prof.start()
         self.ready.set()
 
@@ -96,13 +96,14 @@ class BtPlayerLite(Player):
             # end = time.time()
             # self.processing_time = end - start
 
+        prof.export_csv("chunk_time.csv")
+        prof.stop()
+
         # close output container and tell the buffer no more data is coming
         container.close()
         audio_stream.stop_stream()
         audio_stream.close()
         self.p.terminate()
-        prof.export_csv()
-        prof.stop()
 
     def get_now_playing(self):
         try:
