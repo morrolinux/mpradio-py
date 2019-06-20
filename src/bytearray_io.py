@@ -14,6 +14,10 @@ class BytearrayIO:
         self.__write_completed = False
         self.__available = 0
         self.__terminating = False
+        self.out_stream = None
+
+    def set_out_stream(self, out_s):
+        self.out_stream = out_s
 
     def silence(self, silent=True):
         pass
@@ -58,21 +62,24 @@ class BytearrayIO:
             return self.buf[start:end]
 
     def write(self, b: Union[bytes, bytearray]):
-        size = len(b)
+        if self.out_stream is None:
+            size = len(b)
 
-        # write wrap around
-        if self.__last_w + size > self.buf_size:
-            self.__wrap_around_at = self.__last_w
-            self.__last_w = 0
-            print("write wrap around at", self.__wrap_around_at)
+            # write wrap around
+            if self.__last_w + size > self.buf_size:
+                self.__wrap_around_at = self.__last_w
+                self.__last_w = 0
+                print("write wrap around at", self.__wrap_around_at)
 
-        start = self.__last_w
-        self.__last_w = start + size
-        self.__available += size
-        try:
-            self.mv[start:self.__last_w] = b
-        except ValueError:
-            print("Value error. len(buf) = ", len(self.buf), "last_w = ", self.__last_w)
+            start = self.__last_w
+            self.__last_w = start + size
+            self.__available += size
+            try:
+                self.mv[start:self.__last_w] = b
+            except ValueError:
+                print("Value error. len(buf) = ", len(self.buf), "last_w = ", self.__last_w)
+        else:
+            self.out_stream.write(b)
 
     def set_write_completed(self):
         self.__write_completed = True

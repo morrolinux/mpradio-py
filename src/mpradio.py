@@ -69,9 +69,10 @@ class Mpradio:
         quit(0)
 
     def run(self):
-        self.player.run()
         self.encoder.run()
         self.output.run()
+        self.player.set_out_stream(self.output.input_stream)
+        self.player.run()
         self.bt_remote.run()
         self.control_pipe.listen()
         if platform.machine() != "x86_64":
@@ -81,6 +82,7 @@ class Mpradio:
 
         threading.Thread(target=self.check_remotes).start()
 
+        '''
         # play stream
         while True:
             self.player.ready.wait()
@@ -96,6 +98,7 @@ class Mpradio:
                     wait_time -= t
                 time.sleep(wait_time)
             # print("advancing playhead...")
+        '''
 
     def check_remotes(self):
         while not self.remotes_termination.is_set():
@@ -120,6 +123,7 @@ class Mpradio:
                         tmp = BtPlayerLite(cmd[2])
                         self.player.stop()
                         self.player = tmp
+                        self.player.set_out_stream(self.output.input_stream)
                         self.player.run()
                         print("bluetooth attached")
                     elif cmd[1] == "detach":

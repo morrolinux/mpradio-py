@@ -28,6 +28,10 @@ class BtPlayerLite(Player):
                           + bt_addr.replace(":", "_").upper() + "/player0", "org.bluez.MediaPlayer1.Pause"]
 
         self.p = pyaudio.PyAudio()
+        self.out_s = None
+
+    def set_out_stream(self, outs):
+        self.out_s = outs
 
     def playback_position(self):
         pass
@@ -74,6 +78,8 @@ class BtPlayerLite(Player):
 
         # open output stream
         self.output_stream = BytearrayIO()
+        if self.out_s is not None:
+            self.output_stream.set_out_stream(self.out_s)
 
         # Make sure the consumer will wait enough for us to write new data before reading, but avoid stuttering
         # self.output_stream.chunk_sleep_time = int((buffer_time * 0.001)/2)
