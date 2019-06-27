@@ -66,10 +66,12 @@ class BtPlayerLite(Player):
         # 44100 frames per second means 176400 bytes per second or 1411.2 Kbps
         sample_rate = 44100
 
-        buffer_time = 20  # 20ms audio coverage per iteration
+        buffer_time = 50  # 50ms audio coverage per iteration
 
         # How many frames to read each time. for 44100Hz 44,1 is 1ms equivalent
         frame_chunk = int((sample_rate/1000) * buffer_time)
+        # print("frames_per_buffer=", frame_chunk)
+
         self.CHUNK = frame_chunk * 4  # bytes to read at each cycle
 
         # This will setup the stream to read CHUNK frames
@@ -94,11 +96,18 @@ class BtPlayerLite(Player):
         prof.start()
         self.ready.set()
 
+        prof.add("start")
+
         while not self.__terminating:
             # start = time.time()
-            data = audio_stream.read(frame_chunk, False)  # NB: If debugging, remove False
-            container.writeframesraw(data)
-            prof.add("chunk " + str(buffer_time) + "ms")
+            try:
+                data = audio_stream.read(frame_chunk, False)  # NB: If debugging, remove False
+                container.writeframesraw(data)
+                prof.add(str(audio_stream.get_read_available()) + "samples left")
+            except OSError:
+                self.__terminating = True
+                break
+                # TODO: stopping on bluetooth detach should be fully handled by the main thread
             # end = time.time()
             # self.processing_time = end - start
 
@@ -107,7 +116,10 @@ class BtPlayerLite(Player):
 
         # close output container and tell the buffer no more data is coming
         container.close()
-        audio_stream.stop_stream()
+        try:
+            audio_stream.stop_stream()
+        except OSError:
+            pass
         audio_stream.close()
         self.p.terminate()
 

@@ -99,3 +99,12 @@ class BytearrayIO:
     # IoBase dummy interface implementation for pyav
     def seek(self, offset: int, whence: int = ...):
         pass
+
+    def tell(self):
+        return 0
+
+    def flush(self):
+        pass
+
+    def close(self):
+        pass

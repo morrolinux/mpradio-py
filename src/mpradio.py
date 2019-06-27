@@ -129,11 +129,11 @@ class Mpradio:
                     elif cmd[1] == "detach":
                         if self.player.__class__.__name__ != "BtPlayerLite":
                             continue
-                        tmp = StoragePlayer()
-                        tmp.run()
-                        tmp.ready.wait()
                         self.player.stop()
-                        self.player = tmp
+                        self.player = StoragePlayer()
+                        self.player.set_out_stream(self.output.input_stream)
+                        self.player.run()
+                        # self.player.ready.wait()
                         print("bluetooth detached")
                 elif cmd[0] == "system":
                     if cmd[1] == "poweroff":
