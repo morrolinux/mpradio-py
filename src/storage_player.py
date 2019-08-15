@@ -191,7 +191,7 @@ class StoragePlayer(Player):
             return
 
         # close output container and tell the buffer no more data is coming
-        input_container.close()
+        del input_container
         out_container.close()
         self.__out.set_write_completed()
         print("transcoding finished.")
