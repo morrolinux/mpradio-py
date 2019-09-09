@@ -114,5 +114,9 @@ A simple schematic of how things work together:
 
 ![MPRadio schematic](/doc/mpradio_schematic.png?raw=true "mpradio schematic")
 
+And how classes work together:
+
+![MPRadio classes](/doc/mpradio_classes.png?raw=true "mpradio classes")
+
 # Warning and Disclaimer
 `mpradio` relies on PiFmAdv for FM-Streaming feature. Please note that in most states, transmitting radio waves without a state-issued licence specific to the transmission modalities (frequency, power, bandwidth, etc.) is illegal. Always use a shield between your radio receiver and the Raspberry. Never use an antenna. See PiFmAdv Waring and Disclamer for more information.
