@@ -4,6 +4,7 @@ import subprocess
 from bytearray_io import BytearrayIO
 from rds import RdsUpdater
 import time
+import math
 import threading
 import pyaudio
 import wave
@@ -69,10 +70,7 @@ class BtPlayerLite(Player):
         buffer_time = 50  # 50ms audio coverage per iteration
 
         # How many frames to read each time. for 44100Hz 44,1 is 1ms equivalent
-        frame_chunk = int((sample_rate/1000) * buffer_time)
-        # print("frames_per_buffer=", frame_chunk)
-
-        self.CHUNK = frame_chunk * 4  # bytes to read at each cycle
+        frame_chunk = math.ceil(int((sample_rate / 1000) * buffer_time))
 
         # This will setup the stream to read CHUNK frames
         audio_stream = self.p.open(sample_rate, channels=in_channels, format=in_fmt, input=True,
@@ -83,36 +81,21 @@ class BtPlayerLite(Player):
         if self.out_s is not None:
             self.output_stream.set_out_stream(self.out_s)
 
-        # Make sure the consumer will wait enough for us to write new data before reading, but avoid stuttering
-        # self.output_stream.chunk_sleep_time = int((buffer_time * 0.001)/2)
-        self.chunk_size_time = buffer_time * 0.001
-
         container = wave.open(self.output_stream, 'wb')
         container.setnchannels(in_channels)
         container.setsampwidth(self.p.get_sample_size(in_fmt))
         container.setframerate(sample_rate)
 
-        prof = Profiler(cpu_mon=False)
-        prof.start()
         self.ready.set()
 
-        prof.add("start")
-
         while not self.__terminating:
-            # start = time.time()
             try:
                 data = audio_stream.read(frame_chunk, False)  # NB: If debugging, remove False
                 container.writeframesraw(data)
-                prof.add(str(audio_stream.get_read_available()) + "samples left")
             except OSError:
                 self.__terminating = True
                 break
                 # TODO: stopping on bluetooth detach should be fully handled by the main thread
-            # end = time.time()
-            # self.processing_time = end - start
-
-        prof.export_csv("chunk_time.csv")
-        prof.stop()
 
         # close output container and tell the buffer no more data is coming
         container.close()

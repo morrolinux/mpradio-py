@@ -203,13 +203,13 @@ class StoragePlayer(Player):
         print("transcoding finished.")
 
         # wait until playback (buffer read) terminates; catch signals meanwhile
-        while not self.output_stream.is_read_completed():
-            if self.__skip.is_set():
-                self.__skip.clear()
-                break
-            if self.__terminating:
-                break
-            time.sleep(0.2)
+        # while not self.output_stream.is_read_completed():
+        #     time.sleep(0.2)
+        #     if self.__terminating:
+        #        break
+
+        if self.__skip.is_set():
+            self.__skip.clear()
 
     def pause(self):
         if self.__timer.is_paused():
