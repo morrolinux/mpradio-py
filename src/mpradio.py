@@ -102,7 +102,7 @@ class Mpradio:
 
     def check_remotes(self):
         while not self.remotes_termination.is_set():
-            time.sleep(0.2)
+            time.sleep(0.02)
             if self.remote_event.is_set():
                 self.remote_event.clear()
                 try:

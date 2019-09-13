@@ -8,7 +8,6 @@ import math
 import threading
 import pyaudio
 import wave
-from prof import Profiler
 
 
 class BtPlayerLite(Player):
