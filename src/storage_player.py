@@ -9,6 +9,7 @@ import json
 from configuration import config
 import av
 from mp_io import MpradioIO
+from bytearray_io import BytearrayIO
 
 
 class StoragePlayer(Player):
@@ -31,6 +32,7 @@ class StoragePlayer(Player):
         self.__resume_file = config.get_resume_file()
         self.__skip = threading.Event()
         self.output_stream = None
+        self.out_s = None
 
     def playback_position(self):
         return self.__timer.get_time()
@@ -97,6 +99,9 @@ class StoragePlayer(Player):
         self.__playlist.add(song)
         self.__playlist.set_noshuffle()
 
+    def set_out_stream(self, outs):
+        self.out_s = outs
+
     def play(self, song):
         # get/set/resume song timer
         resume_time = song.get("position")
@@ -128,8 +133,10 @@ class StoragePlayer(Player):
             self.output_stream.stop()
 
         # create output stream
-        self.__out = MpradioIO()
-        out_container = av.open(self.__out, 'w', 'wav')
+        self.output_stream = BytearrayIO()  # MpradioIO()
+        if self.out_s is not None:
+            self.output_stream.set_out_stream(self.out_s)
+        out_container = av.open(self.output_stream, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
 
         # calculate initial seek
@@ -169,7 +176,7 @@ class StoragePlayer(Player):
             if not buffer_ready:
                 try:
                     if packet.pos > resume_time + time_unit*2:
-                        self.output_stream = self.__out  # link for external access
+                        # self.output_stream = self.__out  # link for external access
                         self.ready.set()
                         buffer_ready = True
                 except TypeError:
@@ -193,17 +200,17 @@ class StoragePlayer(Player):
         # close output container and tell the buffer no more data is coming
         del input_container
         out_container.close()
-        self.__out.set_write_completed()
+        self.output_stream.set_write_completed()
         print("transcoding finished.")
 
         # wait until playback (buffer read) terminates; catch signals meanwhile
-        while not self.__out.is_read_completed():
-            if self.__skip.is_set():
-                self.__skip.clear()
-                break
-            if self.__terminating:
-                break
-            time.sleep(0.2)
+        # while not self.output_stream.is_read_completed():
+        #     time.sleep(0.2)
+        #     if self.__terminating:
+        #        break
+
+        if self.__skip.is_set():
+            self.__skip.clear()
 
     def pause(self):
         if self.__timer.is_paused():

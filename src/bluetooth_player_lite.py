@@ -1,10 +1,10 @@
 import dbus
 from player import Player
 import subprocess
-import av
-from mp_io import MpradioIO
+from bytearray_io import BytearrayIO
 from rds import RdsUpdater
 import time
+import math
 import threading
 import pyaudio
 import wave
@@ -28,6 +28,10 @@ class BtPlayerLite(Player):
                           + bt_addr.replace(":", "_").upper() + "/player0", "org.bluez.MediaPlayer1.Pause"]
 
         self.p = pyaudio.PyAudio()
+        self.out_s = None
+
+    def set_out_stream(self, outs):
+        self.out_s = outs
 
     def playback_position(self):
         pass
@@ -62,21 +66,19 @@ class BtPlayerLite(Player):
         # 44100 frames per second means 176400 bytes per second or 1411.2 Kbps
         sample_rate = 44100
 
-        buffer_time = 20  # 20ms audio coverage per iteration
+        buffer_time = 50  # 50ms audio coverage per iteration
 
         # How many frames to read each time. for 44100Hz 44,1 is 1ms equivalent
-        frame_chunk = int((sample_rate/1000) * buffer_time)
-        self.CHUNK = frame_chunk * 4  # bytes to read at each cycle
+        frame_chunk = math.ceil(int((sample_rate / 1000) * buffer_time))
 
         # This will setup the stream to read CHUNK frames
         audio_stream = self.p.open(sample_rate, channels=in_channels, format=in_fmt, input=True,
                                    input_device_index=dev['index'], frames_per_buffer=frame_chunk)
 
         # open output stream
-        self.output_stream = MpradioIO()
-
-        # Make sure the consumer will wait enough for us to write new data before reading, but avoid stuttering
-        self.output_stream.chunk_sleep_time = int((buffer_time * 0.001)/2)
+        self.output_stream = BytearrayIO()
+        if self.out_s is not None:
+            self.output_stream.set_out_stream(self.out_s)
 
         container = wave.open(self.output_stream, 'wb')
         container.setnchannels(in_channels)
@@ -86,23 +88,22 @@ class BtPlayerLite(Player):
         self.ready.set()
 
         while not self.__terminating:
-            data = audio_stream.read(frame_chunk, False)  # NB: If debugging, remove False
-            container.writeframesraw(data)
+            try:
+                data = audio_stream.read(frame_chunk, False)  # NB: If debugging, remove False
+                container.writeframesraw(data)
+            except OSError:
+                self.__terminating = True
+                break
+                # TODO: stopping on bluetooth detach should be fully handled by the main thread
 
         # close output container and tell the buffer no more data is coming
         container.close()
-        audio_stream.stop_stream()
+        try:
+            audio_stream.stop_stream()
+        except OSError:
+            pass
         audio_stream.close()
         self.p.terminate()
-
-        self.output_stream.set_write_completed()
-
-        # TODO: check if this and the above is really needed when playing a device
-        # wait until playback (buffer read) terminates; catch signals meanwhile
-        while not self.output_stream.is_read_completed():
-            if self.__terminating:
-                break
-            time.sleep(0.2)
 
     def get_now_playing(self):
         try:

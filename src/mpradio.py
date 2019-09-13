@@ -69,9 +69,10 @@ class Mpradio:
         quit(0)
 
     def run(self):
-        self.player.run()
         self.encoder.run()
         self.output.run()
+        self.player.set_out_stream(self.output.input_stream)
+        self.player.run()
         self.bt_remote.run()
         self.control_pipe.listen()
         if platform.machine() != "x86_64":
@@ -81,24 +82,27 @@ class Mpradio:
 
         threading.Thread(target=self.check_remotes).start()
 
-        # wait for the player to be ready and pre-buffer
-        self.player.ready.wait()
-        data = self.player.output_stream.read(self.player.CHUNK)
-        print("player is ready")
-
+        '''
         # play stream
         while True:
+            self.player.ready.wait()
+            data = self.player.output_stream.read()
+
             if data is not None:
                 self.output.ready.wait()
                 self.output.input_stream.write(data)
-            # advance the "play head"
-            self.player.ready.wait()
-            data = self.player.output_stream.read(self.player.CHUNK)
+                t = 0.005
+                wait_time = ((len(data)/4)/44.1) * 0.001
+                # print("just read", len(data), "bytes. sleeping for", wait_time, "-", t)
+                if wait_time >= t:
+                    wait_time -= t
+                time.sleep(wait_time)
             # print("advancing playhead...")
+        '''
 
     def check_remotes(self):
         while not self.remotes_termination.is_set():
-            time.sleep(0.2)
+            time.sleep(0.02)
             if self.remote_event.is_set():
                 self.remote_event.clear()
                 try:
@@ -119,16 +123,17 @@ class Mpradio:
                         tmp = BtPlayerLite(cmd[2])
                         self.player.stop()
                         self.player = tmp
+                        self.player.set_out_stream(self.output.input_stream)
                         self.player.run()
                         print("bluetooth attached")
                     elif cmd[1] == "detach":
                         if self.player.__class__.__name__ != "BtPlayerLite":
                             continue
-                        tmp = StoragePlayer()
-                        tmp.run()
-                        tmp.ready.wait()
                         self.player.stop()
-                        self.player = tmp
+                        self.player = StoragePlayer()
+                        self.player.set_out_stream(self.output.input_stream)
+                        self.player.run()
+                        # self.player.ready.wait()
                         print("bluetooth detached")
                 elif cmd[0] == "system":
                     if cmd[1] == "poweroff":
