@@ -5,18 +5,26 @@ DISABLE_STR="dtoverlay=pi3-disable-wifi"
 
 if [[ $# -ne 1 ]]
 then
-	echo "usage: wifi-switch <on|off>"
+	echo "usage: wifi-switch <on|off|status>"
 	exit 1
 fi
 
 if [[ $(grep "$DISABLE_STR" $CONFIG) == "" ]]
 then 
+	if [[ $1 == "status" ]]
+		echo "on"
+		exit 0
+
 	if [[ $1 == "off" ]]
 	then
 		echo "$DISABLE_STR" | sudo tee -a /boot/config.txt
 		sudo reboot
 	fi
 else
+	if [[ $1 == "status" ]]
+		echo "off"
+		exit 0
+
 	if [[ $1 == "on" ]]
 	then
 		sudo sed -i "/^$DISABLE_STR/d" /boot/config.txt
