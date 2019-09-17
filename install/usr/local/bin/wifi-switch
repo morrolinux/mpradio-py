@@ -12,8 +12,10 @@ fi
 if [[ $(grep "$DISABLE_STR" $CONFIG) == "" ]]
 then 
 	if [[ $1 == "status" ]]
+	then
 		echo "on"
 		exit 0
+	fi
 
 	if [[ $1 == "off" ]]
 	then
@@ -22,8 +24,10 @@ then
 	fi
 else
 	if [[ $1 == "status" ]]
+	then
 		echo "off"
 		exit 0
+	fi
 
 	if [[ $1 == "on" ]]
 	then
