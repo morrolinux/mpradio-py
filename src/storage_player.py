@@ -182,9 +182,6 @@ class StoragePlayer(Player):
                 except TypeError:
                     pass
 
-            # Avoid CPU saturation on single-core systems.
-            time.sleep(0.01)
-
         # transcoding terminated. Flush output stream
         try:
             while True:

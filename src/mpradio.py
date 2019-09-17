@@ -140,7 +140,10 @@ class Mpradio:
                         self.player.pause()
                         call(["sudo", "poweroff"])
                     elif cmd[1] == "reboot":
+                        self.player.pause()
                         call(["sudo", "reboot"])
+                    else:
+                        call(["sudo"] + cmd[1:])
                 elif cmd[0] == "play":
                     if self.player.__class__.__name__ != "StoragePlayer":
                         continue
