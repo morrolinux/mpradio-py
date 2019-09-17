@@ -14,7 +14,7 @@ from storage_player import StoragePlayer
 from control_pipe import ControlPipe
 from media import MediaControl, MediaInfo
 import platform
-from subprocess import call
+from subprocess import call, Popen, PIPE
 import json
 
 
@@ -142,8 +142,13 @@ class Mpradio:
                     elif cmd[1] == "reboot":
                         self.player.pause()
                         call(["sudo", "reboot"])
+                    elif cmd[1] == "wifi-switch" and cmd[2] == "status":
+                        if self.remote_msg["source"] == "bluetooth":
+                            result = Popen(cmd[1:], stdout=PIPE).stdout.read().decode()
+                            self.bt_remote.reply(result)
                     else:
                         call(["sudo"] + cmd[1:])
+
                 elif cmd[0] == "play":
                     if self.player.__class__.__name__ != "StoragePlayer":
                         continue
