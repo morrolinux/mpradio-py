@@ -69,9 +69,19 @@ Example:
 
 ## Bluetooth companion app 
 
-I'll post the source code once it's mature enough, but you can test an alpha (0.2) version [here](http://www.mediafire.com/file/awu3r50z5gz3363/mpradio_remote-0.2.apk) 
+I'll post the source code once it's mature enough, but you can test a pre-alpha build (0.1) version [here](http://www.mediafire.com/file/p03pd2w5auaht3s/mpradio-py_0.1.apk/file) 
 
-NB: I haven't handled all corner conditions yet, so crashes may occour. (Make sure your Bluetooth is on and your Pi is paired, before even starting the app) 
+### Here's how it works:
+
+1. Install the App
+2. Pair the Pi with your phone (via Android settings)
+3. Open the App
+
+### Notes
+* I haven't handled all corner conditions yet, so crashes may occour. 
+* Make sure phone's Bluetooth is enabled and your Pi is paired before even starting the app, or it will just crash
+* Not all features have been implemented as of yet
+* You don't need your phone to be connected to the Pi when you start the app. Just paired is fine.
 
 # Contributing
 ## Guidelines
