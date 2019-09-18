@@ -79,7 +79,10 @@ class BytearrayIO:
             except ValueError:
                 print("Value error. len(buf) = ", len(self.buf), "last_w = ", self.__last_w)
         else:
-            self.out_stream.write(b)
+            try:
+                self.out_stream.write(b)
+            except BrokenPipeError:
+                print("Broken pipe to output")
 
     def set_write_completed(self):
         self.__write_completed = True

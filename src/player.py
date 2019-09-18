@@ -19,6 +19,10 @@ class Player(MediaControl, MediaInfo):
     def playback_position(self):
         pass
 
+    @abstractmethod
+    def set_out_stream(self, outs):
+        pass
+
     """
     legacy method for generating silence
     def silence(self, silence_time=1.2):

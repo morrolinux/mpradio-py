@@ -31,8 +31,7 @@ class StoragePlayer(Player):
         self.__rds_updater = RdsUpdater()
         self.__resume_file = config.get_resume_file()
         self.__skip = threading.Event()
-        self.output_stream = None
-        self.out_s = None
+        self.output_stream = BytearrayIO()
 
     def playback_position(self):
         return self.__timer.get_time()
@@ -49,7 +48,7 @@ class StoragePlayer(Player):
     def __update_playback_position(self):
         threading.Thread(target=self.__update_playback_position_thread).start()
 
-    def __retrive_last_boot_playback(self):
+    def __retrieve_last_boot_playback(self):
         if not path.isfile(self.__resume_file):
             # start the timer from 0
             self.__timer = Timer()
@@ -78,14 +77,15 @@ class StoragePlayer(Player):
         threading.Thread(target=self.__run).start()
 
     def __run(self):
-        self.__retrive_last_boot_playback()
+        self.__retrieve_last_boot_playback()
         self.__timer.start()
         self.__rds_updater.run()
         self.__update_playback_position()
 
         for song in self.__playlist:
             if song is None:
-                return
+                time.sleep(1)
+                continue
             print("storage_player playing:", song["path"])
             self.play(song)     # blocking
             if self.__terminating:
@@ -100,7 +100,8 @@ class StoragePlayer(Player):
         self.__playlist.set_noshuffle()
 
     def set_out_stream(self, outs):
-        self.out_s = outs
+        if outs is not None:
+            self.output_stream.set_out_stream(outs)
 
     def play(self, song):
         # get/set/resume song timer
@@ -129,13 +130,7 @@ class StoragePlayer(Player):
             print("Can't open file:", song_path, "skipping...")
             return
 
-        if self.output_stream is not None:
-            self.output_stream.stop()
-
-        # create output stream
-        self.output_stream = BytearrayIO()  # MpradioIO()
-        if self.out_s is not None:
-            self.output_stream.set_out_stream(self.out_s)
+        # set-up output stream
         out_container = av.open(self.output_stream, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
 
@@ -144,7 +139,7 @@ class StoragePlayer(Player):
             time_unit = input_container.size/int(input_container.duration/1000000)
         except ZeroDivisionError:
             time_unit = 0
-        seek_point = time_unit * resume_time
+        seek_point = int(time_unit) * int(resume_time)
 
         buffer_ready = False
 
@@ -175,8 +170,7 @@ class StoragePlayer(Player):
             # pre-buffer some output and set the player to ready
             if not buffer_ready:
                 try:
-                    if packet.pos > resume_time + time_unit*2:
-                        # self.output_stream = self.__out  # link for external access
+                    if packet.pos > resume_time + time_unit * 2:
                         self.ready.set()
                         buffer_ready = True
                 except TypeError:
