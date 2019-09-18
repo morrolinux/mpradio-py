@@ -101,7 +101,7 @@ class StoragePlayer(Player):
 
     def set_out_stream(self, outs):
         if outs is not None:
-            self.output_stream.set_out_stream(outs)
+            self.output_stream.set_out_stream(outs, 150)
 
     def play(self, song):
         # get/set/resume song timer
@@ -133,6 +133,7 @@ class StoragePlayer(Player):
         # set-up output stream
         out_container = av.open(self.output_stream, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
+        self.output_stream.seek_to_start()
 
         # calculate initial seek
         try:
@@ -194,14 +195,11 @@ class StoragePlayer(Player):
         self.output_stream.set_write_completed()
         print("transcoding finished.")
 
-        # wait until playback (buffer read) terminates; catch signals meanwhile
-        # while not self.output_stream.is_read_completed():
-        #     time.sleep(0.2)
-        #     if self.__terminating:
-        #        break
-
-        if self.__skip.is_set():
-            self.__skip.clear()
+        while not self.output_stream.is_read_completed():
+            time.sleep(0.01)
+            if self.__skip.is_set():
+                self.__skip.clear()
+                break
 
     def pause(self):
         if self.__timer.is_paused():
