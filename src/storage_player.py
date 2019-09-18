@@ -131,9 +131,9 @@ class StoragePlayer(Player):
             return
 
         # set-up output stream
+        self.output_stream.seek_to_start()
         out_container = av.open(self.output_stream, 'w', 'wav')
         out_stream = out_container.add_stream(codec_name='pcm_s16le', rate=44100)
-        self.output_stream.seek_to_start()
 
         # calculate initial seek
         try:

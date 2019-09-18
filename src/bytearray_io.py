@@ -87,7 +87,10 @@ class BytearrayIO:
 
     def __write_to_pipe(self):
         while not self.__terminating:
-            self.out_stream.write(self.read(self.__chunk_size))
+            try:
+                self.out_stream.write(self.read(self.__chunk_size))
+            except AttributeError:
+                time.sleep(0.01)
 
     def set_write_completed(self):
         self.__write_completed = True
@@ -99,6 +102,10 @@ class BytearrayIO:
             return False
 
     def seek_to_start(self):
+        del self.buf
+        del self.mv
+        self.buf = bytearray(self.buf_size)
+        self.mv = memoryview(self.buf)
         self.__last_r = 0
         self.__last_w = 0
 
