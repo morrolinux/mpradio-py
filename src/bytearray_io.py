@@ -13,7 +13,7 @@ class BytearrayIO:
         self.__wrap_around_at = None
         self.__write_completed = False
         self.__terminating = False
-        self.__chunk_size = 1024 * 50
+        self.__chunk_size = 1024 * 20
         self.out_stream = None
 
     def set_out_stream(self, out_s, buf_size=0):
@@ -47,11 +47,13 @@ class BytearrayIO:
         # if the writer already wrapped around we still need to consume the buffer until the wrap around point
         if margin < 0:
             margin = self.__wrap_around_at - start
-            print("writer wrap around detected")
+            # print("writer wrap around detected")
 
         # read what's available (could be lower than requested size)
         rs = min(size, margin)
-        print("reading size:", rs)
+        # print("reading size:", rs)
+        if rs == 0:
+            time.sleep(0.001)
 
         end = start + rs
         self.__last_r = end
@@ -65,7 +67,7 @@ class BytearrayIO:
             if self.__last_w + size > self.buf_size:
                 self.__wrap_around_at = self.__last_w
                 self.__last_w = 0
-                print("write wrap around at", self.__wrap_around_at)
+                # print("write wrap around at", self.__wrap_around_at)
 
             start = self.__last_w
             self.__last_w = start + size
