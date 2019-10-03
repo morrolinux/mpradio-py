@@ -33,7 +33,7 @@ class GpioRemote:
 
     def __run(self):
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(5, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(5, GPIO.IN)
         GPIO.add_event_detect(5, GPIO.RISING)
         down = 0
         up = 0
