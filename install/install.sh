@@ -76,4 +76,7 @@ echo "please blacklist them if you haven't already:"
 echo "echo \"blacklist snd_bcm2835\" >> /etc/modprobe.d/blacklist.conf"
 echo "echo \"blacklist ipv6\" >> /etc/modprobe.d/blacklist.conf"
 
+echo "making filesystem read-only..."
+roswitch.sh ro
+
 sleep 5 && reboot

@@ -1,0 +1,14 @@
+[Unit]
+Description=rw overlay over readonly fs using tmpfs
+After=network.target auditd.service
+Before=mpradio.service
+
+[Service]
+Type=idle
+ExecStart=/usr/local/bin/rw-overlay.sh
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
+
