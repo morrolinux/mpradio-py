@@ -36,11 +36,11 @@ default `pirateradio.config` here: https://github.com/morrolinux/mpradio-py/blob
 
 ### Optional: Protect your SD card from corruption by setting Read-Only mode.
 
-use utility/roswitch.sh as follows:
+use roswitch.sh as follows:
 
-`sudo bash roswitch.sh ro` to enable read-ony (effective from next boot)
+`sudo roswitch.sh ro` to enable read-ony (effective from next boot - enabled by default after installation)
 
-`sudo bash roswitch.sh rw` to disable read-only (effective immediately)
+`sudo roswitch.sh rw` to disable read-only (effective immediately)
 
 
 # Known issues
