@@ -38,9 +38,9 @@ default `pirateradio.config` here: https://github.com/morrolinux/mpradio-py/blob
 
 use roswitch.sh as follows:
 
-`sudo roswitch.sh ro` to enable read-ony (effective from next boot - enabled by default after installation)
+`cd / && sudo roswitch.sh ro && cd` to enable read-ony (effective from next boot - enabled by default after installation)
 
-`sudo roswitch.sh rw` to disable read-only (effective immediately)
+`cd / && sudo roswitch.sh rw && cd` to disable read-only (effective immediately)
 
 
 # Known issues

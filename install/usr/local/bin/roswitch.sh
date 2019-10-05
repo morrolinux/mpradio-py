@@ -8,7 +8,7 @@ fi
 if [[ $1 == "ro" ]]
 then
         sed -i.bak '/^PARTUUID/ s/defaults/defaults,ro/' /etc/fstab
-        sed -i.bak 's/rootwait *$/rootwait noswap ro/' /boot/cmdline.txt
+        # sed -i.bak 's/rootwait *$/rootwait noswap ro/' /boot/cmdline.txt
 
         if [[ $(sudo grep "var" /etc/fstab) == "" ]]
         then
@@ -23,7 +23,7 @@ then
         mount -o remount,rw /
         mount -o remount,rw /boot
         sed -i.bak '/^PARTUUID/ s/defaults,ro/defaults/' /etc/fstab
-        sed -i.bak 's/rootwait noswap ro*$/rootwait/' /boot/cmdline.txt
+        # sed -i.bak 's/rootwait noswap ro*$/rootwait/' /boot/cmdline.txt
         umount -l /var/
 	sed -i '/tmpfs \/var tmpfs noatime 0 0/d' /etc/fstab
         echo "RW effective now!"
