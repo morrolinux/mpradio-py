@@ -4,7 +4,7 @@ After=network.target auditd.service
 Before=mpradio.service
 
 [Service]
-Type=idle
+Type=oneshot
 ExecStart=/usr/local/bin/rw-overlay.sh
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=control-group

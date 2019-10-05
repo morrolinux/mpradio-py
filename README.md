@@ -42,6 +42,8 @@ use roswitch.sh as follows:
 
 `cd / && sudo roswitch.sh rw && cd` to disable read-only (effective immediately)
 
+`roswitch.sh status` to know whether you're in RO or RW mode
+
 
 # Known issues
 - Due to a design flaw in BCM43438 WIFI/BT chipset, you might need to disable WiFi if you experience BT audio stuttering on Pi Zero W and Pi 3: https://github.com/raspberrypi/linux/issues/1402 - you can switch onbloard WiFi on/off using `wifi-switch` command (even via Bluetooth link on the Android companion app typing in "settings" > "command" section) 

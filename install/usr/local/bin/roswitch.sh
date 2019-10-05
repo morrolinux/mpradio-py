@@ -18,7 +18,11 @@ check_status () {
 		[[ $(ls /home/pi|grep "mpradio") != "" ]]; then echo "1"; else echo "0"; fi)
 	tests['service_ran']=$(if [[ $(sudo systemctl status rw-overlay|grep "Process"|grep "SUCCESS") != "" ]]; 
 		then echo "1"; else echo "0"; fi)
-	
+	tests['pirateradio_tmpfs']=$(if [[ ${tests['root_RO']} -eq 1 ]] && 
+		[[ $(mount|grep pirateradio) != "" ]]; then echo "1"; else echo "0"; fi)
+	tests['pirateradio_content_copied']=$(if [[ ${tests['pirateradio_tmpfs']} -eq 1 ]] && 
+		[[ $(ls /pirateradio) != "" ]]; then echo "1"; else echo "0"; fi)
+
 	for elem in ${!tests[@]}
 	do 
 		(( RO+=${tests[$elem]} ))
@@ -37,6 +41,10 @@ check_status () {
 			echo $elem : ${tests[$elem]}
 		done
 	fi
+	
+	pirateradio_mounted=$(if [[ $(mount|grep pirateradio) == "" ]]; then echo "not mounted"; fi)
+
+	echo "/pirateradio folder status"
 	
 	unset tests
 }
