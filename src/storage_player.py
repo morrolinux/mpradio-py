@@ -40,11 +40,16 @@ class StoragePlayer(Player):
         while not self.__terminating:
             if self.__now_playing is not None:
                 self.__now_playing["position"] = self.playback_position()
-            with open(self.__resume_file, "w") as f:
-                j = json.dumps(self.__now_playing)
-                f.write(j)
+            try:
+                with open(self.__resume_file, "w") as f:
+                    j = json.dumps(self.__now_playing)
+                    f.write(j)
+            except OSError:
+                print("cannot save playback status. am I read-only?")
+                return
             time.sleep(5)
 
+        
     def __update_playback_position(self):
         threading.Thread(target=self.__update_playback_position_thread).start()
 

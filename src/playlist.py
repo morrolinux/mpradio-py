@@ -52,9 +52,13 @@ class Playlist:
         return self.__current
 
     def save_playlist(self):
-        with open(self.__playlist_file, "w") as f:
-            j = json.dumps(self.__queued)
-            f.write(j)
+        try:
+            with open(self.__playlist_file, "w") as f:
+                j = json.dumps(self.__queued)
+                f.write(j)
+        except OSError:
+            print("cannot save playlist status. am I read-only?")
+            return
 
     def load_playlist(self):
         if not path.isfile(self.__playlist_file):
