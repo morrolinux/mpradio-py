@@ -60,7 +60,11 @@ class Playlist:
         if not path.isfile(self.__playlist_file):
             return
         with open(self.__playlist_file) as file:
-            self.__queued = json.load(file)
+            try:
+                self.__queued = json.load(file)
+            except json.decoder.JSONDecodeError:
+                print("playlist file damaged")
+                return
 
     def back(self, n=0):
         for _ in range(n+1):
