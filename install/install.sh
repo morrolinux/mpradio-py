@@ -27,6 +27,7 @@ do
 done
 
 # enable systemd units
+systemctl daemon-reload
 for f in $(ls etc/systemd/system/*.service)
 do 
 	sudo systemctl enable $(basename $f)
@@ -35,6 +36,7 @@ done
 systemctl enable bluetooth.service
 
 cd /usr/local/src/
+rm -rf PiFmAdv
 git clone https://github.com/Miegl/PiFmAdv.git
 cd PiFmAdv/src
 make clean
@@ -55,7 +57,6 @@ if [[ $fstabline == "" ]]; then
 fi
 
 # usermod -a -G lp pi
-
 usermod -aG bluetooth pi
 chown -R pi:pi /pirateradio/
 chmod +x /usr/lib/udev/bluetooth
@@ -68,6 +69,8 @@ fi
 
 # set hostname
 echo PRETTY_HOSTNAME=mpradio > /etc/machine-info
+echo "mpradio" > /etc/hostname
+
 # avoid recompilation (by need2recompile.service) after first install 
 cp -f /sys/firmware/devicetree/base/model /etc/lastmodel
 
