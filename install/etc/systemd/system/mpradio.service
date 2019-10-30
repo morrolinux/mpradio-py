@@ -7,7 +7,7 @@ Type=idle
 User=pi
 Group=pi
 EnvironmentFile=/home/pi/.profile
-ExecStart=/bin/bash -l -c '/home/pi/mpradio.py'
+ExecStart=/bin/bash -l -c 'sudo chrt -f 99 /home/pi/mpradio.py'
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=control-group
 
