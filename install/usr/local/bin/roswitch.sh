@@ -22,6 +22,9 @@ check_status () {
 		[[ $(mount|grep pirateradio) != "" ]]; then echo "1"; else echo "0"; fi)
 	tests['pirateradio_content_copied']=$(if [[ ${tests['pirateradio_tmpfs']} -eq 1 ]] && 
 		[[ $(ls /pirateradio) != "" ]]; then echo "1"; else echo "0"; fi)
+	tests['etc_tmpfs']=$(if [[ $(mount|grep "/etc"|grep "tmpfs") != "" ]]; then echo "1"; else echo "0"; fi)
+	tests['etc_content_copied']=$(if [[ ${tests['etc_tmpfs']} -eq 1 ]] && 
+		[[ $(ls /etc) != "" ]]; then echo "1"; else echo "0"; fi)
 
 	for elem in ${!tests[@]}
 	do 
