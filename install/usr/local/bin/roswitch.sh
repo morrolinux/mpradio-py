@@ -42,9 +42,9 @@ check_status () {
 		done
 	fi
 	
-	pirateradio_mounted=$(if [[ $(mount|grep pirateradio) == "" ]]; then echo "not mounted"; fi)
+	pirateradio_mounted=$(if [[ $(mount|grep pirateradio) == "" ]]; then echo "not mounted"; else echo "mounted"; fi)
 
-	echo "/pirateradio folder status"
+	echo "/pirateradio folder status: $pirateradio_mounted"
 	
 	unset tests
 }
