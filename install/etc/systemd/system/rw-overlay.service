@@ -1,7 +1,7 @@
 [Unit]
 Description=rw overlay over readonly fs using tmpfs
 After=network.target auditd.service
-Before=mpradio.service
+Before=mpradio.service bluetooth.service systemd-hostnamed.service
 
 [Service]
 Type=oneshot

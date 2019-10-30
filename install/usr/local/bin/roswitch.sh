@@ -69,6 +69,8 @@ elif [[ $1 == "rw" ]]
 then
 	cd /
 	umount /home/pi		# umount overlay tmpfs rw filesystem if present
+	umount /etc		# umount overlay tmpfs rw filesystem if present
+	umount /tmp		# umount overlay tmpfs rw filesystem if present
         mount -o remount,rw /
         mount -o remount,rw /boot
         sed -i.bak '/^PARTUUID/ s/defaults,ro/defaults/' /etc/fstab
