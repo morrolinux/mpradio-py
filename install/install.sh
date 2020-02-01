@@ -12,8 +12,8 @@ apt-get -y install git libsndfile1-dev libbluetooth-dev bluez pi-bluetooth pytho
 apt-get install -y libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libswresample-dev libavfilter-dev
 
 # needed for rfcomm bluetooth interface; ffmpeg python bindings
-pip3 install pybluez av psutil
-
+pip3 install pybluez psutil
+pip3 install 'av==6'
 
 # install requirements as a dir. structure
 for f in $(ls -d */)
