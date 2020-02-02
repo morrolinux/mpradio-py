@@ -21,6 +21,8 @@ then
 		BTMAC=$(a2dp_connected.py)
 	fi
 
+	if [[ $BTMAC != "" ]]; then exit; fi		
+
 	sed -i "s/^defaults.bluealsa.device.*$/defaults.bluealsa.device \"$BTMAC\"/g" /etc/asound.conf
 	echo "bluetooth attach $BTMAC" > /tmp/mpradio_bt
 else
