@@ -7,6 +7,7 @@ from encoder import Encoder
 from configuration import config    # must be imported before all other modules (dependency)
 from bluetooth_remote import BtRemote
 from bluetooth_player import BtPlayer
+from bluetooth_daemon import get_connected_device
 from bluetooth_player_lite import BtPlayerLite
 from fm_output import FmOutput
 from analog_output import AnalogOutput
@@ -120,7 +121,7 @@ class Mpradio:
                     if cmd[1] == "attach":
                         if self.player.__class__.__name__ == "BtPlayerLite":
                             continue
-                        tmp = BtPlayerLite(cmd[2])
+                        tmp = BtPlayerLite(get_connected_device())
                         self.player.stop()
                         self.player = tmp
                         self.player.set_out_stream(self.output.input_stream)
