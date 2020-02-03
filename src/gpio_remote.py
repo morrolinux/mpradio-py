@@ -42,7 +42,7 @@ class GpioRemote:
         while not self.__termination.is_set():
             input_state = self.__gpio_mode(5)
 
-            if input_state:  # button down
+            if not input_state:  # button down
                 up = 0
                 down += 1
                 if self.__s[len(self.__s) - 1] == 0:
