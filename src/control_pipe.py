@@ -22,6 +22,8 @@ class ControlPipe:
         try:
             os.mkfifo(self.__ctl_path)
         except FileExistsError:
+            os.remove(self.__ctl_path)
+            os.mkfifo(self.__ctl_path)
             pass
         self.__control = os.open(self.__ctl_path, os.O_RDONLY | os.O_NONBLOCK)
 
@@ -35,6 +37,7 @@ class ControlPipe:
             try:
                 cmd = os.read(self.__control, 500).decode().split()
             except BlockingIOError:
+                print("control_pipe: BlockingIOError")
                 continue
 
             if len(cmd) > 0:

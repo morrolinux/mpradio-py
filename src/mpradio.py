@@ -119,9 +119,10 @@ class Mpradio:
                         self.bt_remote.reply(result)
                 elif cmd[0] == "bluetooth":
                     if cmd[1] == "attach":
-                        if self.player.__class__.__name__ == "BtPlayerLite":
+                        mac = get_connected_device()
+                        if self.player.__class__.__name__ == "BtPlayerLite" or mac is None:
                             continue
-                        tmp = BtPlayerLite(get_connected_device())
+                        tmp = BtPlayerLite(mac)
                         self.player.stop()
                         self.player = tmp
                         self.player.set_out_stream(self.output.input_stream)
