@@ -57,7 +57,6 @@ class BtPlayerLite(Player):
         subprocess.call(cmd)
 
     def play(self, device):
-        self.update_alsa_device(device)
         # open input device
         dev = None
         for i in range(self.p.get_device_count()):
