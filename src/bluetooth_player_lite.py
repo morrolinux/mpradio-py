@@ -22,6 +22,7 @@ class BtPlayerLite(Player):
 
     def __init__(self, bt_addr):
         super().__init__()
+        self.update_alsa_device(bt_addr)
         self.__rds_updater = RdsUpdater()
         self.__bt_addr = bt_addr
         self.__cmd_arr = ["sudo", "dbus-send", "--system", "--type=method_call", "--dest=org.bluez", "/org/bluez/hci0/dev_"
@@ -50,6 +51,10 @@ class BtPlayerLite(Player):
         while not self.__terminating:
             self.play(dev)
             time.sleep(1)
+
+    def update_alsa_device(self, device):
+        cmd = ["sed", "-i", "s/^defaults.bluealsa.device.*$/defaults.bluealsa.device "+device+"/g", "/etc/asound.conf"]
+        subprocess.call(cmd)
 
     def play(self, device):
         # open input device

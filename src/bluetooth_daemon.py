@@ -1,3 +1,5 @@
+from __future__ import absolute_import, print_function, unicode_literals
+import dbus
 import subprocess
 
 
@@ -33,3 +35,29 @@ class BluetoothDaemon:
     def restart_bluealsa(self):
         self.__bluealsa.kill()
         self.run_bluealsa()
+
+
+def get_connected_device():
+    bus = dbus.SystemBus()
+    manager = dbus.Interface(bus.get_object("org.bluez", "/"), "org.freedesktop.DBus.ObjectManager")
+    objects = manager.GetManagedObjects()
+
+    all_devices = (str(path) for path, interfaces in objects.items() if
+                   "org.bluez.Device1" in interfaces.keys())
+
+    for path, interfaces in objects.items():
+        if "org.bluez.Adapter1" not in interfaces.keys():
+            continue
+
+        device_list = [d for d in all_devices if d.startswith(path + "/")]
+
+        for dev_path in device_list:
+
+            dev = objects[dev_path]
+            properties = dev["org.bluez.Device1"]
+
+            for key in properties.keys():
+                value = properties[key]
+                if key == "Connected":
+                    if value == 1:
+                        return properties["Address"]
