@@ -10,7 +10,6 @@ class GpioRemote:
     __s = None
     __paused = False
     __termination = None
-    __new_gpio_mode = ("Pi 3", "Pi 2")
     __gpio_mode = GPIO.input
 
     def __init__(self, event, msg):
@@ -19,17 +18,6 @@ class GpioRemote:
         self.__termination = threading.Event()
         self.__s = []
         self.reset_s()
-        self.__set_gpio_mode()
-
-    def __set_gpio_mode(self):
-        try:
-            with open("/sys/firmware/devicetree/base/model") as f:
-                model = f.read()
-                for n in self.__new_gpio_mode:
-                    if n in model:
-                        self.__gpio_mode = GPIO.event_detected
-        except FileNotFoundError:
-            pass
 
     def __run(self):
         GPIO.setmode(GPIO.BOARD)
@@ -40,9 +28,9 @@ class GpioRemote:
         fired = False
 
         while not self.__termination.is_set():
-            input_state = self.__gpio_mode(5)
+            input_state = not self.__gpio_mode(5)
 
-            if not input_state:  # button down
+            if input_state:  # button down
                 up = 0
                 down += 1
                 if self.__s[len(self.__s) - 1] == 0:
