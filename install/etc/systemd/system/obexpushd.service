@@ -1,0 +1,15 @@
+[Unit]
+Description=obex file transfer service
+After=simple-agent.service dbus-org.bluez.service
+Before=mpradio.service
+
+[Service]
+Type=simple
+EnvironmentFile=/root/.profile
+ExecStart=/usr/bin/obexpushd -B -n -o /pirateradio/ -s /usr/local/bin/file_storage.sh -t FTP
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
+
