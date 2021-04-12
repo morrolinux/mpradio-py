@@ -69,7 +69,7 @@ Example:
 
 ## Bluetooth companion app 
 
-I'll post the source code once it's mature enough, but you can test a pre-alpha build (0.2) version [here](https://www.mediafire.com/file/h4tpihsd0y1lziv/mpradio-py_0.2.apk/file) 
+You can find the source code [here](https://github.com/morrolinux/mpradio-remote) OR you can test an alpha build (v0.3) [here](https://www.mediafire.com/file/t1q0jfthrto8q33/mpradio-py_0.3.apk/file) 
 
 ### Here's how it works:
 
