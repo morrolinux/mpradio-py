@@ -5,6 +5,10 @@ Work in progress.
 
 The old implementation deeply relies on external services and it's not very object oriented nor flexible to changes, resulting in it being inconsistent in the user expirience across multiple devices and configurations. This project aims for a total rewrite with some structural changes to make it more modular, and try to integrate dependencies as much as possible for a better management.
 
+# COMPATIBILITY NOTICE
+
+This software is tested to work on Debian 10 and previous versions. Debian 11 and subsequent versions **won't work** due to massive breakage in core dependencies. Feel free to try and port it to the latest Debian if you wish, **or just use Debian 10** to avoid any issues. 
+
 # Features
 Exclusively tested on Minimal Raspbian (ARM)
 - [x] Resume track from its playback status hh:mm:ss across reboots (CD-like expirience)
