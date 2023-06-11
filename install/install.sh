@@ -6,7 +6,7 @@ fi
 ln -s /home/pi/mpradio/src/mpradio.py /home/pi/mpradio.py
 
 apt-get update
-apt-get -y install git libsndfile1-dev libbluetooth-dev bluez pi-bluetooth python-gobject python-gobject-2 bluez-tools sox ffmpeg libsox-fmt-mp3 python-dbus bluealsa obexpushd python3-rpi.gpio python3-mutagen python3-dbus python3-pip python3-dev pkg-config python3-pyaudio
+apt-get -y install git libsndfile1-dev libbluetooth-dev bluez pi-bluetooth python-gobject python-gobject-2 bluez-tools sox ffmpeg libsox-fmt-mp3 libsoxr-dev python-dbus bluealsa obexpushd python3-rpi.gpio python3-mutagen python3-dbus python3-pip python3-dev pkg-config python3-pyaudio
 
 # pyav specific dependencies:
 apt-get install -y libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libswresample-dev libavfilter-dev
