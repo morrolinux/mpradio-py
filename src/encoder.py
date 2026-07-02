@@ -20,6 +20,7 @@ class Encoder:
                           "-c", "2", "-r", "44100", "-", "-t", "wav", "-"]
         self.__enable_compression_if_supported()
         self.__set_treble()
+        self.__set_volume()
 
     def run(self):
         self.stream = subprocess.Popen(self.__sox_cmd, stdout=subprocess.PIPE, stdin=subprocess.PIPE,
@@ -59,3 +60,8 @@ class Encoder:
         treble = config.get_settings()["PIRATERADIO"]["treble"]
         if treble != "0":
             self.__sox_cmd.extend(["treble", treble])
+
+    def __set_volume(self):
+    	volume = config.get_settings()["PIRATERADIO"]["storageGain"]
+       	if volume != "0":
+            self.__sox_cmd.extend(["vol", volume])
