@@ -16,6 +16,9 @@ class FmOutput(Output):
 
     def __load_settings(self):
         self.__frequency = config.get_settings()["PIRATERADIO"]["frequency"]
+        self.__pty = config.get_settings()["RDS"]["pty"]
+        self.__ps = config.get_settings()["RDS"]["stationName"]
+        self.__pi = config.get_settings()["RDS"]["pi"]
         self.__rds_ctl = config.get_rds_ctl()
         try:
             os.remove(self.__rds_ctl)
@@ -29,7 +32,7 @@ class FmOutput(Output):
     def run(self):
         print("broadcasting on FM", self.__frequency)
         self.stream = subprocess.Popen(["sudo", "pi_fm_adv", "--freq", self.__frequency,
-                                        "--ctl", self.__rds_ctl, "--audio", "-"],
+                                        "--ctl", self.__rds_ctl, "--pty", self.__pty, "--ps", self.__ps, "--pi", self.__pi, "--audio", "-"],
                                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.input_stream = self.stream.stdin
         self.ready.set()
